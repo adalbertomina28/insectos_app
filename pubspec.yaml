@@ -1,0 +1,38 @@
+name: insectos_app
+description: "Una aplicación educativa sobre insectos agrícolas."
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.2.3 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.2
+  get: ^4.6.5
+  cached_network_image: ^3.3.0
+  url_launcher: ^6.2.2
+  google_fonts: ^6.1.0
+  flutter_svg: ^2.0.7
+  lottie: ^2.7.0
+  flutter_staggered_grid_view: ^0.7.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true
+  
+  assets:
+    - assets/images/
+    - assets/images/insects/
+    - assets/images/insects/bee.svg
+    - assets/images/insects/butterfly.svg
+    - assets/images/insects/ladybug.svg
+    - assets/images/nanotech/
+    - assets/images/games/
+    - assets/animations/
+    - assets/icons/
