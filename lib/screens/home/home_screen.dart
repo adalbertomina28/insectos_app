@@ -4,8 +4,29 @@ import 'dart:math' as math;
 import '../../theme/app_theme.dart';
 import '../../models/entomology_topic.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  final ScrollController _scrollController = ScrollController();
+
+  void _scrollToFeatures() {
+    _scrollController.animateTo(
+      600, // Altura del header
+      duration: Duration(milliseconds: 800),
+      curve: Curves.easeInOut,
+    );
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -15,72 +36,160 @@ class HomeScreen extends StatelessWidget {
       body: Stack(
         children: [
           CustomScrollView(
+            controller: _scrollController,
             slivers: [
               SliverAppBar(
-                expandedHeight: 400,
+                expandedHeight: 600,
                 floating: false,
                 pinned: true,
                 backgroundColor: Colors.transparent,
                 elevation: 0,
-                flexibleSpace: FlexibleSpaceBar(
-                  expandedTitleScale: 1.0,
-                  titlePadding: EdgeInsets.zero,
-                  title: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 48, vertical: 12),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Insectos',
-                          style: TextStyle(
-                            color: AppTheme.calPolyGreen,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 24,
-                          ),
-                        ),
-                        const SizedBox(height: 2),
-                        Text(
-                          'Explora el mundo de la entomología',
-                          style: TextStyle(
-                            color: AppTheme.officeGreen.withOpacity(0.8),
-                            fontWeight: FontWeight.w400,
-                            fontSize: 11,
-                          ),
-                        ),
-                      ],
-                    ),
+                leading: Builder(
+                  builder: (context) => IconButton(
+                    icon: Icon(Icons.menu, color: AppTheme.calPolyGreen),
+                    onPressed: () => Scaffold.of(context).openDrawer(),
                   ),
+                ),
+                flexibleSpace: FlexibleSpaceBar(
                   background: Stack(
                     fit: StackFit.expand,
                     children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: const AssetImage('assets/images/home/header_bg.jpg'),
-                            fit: BoxFit.cover,
-                            filterQuality: MediaQuery.of(context).devicePixelRatio > 1.5
-                                ? FilterQuality.high
-                                : FilterQuality.medium,
-                            colorFilter: ColorFilter.mode(
-                              Colors.black.withOpacity(0.2),
-                              BlendMode.darken,
+                      // Fondo con el patrón de hexágonos
+                      CustomPaint(
+                        painter: HexagonPattern(),
+                        size: Size.infinite,
+                      ),
+                      // Imagen de fondo con gradiente
+                      Positioned.fill(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage('assets/images/insects/monarch_butterfly.jpg'),
+                              fit: BoxFit.cover,
+                              colorFilter: ColorFilter.mode(
+                                Colors.black.withOpacity(0.3),
+                                BlendMode.darken,
+                              ),
                             ),
                           ),
                         ),
                       ),
+                      // Gradiente superior
                       Container(
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
                             colors: [
-                              Colors.transparent,
-                              Colors.white.withOpacity(0.9),
-                              Colors.white,
+                              AppTheme.calPolyGreen.withOpacity(0.95),
+                              AppTheme.calPolyGreen.withOpacity(0.8),
+                              AppTheme.officeGreen.withOpacity(0.7),
                             ],
-                            stops: const [0.5, 0.8, 1.0],
                           ),
+                        ),
+                      ),
+                      // Patrón de hexágonos semitransparente
+                      Opacity(
+                        opacity: 0.1,
+                        child: CustomPaint(
+                          painter: HexagonPattern(),
+                          size: Size.infinite,
+                        ),
+                      ),
+                      // Contenido principal
+                      Positioned(
+                        left: 48,
+                        right: 48,
+                        bottom: 48,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              'Descubre el fascinante\nmundo de los insectos',
+                              style: TextStyle(
+                                fontSize: 48,
+                                height: 1.1,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                                letterSpacing: -1,
+                                shadows: [
+                                  Shadow(
+                                    offset: Offset(0, 2),
+                                    blurRadius: 4,
+                                    color: Colors.black.withOpacity(0.3),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(height: 16),
+                            Text(
+                              'Explora la diversidad, anatomía y comportamiento\nde los insectos en nuestra guía interactiva.',
+                              style: TextStyle(
+                                fontSize: 18,
+                                height: 1.5,
+                                color: Colors.white.withOpacity(0.9),
+                                letterSpacing: 0.5,
+                                shadows: [
+                                  Shadow(
+                                    offset: Offset(0, 1),
+                                    blurRadius: 2,
+                                    color: Colors.black.withOpacity(0.3),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(height: 48),
+                            LayoutBuilder(
+                              builder: (context, constraints) {
+                                if (constraints.maxWidth < 600) {
+                                  return Column(
+                                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                                    children: [
+                                      _buildActionButton(
+                                        'Comenzar',
+                                        Colors.white,
+                                        AppTheme.calPolyGreen,
+                                        _scrollToFeatures,
+                                      ),
+                                      SizedBox(height: 16),
+                                      Builder(
+                                        builder: (context) => _buildActionButton(
+                                          'Ver Guía',
+                                          Colors.white,
+                                          Colors.black87,
+                                          () => Scaffold.of(context).openDrawer(),
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                }
+                                return Row(
+                                  children: [
+                                    Expanded(
+                                      child: _buildActionButton(
+                                        'Comenzar',
+                                        Colors.white,
+                                        AppTheme.calPolyGreen,
+                                        _scrollToFeatures,
+                                      ),
+                                    ),
+                                    SizedBox(width: 16),
+                                    Expanded(
+                                      child: Builder(
+                                        builder: (context) => _buildActionButton(
+                                          'Ver Guía',
+                                          Colors.white,
+                                          Colors.black87,
+                                          () => Scaffold.of(context).openDrawer(),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              },
+                            ),
+                          ],
                         ),
                       ),
                     ],
@@ -88,57 +197,275 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
               SliverToBoxAdapter(
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 48),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(height: 48),
-                          Text(
-                            'Descubre la diversidad, comportamiento y el importante papel que juegan los insectos en nuestro ecosistema.',
-                            style: TextStyle(
-                              fontSize: 24,
-                              color: AppTheme.officeGreen.withOpacity(0.8),
-                              height: 1.5,
-                              fontWeight: FontWeight.w300,
-                            ),
-                          ),
-                          const SizedBox(height: 64),
-                          ..._buildEntomologyContent(context),
-                        ],
-                      ),
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(48, 64, 48, 32),
+                  child: Text(
+                    'Características Principales',
+                    style: TextStyle(
+                      fontSize: 32,
+                      fontWeight: FontWeight.bold,
+                      color: AppTheme.calPolyGreen,
+                      letterSpacing: -0.5,
                     ),
-                    // Footer moderno
-                    Container(
-                      margin: const EdgeInsets.only(top: 80),
-                      padding: const EdgeInsets.symmetric(vertical: 32),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                            color: AppTheme.calPolyGreen.withOpacity(0.05),
-                            offset: const Offset(0, -2),
-                            blurRadius: 20,
-                          ),
-                        ],
-                      ),
-                      child: Center(
-                        child: Text(
-                          ' ${DateTime.now().year} Insectos App • Desarrollado con ',
-                          style: TextStyle(
-                            color: AppTheme.officeGreen.withOpacity(0.6),
-                            fontSize: 14,
-                            letterSpacing: 0.5,
+                  ),
+                ),
+              ),
+              SliverPadding(
+                padding: const EdgeInsets.fromLTRB(48, 0, 48, 64),
+                sliver: SliverGrid(
+                  gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                    maxCrossAxisExtent: 400,
+                    mainAxisSpacing: 24,
+                    crossAxisSpacing: 24,
+                    childAspectRatio: 1.2,
+                  ),
+                  delegate: SliverChildBuilderDelegate(
+                    (context, index) {
+                      final features = [
+                        {
+                          'title': 'Hábitats diversos',
+                          'description': 'Los insectos son extremadamente versátiles y pueden vivir en casi cualquier entorno terrestre, desde selvas tropicales hasta desiertos, y en ambientes acuáticos, como ríos y estanques.',
+                          'icon': Icons.terrain,
+                        },
+                        {
+                          'title': 'Tamaño pequeño',
+                          'description': 'Su tamaño varía ampliamente, pero en general, los insectos son pequeños, lo que les permite aprovechar recursos que otros animales no pueden y esconderse fácilmente de depredadores.',
+                          'icon': Icons.compress,
+                        },
+                        {
+                          'title': 'Cuerpo segmentado',
+                          'description': 'Su cuerpo está dividido en tres regiones principales: cabeza, tórax y abdomen, cada una con funciones específicas.',
+                          'icon': Icons.view_week,
+                        },
+                        {
+                          'title': 'Exoesqueleto de quitina',
+                          'description': 'Este exoesqueleto protege a los insectos, les da soporte estructural y minimiza la pérdida de agua, siendo ideal para ambientes terrestres.',
+                          'icon': Icons.shield,
+                        },
+                        {
+                          'title': 'Respiración traqueal',
+                          'description': 'Los insectos respiran a través de un sistema de tráqueas (tubos ramificados) que llevan oxígeno directamente a las células, lo que elimina la necesidad de un sistema circulatorio para el transporte de oxígeno.',
+                          'icon': Icons.air,
+                        },
+                        {
+                          'title': 'Extremidades especializadas',
+                          'description': 'Sus patas están adaptadas a diferentes funciones según la especie, como caminar, correr, excavar, nadar o capturar presas.',
+                          'icon': Icons.directions_walk,
+                        },
+                        {
+                          'title': 'Alimentación variada',
+                          'description': 'Los insectos tienen una dieta muy diversa, que incluye plantas, otros animales, materia en descomposición, y algunos incluso son parásitos. Su diversidad de piezas bucales refleja esta variedad alimenticia.',
+                          'icon': Icons.restaurant_menu,
+                        },
+                        {
+                          'title': 'Metamorfosis',
+                          'description': 'Muchos insectos pasan por transformaciones en su ciclo de vida: metamorfosis completa (huevo → larva → pupa → adulto) o incompleta (huevo → ninfa → adulto).',
+                          'icon': Icons.change_circle,
+                        },
+                        {
+                          'title': 'Alas',
+                          'description': 'Muchos insectos poseen alas, y son el único grupo de artrópodos que ha desarrollado vuelo verdadero, lo que les ha permitido colonizar nuevos hábitats.',
+                          'icon': Icons.flight,
+                        },
+                        {
+                          'title': 'Comportamientos sociales',
+                          'description': 'Algunos insectos, como las abejas, hormigas y termitas, tienen sociedades altamente organizadas, con divisiones de trabajo y comunicación compleja.',
+                          'icon': Icons.groups,
+                        },
+                        {
+                          'title': 'Capacidad de comunicación',
+                          'description': 'Los insectos se comunican utilizando señales químicas (feromonas), visuales (movimientos o colores) y sonoras (como el canto de los grillos).',
+                          'icon': Icons.chat,
+                        },
+                        {
+                          'title': 'Impacto ecológico',
+                          'description': 'Desempeñan roles esenciales en los ecosistemas, como polinizadores, descomponedores y controladores de poblaciones de otros organismos.',
+                          'icon': Icons.eco,
+                        },
+                        {
+                          'title': 'Diversidad increíble',
+                          'description': 'Con más de un millón de especies descritas y posiblemente millones más sin descubrir, los insectos son el grupo más diverso del reino animal.',
+                          'icon': Icons.diversity_3,
+                        },
+                        {
+                          'title': 'Adaptaciones defensivas',
+                          'description': 'Incluyen camuflaje, colores aposemáticos (de advertencia), venenos y comportamientos como hacerse el muerto para evitar depredadores.',
+                          'icon': Icons.security,
+                        },
+                        {
+                          'title': 'Reproducción eficaz',
+                          'description': 'Su capacidad para poner grandes cantidades de huevos asegura la supervivencia de la especie, incluso bajo condiciones adversas.',
+                          'icon': Icons.egg_alt,
+                        },
+                      ];
+
+                      if (index >= features.length) return null;
+
+                      final feature = features[index];
+                      return Card(
+                        elevation: 2,
+                        color: AppTheme.celadon.withOpacity(0.3),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(24),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Icon(
+                                    feature['icon'] as IconData,
+                                    color: AppTheme.calPolyGreen,
+                                    size: 28,
+                                  ),
+                                  SizedBox(width: 12),
+                                  Expanded(
+                                    child: Text(
+                                      feature['title'] as String,
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                        color: AppTheme.calPolyGreen,
+                                        letterSpacing: -0.5,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 16),
+                              Expanded(
+                                child: Text(
+                                  feature['description'] as String,
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    height: 1.5,
+                                    color: Colors.black87,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
+                      );
+                    },
+                    childCount: 16,
+                  ),
+                ),
+              ),
+              SliverToBoxAdapter(
+                child: Container(
+                  margin: const EdgeInsets.only(top: 80),
+                  padding: const EdgeInsets.symmetric(vertical: 32),
+                  decoration: BoxDecoration(
+                    color: AppTheme.calPolyGreen.withOpacity(0.05),
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppTheme.calPolyGreen.withOpacity(0.05),
+                        offset: const Offset(0, -2),
+                        blurRadius: 20,
+                      ),
+                    ],
+                  ),
+                  child: Center(
+                    child: Text(
+                      ' ${DateTime.now().year} InsectLab • Digital Thinking',
+                      style: TextStyle(
+                        color: AppTheme.officeGreen.withOpacity(0.6),
+                        fontSize: 14,
+                        letterSpacing: 0.5,
                       ),
                     ),
-                  ],
+                  ),
                 ),
               ),
             ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildActionButton(String text, Color bgColor, Color textColor, VoidCallback onPressed) {
+    return ElevatedButton(
+      onPressed: onPressed,
+      style: ElevatedButton.styleFrom(
+        backgroundColor: bgColor,
+        foregroundColor: textColor,
+        padding: EdgeInsets.symmetric(horizontal: 32, vertical: 20),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+          side: BorderSide(
+            color: AppTheme.calPolyGreen,
+            width: bgColor == Colors.white ? 2 : 0,
+          ),
+        ),
+      ),
+      child: Text(
+        text,
+        style: TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.bold,
+          letterSpacing: 0.5,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFeatureCard(String title, String description, IconData icon) {
+    return Container(
+      padding: EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            padding: EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: AppTheme.calPolyGreen.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Icon(
+              icon,
+              color: AppTheme.calPolyGreen,
+              size: 24,
+            ),
+          ),
+          SizedBox(height: 16),
+          Text(
+            title,
+            style: TextStyle(
+              color: AppTheme.calPolyGreen,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              letterSpacing: -0.5,
+            ),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+          SizedBox(height: 8),
+          Expanded(
+            child: Text(
+              description,
+              style: TextStyle(
+                color: Colors.black87,
+                fontSize: 14,
+                height: 1.4,
+              ),
+              overflow: TextOverflow.fade,
+            ),
           ),
         ],
       ),
@@ -168,7 +495,7 @@ class HomeScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   const Text(
-                    'Insectos App',
+                    'Insect Lab',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 24,

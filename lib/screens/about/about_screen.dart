@@ -36,7 +36,7 @@ class AboutScreen extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               Text(
-                'Insectos App nace con el propósito de hacer accesible el fascinante mundo de la entomología a estudiantes, profesionales y entusiastas. Nuestra misión es proporcionar una plataforma educativa completa y precisa sobre los insectos.',
+                'Insect Lab nace con el propósito de hacer accesible el fascinante mundo de la entomología a estudiantes, profesionales y entusiastas. Nuestra misión es proporcionar una plataforma educativa completa y precisa sobre los insectos.',
                 style: TextStyle(
                   fontSize: 16,
                   color: AppTheme.officeGreen.withOpacity(0.8),

@@ -18,7 +18,7 @@ class InsectosApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'Insectos App',
+      title: 'Insect Lab',
       theme: ThemeData(
         primaryColor: AppTheme.primaryColor,
         colorScheme: ColorScheme.fromSeed(

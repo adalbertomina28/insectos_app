@@ -1,11 +1,11 @@
 {
-    "name": "insectos_app",
-    "short_name": "insectos_app",
+    "name": "InsectLab",
+    "short_name": "InsectLab",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "background_color": "#2A4D14",
+    "theme_color": "#2A4D14",
+    "description": "Explora el fascinante mundo de los insectos",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
