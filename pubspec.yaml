@@ -29,10 +29,11 @@ flutter:
   assets:
     - assets/images/
     - assets/images/insects/
+    - assets/images/insects/monarch_butterfly.jpg
     - assets/images/insects/bee.svg
     - assets/images/insects/butterfly.svg
     - assets/images/insects/ladybug.svg
     - assets/images/nanotech/
-    - assets/images/games/
+    - assets/images/home/
     - assets/animations/
     - assets/icons/

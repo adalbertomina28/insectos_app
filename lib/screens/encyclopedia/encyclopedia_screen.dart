@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:lottie/lottie.dart';
 import '../../models/insect.dart';
 import '../../theme/app_theme.dart';
@@ -10,9 +9,27 @@ class EncyclopediaController extends GetxController {
   final RxList<Insect> filteredInsects = <Insect>[].obs;
   final RxString searchQuery = ''.obs;
   final RxString selectedCategory = 'Todos'.obs;
+  final RxString selectedFilter = 'Categoría'.obs;
+  final RxList<String> selectedValues = <String>[].obs;
   final RxBool isLoading = false.obs;
 
-  final List<String> categories = ['Todos', 'Benéficos', 'Plagas', 'Polinizadores'];
+  // Filtros disponibles
+  final List<String> filterTypes = [
+    'Categoría',
+    'Hábitat',
+    'Dieta',
+    'Actividad',
+    'Ciclo de Vida'
+  ];
+
+  // Valores para cada tipo de filtro
+  final Map<String, List<String>> filterValues = {
+    'Categoría': ['Todos', 'Benéficos', 'Plagas', 'Polinizadores'],
+    'Hábitat': ['Todos', 'Terrestre', 'Acuático', 'Subterráneo'],
+    'Dieta': ['Todos', 'Herbívoro', 'Carnívoro', 'Omnívoro'],
+    'Actividad': ['Todos', 'Diurno', 'Nocturno', 'Crepuscular'],
+    'Ciclo de Vida': ['Todos', 'Huevo', 'Larva', 'Pupa', 'Adulto'],
+  };
   
   final List<Insect> allInsects = [
     Insect(
@@ -26,6 +43,13 @@ class EncyclopediaController extends GetxController {
         'Migra largas distancias',
       ],
       impact: 'Polinizador importante para muchas plantas y cultivos.',
+      categories: ['Polinizadores', 'Benéficos'],
+      habitat: ['Terrestre'],
+      size: '8.9-10.2 cm',
+      diet: ['Herbívoro'],
+      activity: ['Diurno'],
+      distribution: ['América del Norte', 'América Central'],
+      lifecycle: ['Huevo', 'Larva', 'Pupa', 'Adulto'],
       rnaInfo: RNAInfo(
         description: 'Las investigaciones sobre el ARN en mariposas monarca han revelado mecanismos moleculares fascinantes que controlan su migración y metamorfosis.',
         applications: [
@@ -38,10 +62,9 @@ class EncyclopediaController extends GetxController {
           'Descubrimiento de ARN no codificante en la regulación del desarrollo de las alas',
           'Papel del ARN en la resistencia a toxinas de plantas',
         ],
-        videoUrl: 'https://example.com/monarch_rna_research.mp4',
       ),
       nanoTechInfo: NanoTechInfo(
-        description: 'La estructura de las alas de la mariposa monarca ha inspirado desarrollos en nanotecnología para crear superficies autolimpiantes y fotónicas.',
+        description: 'La estructura de las alas de la mariposa monarca ha inspirado desarrollos en nanotecnología.',
         applications: [
           'Desarrollo de paneles solares más eficientes',
           'Creación de superficies hidrofóbicas',
@@ -49,74 +72,105 @@ class EncyclopediaController extends GetxController {
         ],
         innovations: [
           'Nanopartículas inspiradas en las escamas de las alas',
-          'Materiales fotónicos bioinspirados',
-          'Sistemas de navegación basados en sensores magnéticos naturales',
+          'Superficies autolimpiantes basadas en la nanoestructura',
+          'Sistemas fotónicos bioinspirados',
         ],
-        futureProspects: [
-          'Desarrollo de tejidos inteligentes autolimpiantes',
-          'Mejora en la eficiencia de células solares',
-          'Nuevos sistemas de navegación biomédicos',
-        ],
-        imageUrl: 'assets/images/nanotech/monarch_wing_structure.jpg',
       ),
     ),
     Insect(
-      name: 'Abeja de la Miel',
+      name: 'Abeja Melífera',
       scientificName: 'Apis mellifera',
-      description: 'Las abejas son polinizadores cruciales para la agricultura y producen miel.',
+      description: 'La abeja melífera es crucial para la polinización y la producción de miel. Vive en colonias altamente organizadas.',
       imageUrl: 'assets/images/insects/honey_bee.jpg',
       characteristics: [
         'Cuerpo rayado negro y amarillo',
-        'Tamaño de 12-15 mm',
-        'Vive en colonias organizadas',
+        'Pelos especializados para recolectar polen',
+        'Aguijón defensivo',
       ],
       impact: 'Vital para la polinización de cultivos y la producción de miel.',
-      rnaInfo: RNAInfo(
-        description: 'El estudio del ARN en abejas ha revolucionado nuestra comprensión de la inmunidad social y el comportamiento colectivo.',
-        applications: [
-          'Desarrollo de tratamientos contra patógenos',
-          'Mejora de la resistencia a pesticidas',
-          'Estudio de la memoria y aprendizaje social',
-        ],
-        researchFindings: [
-          'Descubrimiento de ARN interferente en la inmunidad social',
-          'Identificación de marcadores genéticos para la resistencia a enfermedades',
-          'Papel del ARN en la diferenciación de castas',
-        ],
-        videoUrl: 'https://example.com/bee_rna_research.mp4',
-      ),
-      nanoTechInfo: NanoTechInfo(
-        description: 'La estructura del ojo compuesto y las propiedades de los pelos de las abejas han inspirado innovaciones en nanosensores y materiales.',
-        applications: [
-          'Desarrollo de sensores de luz ultravioleta',
-          'Creación de superficies adhesivas reversibles',
-          'Diseño de sistemas de visión artificial',
-        ],
-        innovations: [
-          'Nanoestructuras inspiradas en ojos compuestos',
-          'Materiales adhesivos biomédicos',
-          'Sensores de polen nanoestructurados',
-        ],
-        futureProspects: [
-          'Sistemas de visión artificial mejorados',
-          'Nuevos materiales para robots polinizadores',
-          'Sensores ambientales más precisos',
-        ],
-        imageUrl: 'assets/images/nanotech/bee_eye_structure.jpg',
-      ),
+      categories: ['Polinizadores', 'Benéficos'],
+      habitat: ['Terrestre'],
+      size: '1.2-1.5 cm',
+      diet: ['Herbívoro'],
+      activity: ['Diurno'],
+      distribution: ['Mundial'],
+      lifecycle: ['Huevo', 'Larva', 'Pupa', 'Adulto'],
     ),
     Insect(
       name: 'Gorgojo del Maíz',
       scientificName: 'Sitophilus zeamais',
-      description: 'Pequeño escarabajo que afecta principalmente al maíz almacenado. Es una de las plagas más destructivas en granos almacenados en regiones tropicales y subtropicales.',
+      description: 'Pequeño escarabajo que afecta principalmente al maíz almacenado.',
       imageUrl: 'assets/images/insects/maize_weevil.jpg',
       characteristics: [
-        'Longitud: 2.5-4mm',
         'Color marrón oscuro a negro',
         'Rostro alargado característico',
-        'Élitros con puntuaciones alineadas'
+        'Élitros con puntuaciones',
       ],
-      impact: 'Puede causar pérdidas de hasta el 40% en granos almacenados. Afecta la calidad y el valor comercial del maíz.',
+      impact: 'Causa pérdidas significativas en granos almacenados.',
+      categories: ['Plagas'],
+      habitat: ['Terrestre'],
+      size: '2.5-4 mm',
+      diet: ['Herbívoro'],
+      activity: ['Nocturno'],
+      distribution: ['Mundial'],
+      lifecycle: ['Huevo', 'Larva', 'Pupa', 'Adulto'],
+    ),
+    Insect(
+      name: 'Catarina',
+      scientificName: 'Coccinella septempunctata',
+      description: 'Pequeño escarabajo conocido por alimentarse de plagas como los pulgones.',
+      imageUrl: 'assets/images/insects/ladybug.jpg',
+      characteristics: [
+        'Color rojo con puntos negros',
+        'Forma semiesférica',
+        'Élitros protectores',
+      ],
+      impact: 'Control biológico natural de plagas.',
+      categories: ['Benéficos'],
+      habitat: ['Terrestre'],
+      size: '5-8 mm',
+      diet: ['Carnívoro'],
+      activity: ['Diurno'],
+      distribution: ['Mundial'],
+      lifecycle: ['Huevo', 'Larva', 'Pupa', 'Adulto'],
+    ),
+    Insect(
+      name: 'Mantis Religiosa',
+      scientificName: 'Mantis religiosa',
+      description: 'Depredador eficiente que se camufla entre la vegetación.',
+      imageUrl: 'assets/images/insects/praying_mantis.jpg',
+      characteristics: [
+        'Patas delanteras raptoras',
+        'Cabeza triangular móvil',
+        'Color verde o marrón',
+      ],
+      impact: 'Control natural de plagas en jardines y cultivos.',
+      categories: ['Benéficos'],
+      habitat: ['Terrestre'],
+      size: '5-7.5 cm',
+      diet: ['Carnívoro'],
+      activity: ['Diurno', 'Crepuscular'],
+      distribution: ['Mundial'],
+      lifecycle: ['Huevo', 'Ninfa', 'Adulto'],
+    ),
+    Insect(
+      name: 'Mosca de la Fruta',
+      scientificName: 'Drosophila melanogaster',
+      description: 'Pequeña mosca que afecta frutas maduras y fermentadas.',
+      imageUrl: 'assets/images/insects/fruit_fly.jpg',
+      characteristics: [
+        'Ojos rojos brillantes',
+        'Cuerpo amarillento',
+        'Alas transparentes',
+      ],
+      impact: 'Puede dañar frutas y productos almacenados.',
+      categories: ['Plagas'],
+      habitat: ['Terrestre'],
+      size: '3-4 mm',
+      diet: ['Omnívoro'],
+      activity: ['Diurno'],
+      distribution: ['Mundial'],
+      lifecycle: ['Huevo', 'Larva', 'Pupa', 'Adulto'],
     ),
     Insect(
       name: 'Mosca Blanca',
@@ -129,12 +183,19 @@ class EncyclopediaController extends GetxController {
         'Alas transparentes cubiertas de cera',
         'Ninfas translúcidas'
       ],
-      impact: 'Vector de más de 100 virus de plantas. Reduce significativamente el rendimiento de cultivos como tomate, chile y algodón.',
+      impact: 'Vector de más de 100 virus de plantas. Reduce significativamente el rendimiento de cultivos.',
+      categories: ['Plagas'],
+      habitat: ['Terrestre'],
+      size: '1-2 mm',
+      diet: ['Herbívoro'],
+      activity: ['Diurno'],
+      distribution: ['Mundial'],
+      lifecycle: ['Huevo', 'Ninfa', 'Adulto'],
     ),
     Insect(
       name: 'Gusano Cogollero',
       scientificName: 'Spodoptera frugiperda',
-      description: 'Lepidóptero que ataca principalmente al maíz y otros cultivos de gramíneas. Larva muy voraz que puede destruir cultivos enteros.',
+      description: 'Lepidóptero que ataca principalmente al maíz y otros cultivos de gramíneas.',
       imageUrl: 'assets/images/insects/fall_armyworm.jpg',
       characteristics: [
         'Larva: 35-40mm',
@@ -142,12 +203,19 @@ class EncyclopediaController extends GetxController {
         'Marca en Y invertida en la cabeza',
         'Adulto: polilla de color gris-café'
       ],
-      impact: 'Puede causar pérdidas totales en cultivos de maíz. Afecta también a sorgo, arroz y otros cereales.',
+      impact: 'Puede causar pérdidas totales en cultivos de maíz y otros cereales.',
+      categories: ['Plagas'],
+      habitat: ['Terrestre'],
+      size: '35-40 mm',
+      diet: ['Herbívoro'],
+      activity: ['Nocturno'],
+      distribution: ['América'],
+      lifecycle: ['Huevo', 'Larva', 'Pupa', 'Adulto'],
     ),
     Insect(
       name: 'Trips de las Flores',
       scientificName: 'Frankliniella occidentalis',
-      description: 'Pequeño insecto que afecta principalmente a flores y frutos. Causa daños directos por alimentación e indirectos como vector de virus.',
+      description: 'Pequeño insecto que afecta principalmente a flores y frutos.',
       imageUrl: 'assets/images/insects/western_flower_thrips.jpg',
       characteristics: [
         'Longitud: 1-1.5mm',
@@ -155,12 +223,19 @@ class EncyclopediaController extends GetxController {
         'Alas con flecos característicos',
         'Aparato bucal raspador-chupador'
       ],
-      impact: 'Transmite virus como el TSWV. Afecta la calidad estética de flores y frutos.',
+      impact: 'Transmite virus y afecta la calidad estética de flores y frutos.',
+      categories: ['Plagas'],
+      habitat: ['Terrestre'],
+      size: '1-1.5 mm',
+      diet: ['Herbívoro'],
+      activity: ['Diurno'],
+      distribution: ['Mundial'],
+      lifecycle: ['Huevo', 'Ninfa', 'Adulto'],
     ),
     Insect(
       name: 'Pulgón Verde',
       scientificName: 'Myzus persicae',
-      description: 'Áfido polífago que afecta a numerosos cultivos. Importante vector de virus en plantas hortícolas.',
+      description: 'Áfido polífago que afecta a numerosos cultivos.',
       imageUrl: 'assets/images/insects/green_peach_aphid.jpg',
       characteristics: [
         'Longitud: 1.2-2.1mm',
@@ -168,12 +243,19 @@ class EncyclopediaController extends GetxController {
         'Sifones largos y oscuros',
         'Formas aladas y ápteras'
       ],
-      impact: 'Vector de más de 100 virus diferentes. Causa daños por succión de savia y producción de melaza.',
+      impact: 'Vector de virus y daños por succión de savia.',
+      categories: ['Plagas'],
+      habitat: ['Terrestre'],
+      size: '1.2-2.1 mm',
+      diet: ['Herbívoro'],
+      activity: ['Diurno'],
+      distribution: ['Mundial'],
+      lifecycle: ['Huevo', 'Ninfa', 'Adulto'],
     ),
     Insect(
       name: 'Gallina Ciega',
       scientificName: 'Phyllophaga spp.',
-      description: 'Larva de escarabajo que ataca raíces de diversos cultivos. Común en cultivos de temporal.',
+      description: 'Larva de escarabajo que ataca raíces de diversos cultivos.',
       imageUrl: 'assets/images/insects/white_grub.jpg',
       characteristics: [
         'Larva: 20-30mm',
@@ -181,12 +263,19 @@ class EncyclopediaController extends GetxController {
         'Cabeza café rojiza',
         'Cuerpo en forma de "C"'
       ],
-      impact: 'Daña severamente sistemas radiculares. Puede causar pérdidas totales en cultivos como maíz y frijol.',
+      impact: 'Daña severamente sistemas radiculares de cultivos.',
+      categories: ['Plagas'],
+      habitat: ['Subterráneo'],
+      size: '20-30 mm',
+      diet: ['Herbívoro'],
+      activity: ['Nocturno'],
+      distribution: ['América'],
+      lifecycle: ['Huevo', 'Larva', 'Pupa', 'Adulto'],
     ),
     Insect(
       name: 'Picudo del Chile',
       scientificName: 'Anthonomus eugenii',
-      description: 'Pequeño curculiónido específico del chile. Las larvas se desarrollan dentro de los frutos.',
+      description: 'Pequeño curculiónido específico del chile.',
       imageUrl: 'assets/images/insects/pepper_weevil.jpg',
       characteristics: [
         'Adulto: 2-3.5mm',
@@ -194,12 +283,19 @@ class EncyclopediaController extends GetxController {
         'Rostro largo y curvo',
         'Élitros con pubescencia'
       ],
-      impact: 'Puede causar pérdidas de hasta 80% en cultivos de chile. Afecta directamente la producción de frutos.',
+      impact: 'Causa pérdidas significativas en cultivos de chile.',
+      categories: ['Plagas'],
+      habitat: ['Terrestre'],
+      size: '2-3.5 mm',
+      diet: ['Herbívoro'],
+      activity: ['Diurno'],
+      distribution: ['América'],
+      lifecycle: ['Huevo', 'Larva', 'Pupa', 'Adulto'],
     ),
     Insect(
       name: 'Gusano del Cuerno',
       scientificName: 'Manduca sexta',
-      description: 'Gran lepidóptero que afecta a plantas solanáceas. Larva voraz que consume gran cantidad de follaje.',
+      description: 'Gran lepidóptero que afecta a plantas solanáceas.',
       imageUrl: 'assets/images/insects/tobacco_hornworm.jpg',
       characteristics: [
         'Larva: hasta 100mm',
@@ -207,12 +303,19 @@ class EncyclopediaController extends GetxController {
         'Cuerno posterior característico',
         'Franjas laterales blancas y negras'
       ],
-      impact: 'Defoliador importante en cultivos de tomate y tabaco. Puede causar pérdidas significativas si no se controla.',
+      impact: 'Defoliador importante en cultivos de tomate y tabaco.',
+      categories: ['Plagas'],
+      habitat: ['Terrestre'],
+      size: '100 mm',
+      diet: ['Herbívoro'],
+      activity: ['Nocturno'],
+      distribution: ['América'],
+      lifecycle: ['Huevo', 'Larva', 'Pupa', 'Adulto'],
     ),
     Insect(
       name: 'Araña Roja',
       scientificName: 'Tetranychus urticae',
-      description: 'Ácaro fitófago que afecta a numerosos cultivos. Forma colonias en el envés de las hojas.',
+      description: 'Ácaro fitófago que afecta a numerosos cultivos.',
       imageUrl: 'assets/images/insects/red_spider_mite.jpg',
       characteristics: [
         'Longitud: 0.4-0.5mm',
@@ -220,12 +323,19 @@ class EncyclopediaController extends GetxController {
         'Manchas oscuras dorsales',
         'Produce telarañas características'
       ],
-      impact: 'Reduce la capacidad fotosintética. Puede causar defoliación en infestaciones severas.',
+      impact: 'Reduce la capacidad fotosintética y causa defoliación.',
+      categories: ['Plagas'],
+      habitat: ['Terrestre'],
+      size: '0.4-0.5 mm',
+      diet: ['Herbívoro'],
+      activity: ['Diurno'],
+      distribution: ['Mundial'],
+      lifecycle: ['Huevo', 'Larva', 'Ninfa', 'Adulto'],
     ),
     Insect(
       name: 'Barrenador del Tallo',
       scientificName: 'Diatraea saccharalis',
-      description: 'Lepidóptero que barrena tallos de gramíneas. Importante plaga en caña de azúcar.',
+      description: 'Lepidóptero que barrena tallos de gramíneas.',
       imageUrl: 'assets/images/insects/sugarcane_borer.jpg',
       characteristics: [
         'Larva: 25-30mm',
@@ -233,12 +343,19 @@ class EncyclopediaController extends GetxController {
         'Cabeza marrón',
         'Adulto: polilla color paja'
       ],
-      impact: 'Reduce el rendimiento y calidad de la caña. Facilita la entrada de patógenos.',
+      impact: 'Reduce el rendimiento y calidad de la caña de azúcar.',
+      categories: ['Plagas'],
+      habitat: ['Terrestre'],
+      size: '25-30 mm',
+      diet: ['Herbívoro'],
+      activity: ['Nocturno'],
+      distribution: ['América'],
+      lifecycle: ['Huevo', 'Larva', 'Pupa', 'Adulto'],
     ),
     Insect(
       name: 'Chinche Verde',
       scientificName: 'Nezara viridula',
-      description: 'Hemíptero que afecta a leguminosas y otros cultivos. Se alimenta de frutos y semillas.',
+      description: 'Hemíptero que afecta a leguminosas y otros cultivos.',
       imageUrl: 'assets/images/insects/green_stink_bug.jpg',
       characteristics: [
         'Longitud: 14-16mm',
@@ -246,12 +363,19 @@ class EncyclopediaController extends GetxController {
         'Forma de escudo',
         'Antenas segmentadas'
       ],
-      impact: 'Daña directamente frutos y semillas. Reduce la calidad y rendimiento de cultivos como soya y frijol.',
+      impact: 'Daña directamente frutos y semillas de cultivos.',
+      categories: ['Plagas'],
+      habitat: ['Terrestre'],
+      size: '14-16 mm',
+      diet: ['Herbívoro'],
+      activity: ['Diurno'],
+      distribution: ['Mundial'],
+      lifecycle: ['Huevo', 'Ninfa', 'Adulto'],
     ),
     Insect(
       name: 'Minador de la Hoja',
       scientificName: 'Liriomyza spp.',
-      description: 'Pequeña mosca cuyas larvas crean galerías en las hojas. Afecta principalmente a hortalizas.',
+      description: 'Pequeña mosca cuyas larvas crean galerías en las hojas.',
       imageUrl: 'assets/images/insects/leafminer.jpg',
       characteristics: [
         'Adulto: 2-3mm',
@@ -259,12 +383,19 @@ class EncyclopediaController extends GetxController {
         'Larvas: ápodas y amarillentas',
         'Minas serpenteantes características'
       ],
-      impact: 'Reduce la capacidad fotosintética. Puede causar defoliación en ataques severos.',
+      impact: 'Reduce la capacidad fotosintética de las plantas.',
+      categories: ['Plagas'],
+      habitat: ['Terrestre'],
+      size: '2-3 mm',
+      diet: ['Herbívoro'],
+      activity: ['Diurno'],
+      distribution: ['Mundial'],
+      lifecycle: ['Huevo', 'Larva', 'Pupa', 'Adulto'],
     ),
     Insect(
       name: 'Palomilla Dorso de Diamante',
       scientificName: 'Plutella xylostella',
-      description: 'Microlepidóptero específico de crucíferas. Principal plaga en cultivos de col y brócoli.',
+      description: 'Microlepidóptero específico de crucíferas.',
       imageUrl: 'assets/images/insects/diamondback_moth.jpg',
       characteristics: [
         'Adulto: 8-10mm',
@@ -272,64 +403,19 @@ class EncyclopediaController extends GetxController {
         'Larvas verde claro',
         'Alta resistencia a insecticidas'
       ],
-      impact: 'Puede causar pérdidas totales en crucíferas. Difícil de controlar por su resistencia a insecticidas.',
-    ),
-    Insect(
-      name: 'Gusano Soldado',
-      scientificName: 'Spodoptera exigua',
-      description: 'Lepidóptero polífago que afecta a diversos cultivos. Las larvas son activas principalmente de noche.',
-      imageUrl: 'assets/images/insects/beet_armyworm.jpg',
-      characteristics: [
-        'Larva: 25-35mm',
-        'Color variable, verde a marrón',
-        'Líneas laterales claras',
-        'Comportamiento gregario inicial'
-      ],
-      impact: 'Causa defoliación severa. Afecta especialmente a cultivos de hortalizas y algodón.',
-    ),
-    Insect(
-      name: 'Picudo del Algodón',
-      scientificName: 'Anthonomus grandis',
-      description: 'Curculiónido específico del algodón. Considerado una de las plagas más destructivas de este cultivo.',
-      imageUrl: 'assets/images/insects/cotton_boll_weevil.jpg',
-      characteristics: [
-        'Adulto: 4-8mm',
-        'Color café rojizo',
-        'Rostro largo y delgado',
-        'Larvas curvas y blanquecinas'
-      ],
-      impact: 'Puede destruir hasta el 90% de las bellotas de algodón. Históricamente ha causado grandes pérdidas económicas.',
-    ),
-    Insect(
-      name: 'Mosquita Blanca de los Invernaderos',
-      scientificName: 'Trialeurodes vaporariorum',
-      description: 'Plaga importante en cultivos protegidos. Similar a Bemisia tabaci pero con diferencias morfológicas y de comportamiento.',
-      imageUrl: 'assets/images/insects/greenhouse_whitefly.jpg',
-      characteristics: [
-        'Adulto: 1.5mm',
-        'Alas blancas paralelas al cuerpo',
-        'Ninfas con filamentos cerosos',
-        'Prefiere climas templados'
-      ],
-      impact: 'Causa daños directos por succión de savia y daños indirectos como vector de virus.',
-    ),
-    Insect(
-      name: 'Gusano Elotero',
-      scientificName: 'Helicoverpa zea',
-      description: 'Lepidóptero que ataca principalmente los elotes del maíz. También afecta a tomate y algodón.',
-      imageUrl: 'assets/images/insects/corn_earworm.jpg',
-      characteristics: [
-        'Larva: hasta 40mm',
-        'Color variable según alimentación',
-        'Microespinas en la cutícula',
-        'Comportamiento caníbal'
-      ],
-      impact: 'Daña directamente los granos en formación. Reduce la calidad comercial del maíz.',
+      impact: 'Causa pérdidas significativas en cultivos de crucíferas.',
+      categories: ['Plagas'],
+      habitat: ['Terrestre'],
+      size: '8-10 mm',
+      diet: ['Herbívoro'],
+      activity: ['Nocturno'],
+      distribution: ['Mundial'],
+      lifecycle: ['Huevo', 'Larva', 'Pupa', 'Adulto'],
     ),
     Insect(
       name: 'Trips del Aguacate',
       scientificName: 'Scirtothrips perseae',
-      description: 'Pequeño insecto específico del aguacate. Causa daños en frutos y follaje joven.',
+      description: 'Pequeño insecto específico del aguacate.',
       imageUrl: 'assets/images/insects/avocado_thrips.jpg',
       characteristics: [
         'Adulto: 1mm',
@@ -337,25 +423,19 @@ class EncyclopediaController extends GetxController {
         'Alas con flecos',
         'Alta movilidad'
       ],
-      impact: 'Causa deformaciones en frutos jóvenes. Afecta la calidad comercial del aguacate.',
-    ),
-    Insect(
-      name: 'Barrenador del Aguacate',
-      scientificName: 'Copturus aguacatae',
-      description: 'Curculiónido específico del aguacate. Las larvas barrenan ramas y frutos.',
-      imageUrl: 'assets/images/insects/avocado_borer.jpg',
-      characteristics: [
-        'Adulto: 4-5mm',
-        'Color negro con escamas',
-        'Rostro curvo',
-        'Larvas blanquecinas'
-      ],
-      impact: 'Causa la muerte de ramas. Puede afectar severamente la producción de frutos.',
+      impact: 'Causa deformaciones en frutos jóvenes de aguacate.',
+      categories: ['Plagas'],
+      habitat: ['Terrestre'],
+      size: '1 mm',
+      diet: ['Herbívoro'],
+      activity: ['Diurno'],
+      distribution: ['América'],
+      lifecycle: ['Huevo', 'Ninfa', 'Adulto'],
     ),
     Insect(
       name: 'Escama Armada',
       scientificName: 'Quadraspidiotus perniciosus',
-      description: 'Insecto escama que afecta principalmente a frutales. Se fija y alimenta de la corteza.',
+      description: 'Insecto escama que afecta principalmente a frutales.',
       imageUrl: 'assets/images/insects/san_jose_scale.jpg',
       characteristics: [
         'Hembra: 2mm diámetro',
@@ -363,32 +443,79 @@ class EncyclopediaController extends GetxController {
         'Macho alado diminuto',
         'Ninfas móviles inicialmente'
       ],
-      impact: 'Debilita árboles frutales. Puede causar la muerte de ramas y reducir la producción.',
+      impact: 'Debilita árboles frutales y puede causar su muerte.',
+      categories: ['Plagas'],
+      habitat: ['Terrestre'],
+      size: '2 mm',
+      diet: ['Herbívoro'],
+      activity: ['Diurno'],
+      distribution: ['Mundial'],
+      lifecycle: ['Huevo', 'Ninfa', 'Adulto'],
     ),
   ];
 
   @override
   void onInit() {
     super.onInit();
-    filteredInsects.value = allInsects;
+    filteredInsects.assignAll(allInsects);
   }
 
   void filterInsects() {
-    isLoading.value = true;
-    Future.delayed(const Duration(milliseconds: 500), () {
-      filteredInsects.value = allInsects.where((insect) {
-        final matchesSearch = insect.name.toLowerCase().contains(searchQuery.value.toLowerCase()) ||
+    List<Insect> results = allInsects;
+    
+    // Filtrar por búsqueda
+    if (searchQuery.value.isNotEmpty) {
+      results = results.where((insect) {
+        return insect.name.toLowerCase().contains(searchQuery.value.toLowerCase()) ||
             insect.scientificName.toLowerCase().contains(searchQuery.value.toLowerCase());
-        
-        final matchesCategory = selectedCategory.value == 'Todos' ||
-            (selectedCategory.value == 'Benéficos' && insect.impact.contains('benéfico')) ||
-            (selectedCategory.value == 'Plagas' && insect.impact.contains('plaga')) ||
-            (selectedCategory.value == 'Polinizadores' && insect.impact.contains('polinizador'));
-        
-        return matchesSearch && matchesCategory;
       }).toList();
-      isLoading.value = false;
-    });
+    }
+
+    // Filtrar por valores seleccionados
+    if (selectedValues.isNotEmpty && selectedFilter.value != 'Categoría') {
+      results = results.where((insect) {
+        switch (selectedFilter.value) {
+          case 'Hábitat':
+            return selectedValues.any((value) => insect.habitat.contains(value));
+          case 'Dieta':
+            return selectedValues.any((value) => insect.diet.contains(value));
+          case 'Actividad':
+            return selectedValues.any((value) => insect.activity.contains(value));
+          case 'Ciclo de Vida':
+            return selectedValues.any((value) => insect.lifecycle.contains(value));
+          default:
+            return true;
+        }
+      }).toList();
+    } else if (selectedCategory.value != 'Todos') {
+      results = results.where((insect) => 
+        insect.categories.contains(selectedCategory.value)
+      ).toList();
+    }
+
+    filteredInsects.assignAll(results);
+  }
+
+  void changeFilter(String filterType) {
+    selectedFilter.value = filterType;
+    selectedValues.clear();
+    if (filterType == 'Categoría') {
+      selectedCategory.value = 'Todos';
+    }
+    filterInsects();
+  }
+
+  void toggleFilterValue(String value) {
+    if (value == 'Todos') {
+      selectedValues.clear();
+    } else {
+      if (selectedValues.contains(value)) {
+        selectedValues.remove(value);
+      } else {
+        selectedValues.add(value);
+      }
+    }
+    filterInsects();
   }
 }
 
@@ -403,15 +530,19 @@ class EncyclopediaScreen extends GetView<EncyclopediaController> {
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            expandedHeight: 180,
-            floating: true,
+            expandedHeight: 200,
+            toolbarHeight: 60,
+            floating: false,
             pinned: true,
             elevation: 0,
             backgroundColor: Colors.transparent,
             flexibleSpace: FlexibleSpaceBar(
+              centerTitle: true,
+              collapseMode: CollapseMode.pin,
+              titlePadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
               title: Text(
                 'Enciclopedia de Insectos',
-                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                   shadows: [
@@ -422,6 +553,7 @@ class EncyclopediaScreen extends GetView<EncyclopediaController> {
                     ),
                   ],
                 ),
+                textAlign: TextAlign.center,
               ),
               background: Container(
                 decoration: BoxDecoration(
@@ -436,6 +568,7 @@ class EncyclopediaScreen extends GetView<EncyclopediaController> {
                   ),
                 ),
                 child: Stack(
+                  fit: StackFit.expand,
                   children: [
                     Positioned(
                       right: -30,
@@ -452,118 +585,102 @@ class EncyclopediaScreen extends GetView<EncyclopediaController> {
                         ),
                       ),
                     ),
-                    Positioned(
-                      left: -20,
-                      top: 30,
-                      child: Transform.rotate(
-                        angle: -0.3,
-                        child: Opacity(
-                          opacity: 0.1,
-                          child: Icon(
-                            Icons.flutter_dash,
-                            size: 100,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ),
                   ],
                 ),
               ),
             ),
-            bottom: PreferredSize(
-              preferredSize: const Size.fromHeight(120),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: const BorderRadius.vertical(
-                    top: Radius.circular(30),
+          ),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // Filtros
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: controller.filterTypes.map((filterType) {
+                        return Padding(
+                          padding: const EdgeInsets.only(right: 8.0),
+                          child: Obx(() {
+                            final isSelected = controller.selectedFilter.value == filterType;
+                            return FilterChip(
+                              label: Text(filterType),
+                              selected: isSelected,
+                              onSelected: (selected) {
+                                controller.changeFilter(filterType);
+                              },
+                            );
+                          }),
+                        );
+                      }).toList(),
+                    ),
                   ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.05),
-                      blurRadius: 10,
-                      offset: const Offset(0, -5),
-                    ),
-                  ],
-                ),
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(16, 20, 16, 8),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.grey[100],
-                          borderRadius: BorderRadius.circular(AppTheme.buttonRadius),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.05),
-                              blurRadius: 5,
-                              offset: const Offset(0, 2),
-                            ),
-                          ],
-                        ),
-                        child: TextField(
-                          onChanged: (value) {
-                            controller.searchQuery.value = value;
-                            controller.filterInsects();
-                          },
-                          decoration: InputDecoration(
-                            hintText: 'Buscar insectos...',
-                            hintStyle: TextStyle(color: Colors.grey[400]),
-                            prefixIcon: Icon(Icons.search, color: Colors.grey[400]),
-                            border: InputBorder.none,
-                            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-                          ),
-                        ),
-                      ),
-                    ),
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-                      child: Row(
-                        children: controller.categories.map((category) {
-                          return Obx(() {
-                            final isSelected = controller.selectedCategory.value == category;
+                  const SizedBox(height: 16),
+                  // Valores de filtro
+                  Obx(() {
+                    if (controller.selectedFilter.value == 'Categoría') {
+                      return SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: controller.filterValues['Categoría']!.map((value) {
                             return Padding(
-                              padding: const EdgeInsets.only(right: 8),
-                              child: AnimatedContainer(
-                                duration: const Duration(milliseconds: 200),
-                                child: FilterChip(
+                              padding: const EdgeInsets.only(right: 8.0),
+                              child: Obx(() {
+                                final isSelected = controller.selectedCategory.value == value;
+                                return FilterChip(
+                                  label: Text(value),
                                   selected: isSelected,
-                                  label: Text(category),
                                   onSelected: (selected) {
-                                    controller.selectedCategory.value = category;
+                                    controller.selectedCategory.value = value;
                                     controller.filterInsects();
                                   },
-                                  backgroundColor: Colors.grey[50],
-                                  selectedColor: AppTheme.primaryColor.withOpacity(0.15),
-                                  checkmarkColor: AppTheme.primaryColor,
-                                  labelStyle: TextStyle(
-                                    color: isSelected
-                                        ? AppTheme.primaryColor
-                                        : Colors.grey[600],
-                                    fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-                                  ),
-                                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20),
-                                    side: BorderSide(
-                                      color: isSelected
-                                          ? AppTheme.primaryColor
-                                          : Colors.grey[300]!,
-                                      width: 1,
-                                    ),
-                                  ),
-                                ),
-                              ),
+                                );
+                              }),
                             );
-                          });
-                        }).toList(),
+                          }).toList(),
+                        ),
+                      );
+                    } else {
+                      return SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: controller.filterValues[controller.selectedFilter.value]!.map((value) {
+                            return Padding(
+                              padding: const EdgeInsets.only(right: 8.0),
+                              child: Obx(() {
+                                final isSelected = controller.selectedValues.contains(value);
+                                return FilterChip(
+                                  label: Text(value),
+                                  selected: isSelected,
+                                  onSelected: (selected) {
+                                    controller.toggleFilterValue(value);
+                                  },
+                                );
+                              }),
+                            );
+                          }).toList(),
+                        ),
+                      );
+                    }
+                  }),
+                  const SizedBox(height: 16),
+                  // Barra de búsqueda
+                  TextField(
+                    decoration: InputDecoration(
+                      hintText: 'Buscar insectos...',
+                      prefixIcon: const Icon(Icons.search),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
                       ),
                     ),
-                  ],
-                ),
+                    onChanged: (value) {
+                      controller.searchQuery.value = value;
+                      controller.filterInsects();
+                    },
+                  ),
+                ],
               ),
             ),
           ),
@@ -648,24 +765,28 @@ class InsectCard extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(AppTheme.cardRadius),
-          boxShadow: AppTheme.cardShadow,
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              blurRadius: 4,
+              offset: const Offset(0, 2),
+            ),
+          ],
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ClipRRect(
-              borderRadius: BorderRadius.vertical(
-                top: Radius.circular(AppTheme.cardRadius),
-              ),
+              borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
               child: AspectRatio(
                 aspectRatio: 1.0,
                 child: Hero(
                   tag: 'insect_${insect.name}',
-                  child: CachedNetworkImage(
-                    imageUrl: insect.imageUrl,
+                  child: Image.asset(
+                    insect.imageUrl,
                     fit: BoxFit.cover,
-                    errorWidget: (context, url, error) => Container(
+                    errorBuilder: (context, error, stackTrace) => Container(
                       color: Colors.grey[200],
                       child: Icon(
                         Icons.bug_report,
@@ -673,18 +794,12 @@ class InsectCard extends StatelessWidget {
                         color: Colors.grey[400],
                       ),
                     ),
-                    placeholder: (context, url) => Container(
-                      color: Colors.grey[200],
-                      child: const Center(
-                        child: CircularProgressIndicator(),
-                      ),
-                    ),
                   ),
                 ),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(AppTheme.spacing),
+              padding: const EdgeInsets.all(12),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -699,7 +814,7 @@ class InsectCard extends StatelessWidget {
                     insect.scientificName,
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       fontStyle: FontStyle.italic,
-                      color: AppTheme.textLightColor,
+                      color: Colors.grey[600],
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -707,11 +822,13 @@ class InsectCard extends StatelessWidget {
                   const SizedBox(height: 8),
                   Wrap(
                     spacing: 4,
+                    runSpacing: 4,
                     children: [
-                      if (insect.rnaInfo != null)
-                        _buildTag(context, 'ARN', AppTheme.secondaryColor),
-                      if (insect.nanoTechInfo != null)
-                        _buildTag(context, 'Nano', AppTheme.accentColor),
+                      ...insect.categories.map((category) => _buildTag(context, category, Colors.blue)),
+                      if (insect.habitat.isNotEmpty)
+                        _buildTag(context, insect.habitat.first, Colors.green),
+                      if (insect.diet.isNotEmpty)
+                        _buildTag(context, insect.diet.first, Colors.orange),
                     ],
                   ),
                 ],
@@ -744,10 +861,7 @@ class InsectCard extends StatelessWidget {
 class InsectDetailsScreen extends StatelessWidget {
   final Insect insect;
 
-  const InsectDetailsScreen({
-    Key? key,
-    required this.insect,
-  }) : super(key: key);
+  const InsectDetailsScreen({Key? key, required this.insect}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -761,21 +875,15 @@ class InsectDetailsScreen extends StatelessWidget {
               title: Text(insect.name),
               background: Hero(
                 tag: 'insect_${insect.name}',
-                child: CachedNetworkImage(
-                  imageUrl: insect.imageUrl,
+                child: Image.asset(
+                  insect.imageUrl,
                   fit: BoxFit.cover,
-                  errorWidget: (context, url, error) => Container(
+                  errorBuilder: (context, error, stackTrace) => Container(
                     color: Colors.grey[200],
                     child: Icon(
                       Icons.bug_report,
                       size: 40,
                       color: Colors.grey[400],
-                    ),
-                  ),
-                  placeholder: (context, url) => Container(
-                    color: Colors.grey[200],
-                    child: const Center(
-                      child: CircularProgressIndicator(),
                     ),
                   ),
                 ),
@@ -791,9 +899,9 @@ class InsectDetailsScreen extends StatelessWidget {
                   Text(
                     insect.scientificName,
                     style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                          fontStyle: FontStyle.italic,
-                          color: Colors.grey[600],
-                        ),
+                      fontStyle: FontStyle.italic,
+                      color: Colors.grey[600],
+                    ),
                   ),
                   const SizedBox(height: 16),
                   Text(
@@ -801,48 +909,28 @@ class InsectDetailsScreen extends StatelessWidget {
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                   const SizedBox(height: 24),
-                  _buildSection(
-                    context,
-                    'Características',
-                    ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: insect.characteristics.length,
-                      itemBuilder: (context, index) {
-                        return ListTile(
-                          leading: const Icon(Icons.check_circle, color: AppTheme.primaryColor),
-                          title: Text(insect.characteristics[index]),
-                        );
-                      },
-                    ),
-                  ),
+                  _buildSection(context, 'Características', insect.characteristics),
                   const SizedBox(height: 16),
-                  _buildSection(
-                    context,
-                    'Impacto',
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: Text(
-                        insect.impact,
-                        style: Theme.of(context).textTheme.bodyLarge,
-                      ),
-                    ),
-                  ),
-                  if (insect.rnaInfo != null) ...[
-                    const SizedBox(height: 24),
-                    _buildExpandableSection(
-                      context,
-                      'Investigación de ARN',
-                      _buildRNASection(context, insect.rnaInfo!),
-                    ),
+                  if (insect.habitat.isNotEmpty) ...[
+                    _buildSection(context, 'Hábitat', insect.habitat),
+                    const SizedBox(height: 16),
                   ],
-                  if (insect.nanoTechInfo != null) ...[
+                  if (insect.diet.isNotEmpty) ...[
+                    _buildSection(context, 'Dieta', insect.diet),
+                    const SizedBox(height: 16),
+                  ],
+                  if (insect.activity.isNotEmpty) ...[
+                    _buildSection(context, 'Actividad', insect.activity),
+                    const SizedBox(height: 16),
+                  ],
+                  if (insect.lifecycle.isNotEmpty) ...[
+                    _buildSection(context, 'Ciclo de Vida', insect.lifecycle),
+                    const SizedBox(height: 16),
+                  ],
+                  _buildSection(context, 'Impacto', [insect.impact]),
+                  if (insect.rnaInfo != null || insect.nanoTechInfo != null) ...[
                     const SizedBox(height: 24),
-                    _buildExpandableSection(
-                      context,
-                      'Nanotecnología',
-                      _buildNanoTechSection(context, insect.nanoTechInfo!),
-                    ),
+                    _buildResearchSection(context),
                   ],
                 ],
               ),
@@ -853,145 +941,116 @@ class InsectDetailsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildSection(BuildContext context, String title, Widget content) {
+  Widget _buildSection(BuildContext context, String title, List<String> items) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           title,
           style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                color: AppTheme.primaryColor,
-                fontWeight: FontWeight.bold,
-              ),
+            color: Colors.blue,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         const SizedBox(height: 8),
-        content,
+        ...items.map((item) => Padding(
+          padding: const EdgeInsets.symmetric(vertical: 4),
+          child: Row(
+            children: [
+              const Icon(Icons.circle, size: 8, color: Colors.blue),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  item,
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
+              ),
+            ],
+          ),
+        )),
       ],
     );
   }
 
-  Widget _buildExpandableSection(BuildContext context, String title, Widget content) {
+  Widget _buildResearchSection(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Investigación',
+          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+            color: Colors.blue,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const SizedBox(height: 16),
+        if (insect.rnaInfo != null)
+          _buildResearchCard(
+            context,
+            'ARN',
+            insect.rnaInfo!.description,
+            insect.rnaInfo!.applications,
+          ),
+        if (insect.nanoTechInfo != null) ...[
+          const SizedBox(height: 16),
+          _buildResearchCard(
+            context,
+            'Nanotecnología',
+            insect.nanoTechInfo!.description,
+            insect.nanoTechInfo!.applications,
+          ),
+        ],
+      ],
+    );
+  }
+
+  Widget _buildResearchCard(
+    BuildContext context,
+    String title,
+    String description,
+    List<String> applications,
+  ) {
     return Card(
-      elevation: 2,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: ExpansionTile(
-        title: Text(
-          title,
-          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                color: AppTheme.primaryColor,
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                color: Colors.blue,
                 fontWeight: FontWeight.bold,
               ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              description,
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+            const SizedBox(height: 16),
+            Text(
+              'Aplicaciones:',
+              style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 8),
+            ...applications.map((app) => Padding(
+              padding: const EdgeInsets.symmetric(vertical: 4),
+              child: Row(
+                children: [
+                  const Icon(Icons.arrow_right, color: Colors.blue),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(app),
+                  ),
+                ],
+              ),
+            )),
+          ],
         ),
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: content,
-          ),
-        ],
       ),
-    );
-  }
-
-  Widget _buildRNASection(BuildContext context, RNAInfo rnaInfo) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          rnaInfo.description,
-          style: Theme.of(context).textTheme.bodyLarge,
-        ),
-        const SizedBox(height: 16),
-        _buildSubSection(context, 'Aplicaciones', rnaInfo.applications),
-        const SizedBox(height: 16),
-        _buildSubSection(context, 'Hallazgos de Investigación', rnaInfo.researchFindings),
-        if (rnaInfo.videoUrl != null) ...[
-          const SizedBox(height: 16),
-          ElevatedButton.icon(
-            onPressed: () {
-              // Implementar reproducción de video
-            },
-            icon: const Icon(Icons.play_circle_outline),
-            label: const Text('Ver Video Explicativo'),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppTheme.primaryColor,
-              foregroundColor: Colors.white,
-            ),
-          ),
-        ],
-      ],
-    );
-  }
-
-  Widget _buildNanoTechSection(BuildContext context, NanoTechInfo nanoTechInfo) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          nanoTechInfo.description,
-          style: Theme.of(context).textTheme.bodyLarge,
-        ),
-        const SizedBox(height: 16),
-        _buildSubSection(context, 'Aplicaciones', nanoTechInfo.applications),
-        const SizedBox(height: 16),
-        _buildSubSection(context, 'Innovaciones', nanoTechInfo.innovations),
-        const SizedBox(height: 16),
-        _buildSubSection(context, 'Perspectivas Futuras', nanoTechInfo.futureProspects),
-        if (nanoTechInfo.imageUrl != null) ...[
-          const SizedBox(height: 16),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(12),
-            child: CachedNetworkImage(
-              imageUrl: nanoTechInfo.imageUrl!,
-              fit: BoxFit.cover,
-              errorWidget: (context, url, error) => Container(
-                color: Colors.grey[200],
-                child: Icon(
-                  Icons.image_not_supported,
-                  size: 40,
-                  color: Colors.grey[400],
-                ),
-              ),
-              placeholder: (context, url) => Container(
-                color: Colors.grey[200],
-                child: const Center(
-                  child: CircularProgressIndicator(),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ],
-    );
-  }
-
-  Widget _buildSubSection(BuildContext context, String title, List<String> items) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          title,
-          style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                color: AppTheme.secondaryColor,
-                fontWeight: FontWeight.bold,
-              ),
-        ),
-        const SizedBox(height: 8),
-        ListView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: items.length,
-          itemBuilder: (context, index) {
-            return ListTile(
-              leading: Icon(
-                Icons.arrow_right,
-                color: AppTheme.secondaryColor,
-              ),
-              title: Text(items[index]),
-              contentPadding: const EdgeInsets.symmetric(horizontal: 8),
-            );
-          },
-        ),
-      ],
     );
   }
 }
