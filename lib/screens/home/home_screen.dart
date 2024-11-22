@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'dart:math' as math;
 import '../../theme/app_theme.dart';
 import '../../models/entomology_topic.dart';
+import '../games/games_menu_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -500,15 +501,34 @@ class _HomeScreenState extends State<HomeScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  const Text(
-                    'Insect Lab',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  Row(
+                    children: [
+                      Container(
+                        width: 48,
+                        height: 48,
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.2),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: const Center(
+                          child: Text(
+                            '🐝',
+                            style: TextStyle(fontSize: 28),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      const Text(
+                        'Insect Lab',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 12),
                   Text(
                     'Educación Entomológica',
                     style: TextStyle(
@@ -538,10 +558,17 @@ class _HomeScreenState extends State<HomeScreen> {
               onTap: () => Get.toNamed('/key-insects'),
             ),
             _buildDrawerItem(
-              icon: Icons.school,
-              title: 'Recursos',
-              subtitle: 'Material educativo',
-              onTap: () => Get.toNamed('/resources'),
+              icon: Icons.games,
+              title: 'Juegos Educativos',
+              subtitle: 'Aprende jugando',
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const GamesMenuScreen(),
+                  ),
+                );
+              },
             ),
             const Divider(color: AppTheme.emerald),
             _buildDrawerItem(
@@ -563,19 +590,33 @@ class _HomeScreenState extends State<HomeScreen> {
     required VoidCallback onTap,
   }) {
     return ListTile(
-      leading: Icon(icon, color: AppTheme.emerald),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 4),
+      leading: Container(
+        width: 40,
+        height: 40,
+        decoration: BoxDecoration(
+          color: AppTheme.calPolyGreen.withOpacity(0.1),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Icon(
+          icon,
+          color: AppTheme.calPolyGreen,
+          size: 20,
+        ),
+      ),
       title: Text(
         title,
         style: const TextStyle(
-          color: AppTheme.textPrimaryColor,
+          color: AppTheme.calPolyGreen,
+          fontSize: 16,
           fontWeight: FontWeight.w600,
         ),
       ),
       subtitle: Text(
         subtitle,
         style: TextStyle(
-          color: AppTheme.textSecondaryColor.withOpacity(0.8),
-          fontSize: 12,
+          color: AppTheme.textSecondaryColor,
+          fontSize: 13,
         ),
       ),
       onTap: onTap,

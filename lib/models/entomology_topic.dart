@@ -2,11 +2,13 @@ class EntomologyTopic {
   final String title;
   final String description;
   final List<String> content;
+  final List<EntomologySubtopic> subtopics;
 
   const EntomologyTopic({
     required this.title,
     required this.description,
     required this.content,
+    this.subtopics = const [],
   });
 }
 

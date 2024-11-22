@@ -9,14 +9,14 @@ class AppTheme {
   static const Color celadon = Color(0xFFAFF9C9);
 
   // Colores de la aplicación
-  static const Color primaryColor = officeGreen;
-  static const Color backgroundColor = calPolyGreen;
-  static const Color cardColor = Color(0xFF2A4D14);
-  
+  static const Color backgroundColor = Colors.white;
+  static const Color primaryColor = calPolyGreen;
+  static const Color cardColor = calPolyGreen;
+
   // Colores de texto
-  static const Color textPrimaryColor = Colors.white;
-  static const Color textSecondaryColor = celadon;
-  static const Color textLightColor = aquamarine;
+  static const Color textPrimaryColor = calPolyGreen;
+  static const Color textSecondaryColor = Color(0xFF666666);
+  static const Color textLightColor = Colors.white;
 
   // Gradientes
   static final LinearGradient primaryGradient = LinearGradient(
@@ -25,7 +25,6 @@ class AppTheme {
     colors: [
       calPolyGreen,
       officeGreen,
-      emerald.withOpacity(0.8),
     ],
   );
 
@@ -46,29 +45,29 @@ class AppTheme {
   static const double spacingLarge = 24.0;
 
   static ThemeData get theme => ThemeData(
-        brightness: Brightness.dark,
+        brightness: Brightness.light,
         primaryColor: primaryColor,
         scaffoldBackgroundColor: backgroundColor,
-        colorScheme: ColorScheme.dark(
+        colorScheme: ColorScheme.light(
           primary: primaryColor,
           secondary: emerald,
           surface: cardColor,
           background: backgroundColor,
           error: Colors.red.shade700,
-          onPrimary: Colors.white,
+          onPrimary: Colors.black,
           onSecondary: calPolyGreen,
-          onSurface: Colors.white,
-          onBackground: Colors.white,
+          onSurface: Colors.black,
+          onBackground: Colors.black,
           onError: Colors.white,
-          brightness: Brightness.dark,
+          brightness: Brightness.light,
         ),
         useMaterial3: true,
         appBarTheme: AppBarTheme(
           backgroundColor: backgroundColor,
           elevation: 0,
-          iconTheme: const IconThemeData(color: Colors.white),
+          iconTheme: const IconThemeData(color: Colors.black),
           titleTextStyle: const TextStyle(
-            color: Colors.white,
+            color: Colors.black,
             fontSize: 20,
             fontWeight: FontWeight.bold,
           ),
@@ -82,22 +81,22 @@ class AppTheme {
         ),
         textTheme: const TextTheme(
           headlineLarge: TextStyle(
-            color: textPrimaryColor,
+            color: Colors.black,
             fontSize: 32,
             fontWeight: FontWeight.bold,
           ),
           headlineMedium: TextStyle(
-            color: textPrimaryColor,
+            color: Colors.black,
             fontSize: 24,
             fontWeight: FontWeight.bold,
           ),
           titleLarge: TextStyle(
-            color: textPrimaryColor,
+            color: Colors.black,
             fontSize: 20,
             fontWeight: FontWeight.bold,
           ),
           titleMedium: TextStyle(
-            color: textPrimaryColor,
+            color: Colors.black,
             fontSize: 16,
             fontWeight: FontWeight.w500,
           ),
@@ -111,11 +110,11 @@ class AppTheme {
           ),
         ),
         iconTheme: const IconThemeData(
-          color: textPrimaryColor,
+          color: Colors.black,
         ),
         chipTheme: ChipThemeData(
           backgroundColor: emerald.withOpacity(0.2),
-          labelStyle: const TextStyle(color: textPrimaryColor),
+          labelStyle: const TextStyle(color: Colors.black),
           padding: const EdgeInsets.symmetric(horizontal: 8),
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(

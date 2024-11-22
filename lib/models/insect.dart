@@ -3,6 +3,7 @@ class Insect {
   final String scientificName;
   final String description;
   final String imageUrl;
+  final String emoji;
   final List<String> characteristics;
   final String impact;
   final List<String> categories; // Categorías principales (Benéficos, Plagas, Polinizadores)
@@ -20,6 +21,7 @@ class Insect {
     required this.scientificName,
     required this.description,
     required this.imageUrl,
+    required this.emoji,
     required this.characteristics,
     required this.impact,
     required this.categories,

@@ -54,19 +54,14 @@ class AboutScreen extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               _buildTeamMember(
-                'Dra. María González',
+                'Ing. Adalberto Mina',
+                'Ingeniero de Software',
+                'Especialista en desarrollo de aplicaciones y arquitectura tecnológica.',
+              ),
+              _buildTeamMember(
+                'Dra. Maria Paula Mejia',
                 'Entomóloga Principal',
-                'Especialista en taxonomía de insectos con más de 15 años de experiencia.',
-              ),
-              _buildTeamMember(
-                'Dr. Juan Pérez',
-                'Director de Contenido',
-                'PhD en Biología con enfoque en comportamiento de insectos.',
-              ),
-              _buildTeamMember(
-                'Ing. Ana Martínez',
-                'Desarrolladora Principal',
-                'Especialista en desarrollo de aplicaciones educativas.',
+                'Maestría en Entomología Aplicada a la Agricultura.',
               ),
               const SizedBox(height: 32),
               const Text(
@@ -81,17 +76,17 @@ class AboutScreen extends StatelessWidget {
               _buildContactItem(
                 Icons.email,
                 'Email',
-                'info@insectos.app',
+                'bugsappproject@gmail.com',
               ),
               _buildContactItem(
                 Icons.web,
                 'Sitio Web',
-                'www.insectos.app',
+                'www.insectlab.app',
               ),
               _buildContactItem(
                 Icons.location_on,
                 'Ubicación',
-                'Ciudad de México, México',
+                'Ciudad de Panamá, Panamá',
               ),
               const SizedBox(height: 32),
               Container(
@@ -133,42 +128,84 @@ class AboutScreen extends StatelessWidget {
   Widget _buildTeamMember(String name, String role, String description) {
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
-      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: AppTheme.emerald.withOpacity(0.2),
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            const Color(0xFF317B22),
+            const Color(0xFF67E0A3),
+          ],
         ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            name,
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: AppTheme.calPolyGreen,
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            role,
-            style: TextStyle(
-              fontSize: 14,
-              color: AppTheme.officeGreen.withOpacity(0.8),
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            description,
-            style: TextStyle(
-              fontSize: 14,
-              color: AppTheme.officeGreen.withOpacity(0.7),
-            ),
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
           ),
         ],
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(16),
+        child: Container(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.2),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: const Icon(
+                      Icons.person,
+                      color: Colors.white,
+                      size: 24,
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          name,
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          role,
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.white.withOpacity(0.9),
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              Text(
+                description,
+                style: TextStyle(
+                  fontSize: 15,
+                  height: 1.5,
+                  color: Colors.white.withOpacity(0.85),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

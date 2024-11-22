@@ -14,14 +14,14 @@ dependencies:
   cached_network_image: ^3.3.0
   url_launcher: ^6.2.2
   google_fonts: ^6.1.0
-  flutter_svg: ^2.0.7
-  lottie: ^2.7.0
+  flutter_svg: ^2.0.15
+  lottie: ^3.1.3
   flutter_staggered_grid_view: ^0.7.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^2.0.0
+  flutter_lints: ^5.0.0
 
 flutter:
   uses-material-design: true
@@ -29,11 +29,7 @@ flutter:
   assets:
     - assets/images/
     - assets/images/insects/
-    - assets/images/insects/monarch_butterfly.jpg
-    - assets/images/insects/bee.svg
-    - assets/images/insects/butterfly.svg
-    - assets/images/insects/ladybug.svg
-    - assets/images/nanotech/
     - assets/images/home/
+    - assets/images/tech/
     - assets/animations/
     - assets/icons/

@@ -283,9 +283,9 @@ class EntomologyScreen extends StatelessWidget {
                               ],
                             ),
                           )),
-                          if (topic.subtopics != null) ...[
+                          if (topic.subtopics.isNotEmpty) ...[
                             const SizedBox(height: 32),
-                            ...topic.subtopics!.map((subtopic) => Column(
+                            ...topic.subtopics.map((subtopic) => Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'tech_research_section.dart';
 import '../../controllers/tech_research_controller.dart';
+import '../../theme/app_theme.dart';
 
 class RNAScreen extends StatelessWidget {
   const RNAScreen({super.key});
@@ -12,8 +13,14 @@ class RNAScreen extends StatelessWidget {
     final techController = Get.put(TechResearchController());
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('ARN y Control Biológico'),
+        title: const Text(
+          'ARN y Control Biológico',
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: AppTheme.calPolyGreen,
+        elevation: 0,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
@@ -50,11 +57,18 @@ class RNAScreen extends StatelessWidget {
               '4. Control específico de la plaga',
             ),
             const SizedBox(height: 30),
-            const Divider(thickness: 2),
+            Divider(
+              thickness: 1,
+              color: Colors.grey[300],
+            ),
             const SizedBox(height: 20),
             Obx(() {
               if (techController.isLoading.value) {
-                return const Center(child: CircularProgressIndicator());
+                return Center(
+                  child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(AppTheme.calPolyGreen),
+                  ),
+                );
               }
               
               if (techController.researchInfo.value == null) {
@@ -77,6 +91,13 @@ class RNAScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 8),
                       ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppTheme.calPolyGreen,
+                          foregroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
                         onPressed: () => techController.loadResearchInfo(),
                         child: const Text('Reintentar'),
                       ),
@@ -102,14 +123,19 @@ class RNAScreen extends StatelessWidget {
         Text(
           title,
           style: const TextStyle(
-            fontSize: 20,
+            fontSize: 22,
             fontWeight: FontWeight.bold,
+            color: Color(0xFF2A4D14), // Verde más oscuro para mejor contraste
           ),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: 12),
         Text(
           content,
-          style: const TextStyle(fontSize: 16),
+          style: const TextStyle(
+            fontSize: 16,
+            height: 1.5,
+            color: Color(0xFF333333), // Gris oscuro para mejor legibilidad
+          ),
         ),
       ],
     );
@@ -118,6 +144,15 @@ class RNAScreen extends StatelessWidget {
   Widget _buildInfoCard(String title, String content, IconData icon) {
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 8),
+      elevation: 1,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+        side: BorderSide(
+          color: AppTheme.calPolyGreen.withOpacity(0.2),
+          width: 1,
+        ),
+      ),
+      color: Colors.white,
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -125,21 +160,39 @@ class RNAScreen extends StatelessWidget {
           children: [
             Row(
               children: [
-                Icon(icon, size: 24),
-                const SizedBox(width: 8),
-                Text(
-                  title,
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF317B22).withOpacity(0.1), // Verde más claro para el fondo del icono
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Icon(
+                    icon,
+                    size: 24,
+                    color: const Color(0xFF317B22), // Verde más oscuro para el icono
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Text(
+                    title,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      color: Color(0xFF2A4D14), // Verde más oscuro para mejor contraste
+                    ),
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 12),
             Text(
               content,
-              style: const TextStyle(fontSize: 16),
+              style: const TextStyle(
+                fontSize: 16,
+                height: 1.5,
+                color: Color(0xFF333333), // Gris oscuro para mejor legibilidad
+              ),
             ),
           ],
         ),
