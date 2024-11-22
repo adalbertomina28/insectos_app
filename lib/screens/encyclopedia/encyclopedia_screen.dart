@@ -4,6 +4,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:lottie/lottie.dart';
 import '../../models/insect.dart';
 import '../../theme/app_theme.dart';
+import 'package:insectos_app/widgets/hexagon_pattern.dart';
 
 class EncyclopediaController extends GetxController {
   final RxList<Insect> filteredInsects = <Insect>[].obs;
@@ -527,227 +528,403 @@ class EncyclopediaScreen extends GetView<EncyclopediaController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            expandedHeight: 200,
-            toolbarHeight: 60,
-            floating: false,
-            pinned: true,
-            elevation: 0,
-            backgroundColor: Colors.transparent,
-            flexibleSpace: FlexibleSpaceBar(
-              centerTitle: true,
-              collapseMode: CollapseMode.pin,
-              titlePadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-              title: Text(
-                'Enciclopedia de Insectos',
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  shadows: [
-                    Shadow(
-                      offset: const Offset(0, 1),
-                      blurRadius: 3.0,
-                      color: Colors.black.withOpacity(0.3),
-                    ),
-                  ],
-                ),
-                textAlign: TextAlign.center,
-              ),
-              background: Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topRight,
-                    end: Alignment.bottomLeft,
-                    colors: [
-                      AppTheme.primaryColor,
-                      AppTheme.primaryColor.withGreen(150),
-                      AppTheme.primaryColor.withBlue(150),
-                    ],
-                  ),
-                ),
-                child: Stack(
-                  fit: StackFit.expand,
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: const AssetImage('assets/images/monarch_butterfly.jpg'),
+            fit: BoxFit.cover,
+            colorFilter: ColorFilter.mode(
+              Colors.black.withOpacity(0.3),
+              BlendMode.darken,
+            ),
+          ),
+        ),
+        child: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              expandedHeight: 200,
+              toolbarHeight: 60,
+              floating: false,
+              pinned: true,
+              elevation: 0,
+              backgroundColor: Colors.transparent,
+              flexibleSpace: FlexibleSpaceBar(
+                centerTitle: true,
+                collapseMode: CollapseMode.pin,
+                titlePadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                title: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    Positioned(
-                      right: -30,
-                      bottom: -10,
-                      child: Transform.rotate(
-                        angle: 0.2,
-                        child: Opacity(
-                          opacity: 0.15,
-                          child: Icon(
-                            Icons.bug_report,
-                            size: 180,
-                            color: Colors.white,
+                    Text(
+                      'Enciclopedia',
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 28,
+                        letterSpacing: -0.5,
+                        shadows: [
+                          Shadow(
+                            offset: const Offset(0, 1),
+                            blurRadius: 3.0,
+                            color: Colors.black.withOpacity(0.3),
                           ),
-                        ),
+                        ],
+                      ),
+                    ),
+                    Text(
+                      'Explora nuestra colección de insectos',
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: Colors.white.withOpacity(0.9),
+                        fontSize: 14,
+                        letterSpacing: 0.5,
                       ),
                     ),
                   ],
                 ),
-              ),
-            ),
-          ),
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  // Filtros
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: controller.filterTypes.map((filterType) {
-                        return Padding(
-                          padding: const EdgeInsets.only(right: 8.0),
-                          child: Obx(() {
-                            final isSelected = controller.selectedFilter.value == filterType;
-                            return FilterChip(
-                              label: Text(filterType),
-                              selected: isSelected,
-                              onSelected: (selected) {
-                                controller.changeFilter(filterType);
-                              },
-                            );
-                          }),
-                        );
-                      }).toList(),
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  // Valores de filtro
-                  Obx(() {
-                    if (controller.selectedFilter.value == 'Categoría') {
-                      return SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: controller.filterValues['Categoría']!.map((value) {
-                            return Padding(
-                              padding: const EdgeInsets.only(right: 8.0),
-                              child: Obx(() {
-                                final isSelected = controller.selectedCategory.value == value;
-                                return FilterChip(
-                                  label: Text(value),
-                                  selected: isSelected,
-                                  onSelected: (selected) {
-                                    controller.selectedCategory.value = value;
-                                    controller.filterInsects();
-                                  },
-                                );
-                              }),
-                            );
-                          }).toList(),
-                        ),
-                      );
-                    } else {
-                      return SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: controller.filterValues[controller.selectedFilter.value]!.map((value) {
-                            return Padding(
-                              padding: const EdgeInsets.only(right: 8.0),
-                              child: Obx(() {
-                                final isSelected = controller.selectedValues.contains(value);
-                                return FilterChip(
-                                  label: Text(value),
-                                  selected: isSelected,
-                                  onSelected: (selected) {
-                                    controller.toggleFilterValue(value);
-                                  },
-                                );
-                              }),
-                            );
-                          }).toList(),
-                        ),
-                      );
-                    }
-                  }),
-                  const SizedBox(height: 16),
-                  // Barra de búsqueda
-                  TextField(
-                    decoration: InputDecoration(
-                      hintText: 'Buscar insectos...',
-                      prefixIcon: const Icon(Icons.search),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
-                    onChanged: (value) {
-                      controller.searchQuery.value = value;
-                      controller.filterInsects();
-                    },
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Obx(() {
-            if (controller.isLoading.value) {
-              return const SliverFillRemaining(
-                child: Center(
-                  child: CircularProgressIndicator(),
-                ),
-              );
-            }
-            
-            if (controller.filteredInsects.isEmpty) {
-              return SliverFillRemaining(
-                child: Center(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Lottie.asset(
-                          'assets/animations/empty_search.json',
-                          width: 200,
-                          height: 200,
-                          fit: BoxFit.contain,
-                          repeat: true,
-                        ),
-                        const SizedBox(height: 20),
-                        Text(
-                          'No se encontraron insectos en esta categoría',
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.grey[600],
-                            fontWeight: FontWeight.w500,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          'Prueba seleccionando otra categoría',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey[400],
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
+                background: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topRight,
+                      end: Alignment.bottomLeft,
+                      colors: [
+                        AppTheme.calPolyGreen,
+                        AppTheme.officeGreen,
+                        AppTheme.emerald,
                       ],
                     ),
                   ),
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      // Patrón de fondo
+                      CustomPaint(
+                        painter: HexagonPattern(color: Colors.white.withOpacity(0.05)),
+                        size: Size.infinite,
+                      ),
+                      // Ícono decorativo
+                      Positioned(
+                        right: -20,
+                        bottom: -20,
+                        child: Transform.rotate(
+                          angle: 0.2,
+                          child: Icon(
+                            Icons.science_outlined,
+                            size: 200,
+                            color: Colors.white.withOpacity(0.1),
+                          ),
+                        ),
+                      ),
+                      // Ícono secundario
+                      Positioned(
+                        left: -10,
+                        top: 20,
+                        child: Transform.rotate(
+                          angle: -0.3,
+                          child: Icon(
+                            Icons.catching_pokemon_outlined,
+                            size: 120,
+                            color: Colors.white.withOpacity(0.08),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Barra de búsqueda
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.05),
+                            blurRadius: 10,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      child: TextField(
+                        decoration: InputDecoration(
+                          hintText: 'Buscar insectos...',
+                          hintStyle: TextStyle(
+                            color: Colors.grey[400],
+                            fontSize: 16,
+                          ),
+                          prefixIcon: Icon(
+                            Icons.search,
+                            color: AppTheme.calPolyGreen,
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: BorderSide.none,
+                          ),
+                          filled: true,
+                          fillColor: Colors.white,
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 12,
+                          ),
+                        ),
+                        onChanged: (value) {
+                          controller.searchQuery.value = value;
+                          controller.filterInsects();
+                        },
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                    // Título de filtros
+                    Text(
+                      'Filtrar por:',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: AppTheme.calPolyGreen,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    // Filtros principales
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: controller.filterTypes.map((filterType) {
+                          return Padding(
+                            padding: const EdgeInsets.only(right: 8.0),
+                            child: Obx(() {
+                              final isSelected = controller.selectedFilter.value == filterType;
+                              return FilterChip(
+                                label: Text(filterType),
+                                selected: isSelected,
+                                selectedColor: AppTheme.emerald.withOpacity(0.2),
+                                checkmarkColor: AppTheme.calPolyGreen,
+                                labelStyle: TextStyle(
+                                  color: isSelected ? AppTheme.calPolyGreen : Colors.grey[600],
+                                  fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                                ),
+                                backgroundColor: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                  side: BorderSide(
+                                    color: isSelected ? AppTheme.emerald : Colors.grey[300]!,
+                                  ),
+                                ),
+                                onSelected: (selected) {
+                                  controller.changeFilter(filterType);
+                                },
+                              );
+                            }),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    // Valores de filtro
+                    Obx(() {
+                      if (controller.selectedFilter.value == 'Categoría') {
+                        return SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children: controller.filterValues['Categoría']!.map((value) {
+                              return Padding(
+                                padding: const EdgeInsets.only(right: 8.0),
+                                child: Obx(() {
+                                  final isSelected = controller.selectedCategory.value == value;
+                                  return FilterChip(
+                                    label: Text(value),
+                                    selected: isSelected,
+                                    selectedColor: AppTheme.emerald.withOpacity(0.2),
+                                    checkmarkColor: AppTheme.calPolyGreen,
+                                    labelStyle: TextStyle(
+                                      color: isSelected ? AppTheme.calPolyGreen : Colors.grey[600],
+                                      fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                                    ),
+                                    backgroundColor: Colors.white,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                      side: BorderSide(
+                                        color: isSelected ? AppTheme.emerald : Colors.grey[300]!,
+                                      ),
+                                    ),
+                                    onSelected: (selected) {
+                                      controller.selectedCategory.value = value;
+                                      controller.filterInsects();
+                                    },
+                                  );
+                                }),
+                              );
+                            }).toList(),
+                          ),
+                        );
+                      } else {
+                        return SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children: controller.filterValues[controller.selectedFilter.value]!.map((value) {
+                              return Padding(
+                                padding: const EdgeInsets.only(right: 8.0),
+                                child: Obx(() {
+                                  final isSelected = controller.selectedValues.contains(value);
+                                  return FilterChip(
+                                    label: Text(value),
+                                    selected: isSelected,
+                                    selectedColor: AppTheme.emerald.withOpacity(0.2),
+                                    checkmarkColor: AppTheme.calPolyGreen,
+                                    labelStyle: TextStyle(
+                                      color: isSelected ? AppTheme.calPolyGreen : Colors.grey[600],
+                                      fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                                    ),
+                                    backgroundColor: Colors.white,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                      side: BorderSide(
+                                        color: isSelected ? AppTheme.emerald : Colors.grey[300]!,
+                                      ),
+                                    ),
+                                    onSelected: (selected) {
+                                      controller.toggleFilterValue(value);
+                                    },
+                                  );
+                                }),
+                              );
+                            }).toList(),
+                          ),
+                        );
+                      }
+                    }),
+                  ],
+                ),
+              ),
+            ),
+            Obx(() {
+              return SliverPadding(
+                padding: const EdgeInsets.all(16.0),
+                sliver: SliverGrid(
+                  delegate: SliverChildBuilderDelegate(
+                    (context, index) {
+                      final insect = controller.filteredInsects[index];
+                      return Hero(
+                        tag: 'insect-${insect.name}',
+                        child: AnimatedContainer(
+                          duration: const Duration(milliseconds: 300),
+                          child: Material(
+                            color: Colors.transparent,
+                            child: InkWell(
+                              onTap: () {
+                                // Navegar al detalle del insecto
+                                Get.toNamed('/insect-detail/${insect.name}');
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(16),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.05),
+                                      blurRadius: 10,
+                                      offset: const Offset(0, 2),
+                                    ),
+                                  ],
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                                  children: [
+                                    Expanded(
+                                      flex: 3,
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius: const BorderRadius.vertical(
+                                            top: Radius.circular(16),
+                                          ),
+                                          image: DecorationImage(
+                                            image: AssetImage(insect.imageUrl),
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      flex: 2,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(12.0),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              insect.name,
+                                              style: const TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                            const SizedBox(height: 4),
+                                            Text(
+                                              insect.scientificName,
+                                              style: TextStyle(
+                                                fontSize: 12,
+                                                color: Colors.grey[600],
+                                                fontStyle: FontStyle.italic,
+                                              ),
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                            const SizedBox(height: 8),
+                                            Row(
+                                              children: [
+                                                Icon(
+                                                  Icons.category_outlined,
+                                                  size: 16,
+                                                  color: AppTheme.calPolyGreen,
+                                                ),
+                                                const SizedBox(width: 4),
+                                                Expanded(
+                                                  child: Text(
+                                                    insect.categories.join(', '),
+                                                    style: TextStyle(
+                                                      fontSize: 12,
+                                                      color: Colors.grey[600],
+                                                    ),
+                                                    maxLines: 1,
+                                                    overflow: TextOverflow.ellipsis,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                    childCount: controller.filteredInsects.length,
+                  ),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 16,
+                    crossAxisSpacing: 16,
+                    childAspectRatio: 0.75,
+                  ),
                 ),
               );
-            }
-
-            return SliverPadding(
-              padding: const EdgeInsets.all(AppTheme.spacing),
-              sliver: SliverMasonryGrid.count(
-                crossAxisCount: 2,
-                mainAxisSpacing: AppTheme.spacing,
-                crossAxisSpacing: AppTheme.spacing,
-                itemBuilder: (context, index) {
-                  final insect = controller.filteredInsects[index];
-                  return InsectCard(insect: insect);
-                },
-                childCount: controller.filteredInsects.length,
-              ),
-            );
-          }),
-        ],
+            }),
+          ],
+        ),
       ),
     );
   }

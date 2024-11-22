@@ -46,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 elevation: 0,
                 leading: Builder(
                   builder: (context) => IconButton(
-                    icon: Icon(Icons.menu, color: AppTheme.calPolyGreen),
+                    icon: Icon(Icons.menu, color: AppTheme.emerald),
                     onPressed: () => Scaffold.of(context).openDrawer(),
                   ),
                 ),
@@ -311,9 +311,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Padding(
                           padding: const EdgeInsets.all(24),
                           child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Icon(
                                     feature['icon'] as IconData,
@@ -324,6 +326,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   Expanded(
                                     child: Text(
                                       feature['title'] as String,
+                                      textAlign: TextAlign.center,
                                       style: TextStyle(
                                         fontSize: 20,
                                         fontWeight: FontWeight.bold,
@@ -336,12 +339,15 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                               SizedBox(height: 16),
                               Expanded(
-                                child: Text(
-                                  feature['description'] as String,
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    height: 1.5,
-                                    color: Colors.black87,
+                                child: Center(
+                                  child: Text(
+                                    feature['description'] as String,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      height: 1.5,
+                                      color: Colors.black87,
+                                    ),
                                   ),
                                 ),
                               ),
