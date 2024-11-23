@@ -65,7 +65,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Container(
                           decoration: BoxDecoration(
                             image: DecorationImage(
-                              image: AssetImage('assets/images/insects/monarch_butterfly.jpg'),
+                              image: AssetImage(
+                                  'assets/images/insects/monarch_butterfly.jpg'),
                               fit: BoxFit.cover,
                               colorFilter: ColorFilter.mode(
                                 Colors.black.withOpacity(0.3),
@@ -145,7 +146,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               builder: (context, constraints) {
                                 if (constraints.maxWidth < 600) {
                                   return Column(
-                                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.stretch,
                                     children: [
                                       _buildActionButton(
                                         'Comenzar',
@@ -155,11 +157,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                       ),
                                       SizedBox(height: 16),
                                       Builder(
-                                        builder: (context) => _buildActionButton(
+                                        builder: (context) =>
+                                            _buildActionButton(
                                           'Ver Guía',
                                           Colors.white,
                                           Colors.black87,
-                                          () => Scaffold.of(context).openDrawer(),
+                                          () =>
+                                              Scaffold.of(context).openDrawer(),
                                         ),
                                       ),
                                     ],
@@ -178,11 +182,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                     SizedBox(width: 16),
                                     Expanded(
                                       child: Builder(
-                                        builder: (context) => _buildActionButton(
+                                        builder: (context) =>
+                                            _buildActionButton(
                                           'Ver Guía',
                                           Colors.white,
                                           Colors.black87,
-                                          () => Scaffold.of(context).openDrawer(),
+                                          () =>
+                                              Scaffold.of(context).openDrawer(),
                                         ),
                                       ),
                                     ),
@@ -225,77 +231,92 @@ class _HomeScreenState extends State<HomeScreen> {
                       final features = [
                         {
                           'title': 'Hábitats diversos',
-                          'description': 'Los insectos son extremadamente versátiles y pueden vivir en casi cualquier entorno terrestre, desde selvas tropicales hasta desiertos, y en ambientes acuáticos, como ríos y estanques.',
+                          'description':
+                              'Los insectos son extremadamente versátiles y pueden vivir en casi cualquier entorno terrestre, desde selvas tropicales hasta desiertos, y en ambientes acuáticos, como ríos y estanques.',
                           'icon': Icons.terrain,
                         },
                         {
                           'title': 'Tamaño pequeño',
-                          'description': 'Su tamaño varía ampliamente, pero en general, los insectos son pequeños, lo que les permite aprovechar recursos que otros animales no pueden y esconderse fácilmente de depredadores.',
+                          'description':
+                              'Su tamaño varía ampliamente, pero en general, los insectos son pequeños, lo que les permite aprovechar recursos que otros animales no pueden y esconderse fácilmente de depredadores.',
                           'icon': Icons.compress,
                         },
                         {
                           'title': 'Cuerpo segmentado',
-                          'description': 'Su cuerpo está dividido en tres regiones principales: cabeza, tórax y abdomen, cada una con funciones específicas.',
+                          'description':
+                              'Su cuerpo está dividido en tres regiones principales: cabeza, tórax y abdomen, cada una con funciones específicas.',
                           'icon': Icons.view_week,
                         },
                         {
                           'title': 'Exoesqueleto de quitina',
-                          'description': 'Este exoesqueleto protege a los insectos, les da soporte estructural y minimiza la pérdida de agua, siendo ideal para ambientes terrestres.',
+                          'description':
+                              'Este exoesqueleto protege a los insectos, les da soporte estructural y minimiza la pérdida de agua, siendo ideal para ambientes terrestres.',
                           'icon': Icons.shield,
                         },
                         {
                           'title': 'Respiración traqueal',
-                          'description': 'Los insectos respiran a través de un sistema de tráqueas (tubos ramificados) que llevan oxígeno directamente a las células, lo que elimina la necesidad de un sistema circulatorio para el transporte de oxígeno.',
+                          'description':
+                              'Los insectos respiran a través de un sistema de tráqueas (tubos ramificados) que llevan oxígeno directamente a las células, lo que elimina la necesidad de un sistema circulatorio para el transporte de oxígeno.',
                           'icon': Icons.air,
                         },
                         {
                           'title': 'Extremidades especializadas',
-                          'description': 'Sus patas están adaptadas a diferentes funciones según la especie, como caminar, correr, excavar, nadar o capturar presas.',
+                          'description':
+                              'Sus patas están adaptadas a diferentes funciones según la especie, como caminar, correr, excavar, nadar o capturar presas.',
                           'icon': Icons.directions_walk,
                         },
                         {
                           'title': 'Alimentación variada',
-                          'description': 'Los insectos tienen una dieta muy diversa, que incluye plantas, otros animales, materia en descomposición, y algunos incluso son parásitos. Su diversidad de piezas bucales refleja esta variedad alimenticia.',
+                          'description':
+                              'Los insectos tienen una dieta muy diversa, que incluye plantas, otros animales, materia en descomposición, y algunos incluso son parásitos. Su diversidad de piezas bucales refleja esta variedad alimenticia.',
                           'icon': Icons.restaurant_menu,
                         },
                         {
                           'title': 'Metamorfosis',
-                          'description': 'Muchos insectos pasan por transformaciones en su ciclo de vida: metamorfosis completa (huevo → larva → pupa → adulto) o incompleta (huevo → ninfa → adulto).',
+                          'description':
+                              'Muchos insectos pasan por transformaciones en su ciclo de vida: metamorfosis completa (huevo → larva → pupa → adulto) o incompleta (huevo → ninfa → adulto).',
                           'icon': Icons.change_circle,
                         },
                         {
                           'title': 'Alas',
-                          'description': 'Muchos insectos poseen alas, y son el único grupo de artrópodos que ha desarrollado vuelo verdadero, lo que les ha permitido colonizar nuevos hábitats.',
+                          'description':
+                              'Muchos insectos poseen alas, y son el único grupo de artrópodos que ha desarrollado vuelo verdadero, lo que les ha permitido colonizar nuevos hábitats.',
                           'icon': Icons.flight,
                         },
                         {
                           'title': 'Comportamientos sociales',
-                          'description': 'Algunos insectos, como las abejas, hormigas y termitas, tienen sociedades altamente organizadas, con divisiones de trabajo y comunicación compleja.',
+                          'description':
+                              'Algunos insectos, como las abejas, hormigas y termitas, tienen sociedades altamente organizadas, con divisiones de trabajo y comunicación compleja.',
                           'icon': Icons.groups,
                         },
                         {
                           'title': 'Capacidad de comunicación',
-                          'description': 'Los insectos se comunican utilizando señales químicas (feromonas), visuales (movimientos o colores) y sonoras (como el canto de los grillos).',
+                          'description':
+                              'Los insectos se comunican utilizando señales químicas (feromonas), visuales (movimientos o colores) y sonoras (como el canto de los grillos).',
                           'icon': Icons.chat,
                         },
                         {
                           'title': 'Impacto ecológico',
-                          'description': 'Desempeñan roles esenciales en los ecosistemas, como polinizadores, descomponedores y controladores de poblaciones de otros organismos.',
+                          'description':
+                              'Desempeñan roles esenciales en los ecosistemas, como polinizadores, descomponedores y controladores de poblaciones de otros organismos.',
                           'icon': Icons.eco,
                         },
                         {
                           'title': 'Diversidad increíble',
-                          'description': 'Con más de un millón de especies descritas y posiblemente millones más sin descubrir, los insectos son el grupo más diverso del reino animal.',
+                          'description':
+                              'Con más de un millón de especies descritas y posiblemente millones más sin descubrir, los insectos son el grupo más diverso del reino animal.',
                           'icon': Icons.diversity_3,
                         },
                         {
                           'title': 'Adaptaciones defensivas',
-                          'description': 'Incluyen camuflaje, colores aposemáticos (de advertencia), venenos y comportamientos como hacerse el muerto para evitar depredadores.',
+                          'description':
+                              'Incluyen camuflaje, colores aposemáticos (de advertencia), venenos y comportamientos como hacerse el muerto para evitar depredadores.',
                           'icon': Icons.security,
                         },
                         {
                           'title': 'Reproducción eficaz',
-                          'description': 'Su capacidad para poner grandes cantidades de huevos asegura la supervivencia de la especie, incluso bajo condiciones adversas.',
+                          'description':
+                              'Su capacidad para poner grandes cantidades de huevos asegura la supervivencia de la especie, incluso bajo condiciones adversas.',
                           'icon': Icons.egg_alt,
                         },
                       ];
@@ -394,7 +415,8 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildActionButton(String text, Color bgColor, Color textColor, VoidCallback onPressed) {
+  Widget _buildActionButton(
+      String text, Color bgColor, Color textColor, VoidCallback onPressed) {
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
@@ -540,10 +562,10 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             _buildDrawerItem(
-              icon: Icons.auto_stories,
-              title: 'Enciclopedia',
+              icon: Icons.search,
+              title: 'Busqueda de insectos',
               subtitle: 'Base de datos',
-              onTap: () => Get.toNamed('/encyclopedia'),
+              onTap: () => Get.toNamed('/insect-search'),
             ),
             _buildDrawerItem(
               icon: Icons.science,
@@ -627,7 +649,8 @@ class _HomeScreenState extends State<HomeScreen> {
     final topics = [
       EntomologyTopic(
         title: 'Introducción a la Entomología',
-        description: 'La entomología es la ciencia que estudia los insectos y su relación con el medio ambiente, los seres humanos y otros organismos.',
+        description:
+            'La entomología es la ciencia que estudia los insectos y su relación con el medio ambiente, los seres humanos y otros organismos.',
         content: [
           'Los insectos son la clase más diversa de animales en la Tierra',
           'Representan más del 80% de todas las especies animales conocidas',
@@ -637,7 +660,8 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       EntomologyTopic(
         title: 'Importancia en la Agricultura',
-        description: 'Los insectos juegan roles cruciales en la agricultura, tanto beneficiosos como perjudiciales.',
+        description:
+            'Los insectos juegan roles cruciales en la agricultura, tanto beneficiosos como perjudiciales.',
         content: [
           'Polinización de cultivos',
           'Control natural de plagas',
@@ -647,7 +671,8 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       EntomologyTopic(
         title: 'Anatomía y Morfología',
-        description: 'Características físicas y estructurales que definen a los insectos.',
+        description:
+            'Características físicas y estructurales que definen a los insectos.',
         content: [
           'División del cuerpo en cabeza, tórax y abdomen',
           'Presencia de tres pares de patas',
@@ -695,35 +720,37 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           const SizedBox(height: 32),
-          ...topic.content.map((item) => Padding(
-            padding: const EdgeInsets.only(bottom: 16),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  margin: const EdgeInsets.only(top: 12),
-                  width: 4,
-                  height: 4,
-                  decoration: BoxDecoration(
-                    color: AppTheme.emerald,
-                    borderRadius: BorderRadius.circular(2),
-                  ),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: Text(
-                    item,
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: AppTheme.officeGreen.withOpacity(0.8),
-                      height: 1.6,
-                      fontWeight: FontWeight.w300,
+          ...topic.content
+              .map((item) => Padding(
+                    padding: const EdgeInsets.only(bottom: 16),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.only(top: 12),
+                          width: 4,
+                          height: 4,
+                          decoration: BoxDecoration(
+                            color: AppTheme.emerald,
+                            borderRadius: BorderRadius.circular(2),
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: Text(
+                            item,
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: AppTheme.officeGreen.withOpacity(0.8),
+                              height: 1.6,
+                              fontWeight: FontWeight.w300,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                ),
-              ],
-            ),
-          )).toList(),
+                  ))
+              .toList(),
         ],
       ),
     );
@@ -740,11 +767,13 @@ class HexagonPattern extends CustomPainter {
 
     const double hexagonSize = 30;
     const double horizontalSpacing = hexagonSize * 1.5;
-    final double verticalSpacing = hexagonSize * 1.732; // aproximación de sqrt(3)
+    final double verticalSpacing =
+        hexagonSize * 1.732; // aproximación de sqrt(3)
 
     for (double x = 0; x < size.width + hexagonSize; x += horizontalSpacing) {
       for (double y = 0; y < size.height + hexagonSize; y += verticalSpacing) {
-        final double offsetX = (y ~/ verticalSpacing) % 2 == 0 ? 0 : horizontalSpacing / 2;
+        final double offsetX =
+            (y ~/ verticalSpacing) % 2 == 0 ? 0 : horizontalSpacing / 2;
         final path = Path();
         for (int i = 0; i < 6; i++) {
           final double angle = (i * 60) * math.pi / 180;
@@ -794,16 +823,18 @@ class _FooterSection extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 12),
-        ...items.map((item) => Padding(
-          padding: const EdgeInsets.only(bottom: 8),
-          child: Text(
-            item,
-            style: TextStyle(
-              fontSize: 14,
-              color: AppTheme.officeGreen.withOpacity(0.8),
-            ),
-          ),
-        )).toList(),
+        ...items
+            .map((item) => Padding(
+                  padding: const EdgeInsets.only(bottom: 8),
+                  child: Text(
+                    item,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: AppTheme.officeGreen.withOpacity(0.8),
+                    ),
+                  ),
+                ))
+            .toList(),
       ],
     );
   }
