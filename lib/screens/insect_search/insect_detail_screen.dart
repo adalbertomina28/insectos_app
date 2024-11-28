@@ -1,50 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:flutter_html/flutter_html.dart';
+import '../../controllers/insect_controller.dart';
 import '../../models/insect_model.dart';
-import '../../services/inaturalist_service.dart';
 import '../../theme/app_theme.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:intl/intl.dart';
 
-class InsectDetailScreen extends StatefulWidget {
+class InsectDetailScreen extends GetView<InsectController> {
   final Insect insect;
 
   const InsectDetailScreen({
     super.key,
     required this.insect,
   });
-
-  @override
-  State<InsectDetailScreen> createState() => _InsectDetailScreenState();
-}
-
-class _InsectDetailScreenState extends State<InsectDetailScreen> {
-  final INaturalistService _service = INaturalistService();
-  bool _isLoading = true;
-  String? _error;
-  Map<String, dynamic>? _details;
-
-  @override
-  void initState() {
-    super.initState();
-    _loadDetails();
-  }
-
-  Future<void> _loadDetails() async {
-    try {
-      final details = await _service.getInsectDetails(widget.insect.id);
-      setState(() {
-        _details = details;
-        _isLoading = false;
-      });
-    } catch (e) {
-      setState(() {
-        _error = e.toString();
-        _isLoading = false;
-      });
-    }
-  }
 
   Future<void> _launchUrl(String? url) async {
     if (url == null) return;
@@ -59,294 +28,138 @@ class _InsectDetailScreenState extends State<InsectDetailScreen> {
     }
   }
 
-  Widget _buildDetailSection({
-    required String title,
-    required Widget content,
-    EdgeInsets? padding,
-  }) {
-    return Container(
-      padding: padding ?? const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            title,
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: AppTheme.calPolyGreen,
-            ),
-          ),
-          const SizedBox(height: 8),
-          content,
-        ],
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      controller.getInsectDetails(insect.id);
+    });
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Detalles del Insecto'),
-        backgroundColor: AppTheme.calPolyGreen,
-        actions: [
-          if (widget.insect.wikipediaUrl != null)
-            IconButton(
-              icon: const Icon(Icons.open_in_new),
-              onPressed: () => _launchUrl(widget.insect.wikipediaUrl),
-              tooltip: 'Ver en Wikipedia',
-            ),
-        ],
+        title: Text(insect.preferredCommonName ?? insect.name),
+        elevation: 0,
       ),
-      body: _isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : _error != null
-              ? Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.error_outline,
-                        size: 64,
-                        color: Colors.red[300],
+      body: Obx(() {
+        if (controller.isLoading.value) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        if (controller.error.value.isNotEmpty) {
+          return Center(
+            child: Text(
+              controller.error.value,
+              style: const TextStyle(color: Colors.red),
+              textAlign: TextAlign.center,
+            ),
+          );
+        }
+
+        final selectedInsect = controller.selectedInsect.value;
+        if (selectedInsect == null) {
+          return const Center(
+            child: Text('No se encontraron detalles del insecto'),
+          );
+        }
+
+        return SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (selectedInsect.defaultPhoto != null)
+                CachedNetworkImage(
+                  imageUrl: selectedInsect.defaultPhoto!,
+                  width: double.infinity,
+                  height: 250,
+                  fit: BoxFit.cover,
+                  placeholder: (context, url) => Container(
+                    height: 250,
+                    color: Colors.grey[300],
+                    child: const Center(child: CircularProgressIndicator()),
+                  ),
+                  errorWidget: (context, url, error) => Container(
+                    height: 250,
+                    color: Colors.grey[300],
+                    child: const Icon(Icons.error),
+                  ),
+                ),
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      selectedInsect.preferredCommonName ?? selectedInsect.name,
+                      style: const TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    if (selectedInsect.scientificName != null)
+                      Text(
+                        selectedInsect.scientificName!,
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontStyle: FontStyle.italic,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    const SizedBox(height: 16),
+                    if (selectedInsect.wikipediaSummary != null) ...[
+                      const Text(
+                        'Descripción',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Html(
+                        data: selectedInsect.wikipediaSummary!,
+                        style: {
+                          "body": Style(
+                            fontSize: FontSize(16),
+                            margin: Margins.zero,
+                            padding: HtmlPaddings.zero,
+                          ),
+                          "p": Style(
+                            margin: Margins.zero,
+                            padding: HtmlPaddings.zero,
+                          ),
+                        },
                       ),
                       const SizedBox(height: 16),
-                      Text(
-                        'Error al cargar detalles',
+                    ],
+                    if (selectedInsect.ancestorTaxa != null) ...[
+                      const Text(
+                        'Clasificación',
                         style: TextStyle(
-                          fontSize: 20,
+                          fontSize: 18,
                           fontWeight: FontWeight.bold,
-                          color: Colors.red[300],
                         ),
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        'Por favor, intenta de nuevo más tarde',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.grey[600],
-                        ),
+                        selectedInsect.ancestorTaxa!,
+                        style: const TextStyle(fontSize: 16),
                       ),
+                      const SizedBox(height: 16),
                     ],
-                  ),
-                )
-              : SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Imagen principal
-                      if (widget.insect.defaultPhoto != null)
-                        CachedNetworkImage(
-                          imageUrl: widget.insect.defaultPhoto!,
-                          height: 250,
-                          width: double.infinity,
-                          fit: BoxFit.cover,
-                          placeholder: (context, url) => Container(
-                            color: AppTheme.calPolyGreen.withOpacity(0.1),
-                            child: const Center(
-                              child: CircularProgressIndicator(),
-                            ),
-                          ),
-                          errorWidget: (context, url, error) => Container(
-                            color: AppTheme.calPolyGreen.withOpacity(0.1),
-                            height: 250,
-                            child: const Center(
-                              child: Icon(
-                                Icons.error_outline,
-                                size: 48,
-                                color: AppTheme.calPolyGreen,
-                              ),
-                            ),
-                          ),
-                        ),
-
-                      // Información básica
-                      Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            if (widget.insect.preferredCommonName != null)
-                              Text(
-                                widget.insect.preferredCommonName!,
-                                style: const TextStyle(
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold,
-                                  color: AppTheme.calPolyGreen,
-                                ),
-                              ),
-                            const SizedBox(height: 8),
-                            Text(
-                              widget.insect.scientificName ?? widget.insect.name,
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontStyle: FontStyle.italic,
-                                color: Colors.grey[600],
-                              ),
-                            ),
-                          ],
+                    if (selectedInsect.wikipediaUrl != null)
+                      ElevatedButton.icon(
+                        onPressed: () => _launchUrl(selectedInsect.wikipediaUrl),
+                        icon: const Icon(Icons.open_in_new),
+                        label: const Text('Ver en Wikipedia'),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppTheme.calPolyGreen,
                         ),
                       ),
-
-                      // Estadísticas
-                      if (widget.insect.observationsCount != null)
-                        _buildDetailSection(
-                          title: 'Estadísticas',
-                          content: Row(
-                            children: [
-                              const Icon(
-                                Icons.visibility,
-                                size: 20,
-                                color: AppTheme.calPolyGreen,
-                              ),
-                              const SizedBox(width: 8),
-                              Text(
-                                '${NumberFormat.compact().format(widget.insect.observationsCount)} observaciones',
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                  color: AppTheme.calPolyGreen,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-
-                      // Taxonomía
-                      if (widget.insect.ancestorTaxa != null)
-                        _buildDetailSection(
-                          title: 'Clasificación Taxonómica',
-                          content: Text(
-                            widget.insect.ancestorTaxa!,
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.grey[700],
-                            ),
-                          ),
-                        ),
-
-                      // Información adicional del API
-                      if (_details != null) ...[
-                        if (_details!['wikipedia_summary'] != null)
-                          _buildDetailSection(
-                            title: 'Descripción',
-                            content: Text(
-                              _details!['wikipedia_summary'],
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.grey[700],
-                              ),
-                            ),
-                          ),
-
-                        if (_details!['conservation_status'] != null)
-                          _buildDetailSection(
-                            title: 'Estado de Conservación',
-                            content: Row(
-                              children: [
-                                Icon(
-                                  Icons.eco,
-                                  size: 20,
-                                  color: _getConservationStatusColor(_details!['conservation_status']['status']),
-                                ),
-                                const SizedBox(width: 8),
-                                Text(
-                                  _getConservationStatusText(_details!['conservation_status']['status']),
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    color: _getConservationStatusColor(_details!['conservation_status']['status']),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-
-                        if (_details!['wikipedia_url'] != null)
-                          _buildDetailSection(
-                            title: 'Enlaces',
-                            content: InkWell(
-                              onTap: () => _launchUrl(_details!['wikipedia_url']),
-                              child: Text(
-                                'Ver artículo completo en Wikipedia',
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                  color: AppTheme.calPolyGreen,
-                                  decoration: TextDecoration.underline,
-                                ),
-                              ),
-                            ),
-                          ),
-                      ],
-                      const Padding(
-                        padding: EdgeInsets.all(16.0),
-                        child: Column(
-                          children: [
-                            Divider(),
-                            SizedBox(height: 8),
-                            Text(
-                              'Datos proporcionados por iNaturalist',
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.grey,
-                              ),
-                            ),
-                            SizedBox(height: 4),
-                            Text(
-                              'www.inaturalist.org',
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: AppTheme.calPolyGreen,
-                              ),
-                            ),
-                            SizedBox(height: 16),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
+                  ],
                 ),
+              ),
+            ],
+          ),
+        );
+      }),
     );
-  }
-
-  Color _getConservationStatusColor(String status) {
-    switch (status.toLowerCase()) {
-      case 'extinct':
-        return Colors.black;
-      case 'extinct in the wild':
-        return Colors.red[900]!;
-      case 'critically endangered':
-        return Colors.red;
-      case 'endangered':
-        return Colors.orange;
-      case 'vulnerable':
-        return Colors.yellow[700]!;
-      case 'near threatened':
-        return Colors.blue;
-      case 'least concern':
-        return Colors.green;
-      default:
-        return Colors.grey;
-    }
-  }
-
-  String _getConservationStatusText(String status) {
-    switch (status.toLowerCase()) {
-      case 'extinct':
-        return 'Extinto';
-      case 'extinct in the wild':
-        return 'Extinto en Estado Silvestre';
-      case 'critically endangered':
-        return 'En Peligro Crítico';
-      case 'endangered':
-        return 'En Peligro';
-      case 'vulnerable':
-        return 'Vulnerable';
-      case 'near threatened':
-        return 'Casi Amenazado';
-      case 'least concern':
-        return 'Preocupación Menor';
-      default:
-        return 'Desconocido';
-    }
   }
 }

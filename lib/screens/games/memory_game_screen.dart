@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:math';
+import 'package:get/get.dart';
 import '../../theme/app_theme.dart';
+import '../../widgets/base_screen.dart';
 
 class MemoryGameScreen extends StatefulWidget {
   const MemoryGameScreen({Key? key}) : super(key: key);
@@ -19,12 +21,12 @@ class _MemoryGameScreenState extends State<MemoryGameScreen> {
   MemoryCard? selectedCard;
 
   final List<Map<String, String>> insectFacts = [
-    {'insect': '🦋 Mariposa', 'fact': 'Sufre metamorfosis completa'},
-    {'insect': '🐝 Abeja', 'fact': 'Polinizador esencial'},
-    {'insect': '🐞 Catarina', 'fact': 'Come plagas de áfidos'},
-    {'insect': '🦗 Grillo', 'fact': 'Canta frotando sus alas'},
-    {'insect': '🐜 Hormiga', 'fact': 'Vive en colonias organizadas'},
-    {'insect': '🪲 Escarabajo', 'fact': 'Tiene élitros protectores'},
+    {'insect': '🦋 ' + 'butterfly'.tr, 'fact': 'butterfly_fact'.tr},
+    {'insect': '🐝 ' + 'bee'.tr, 'fact': 'bee_fact'.tr},
+    {'insect': '🐞 ' + 'ladybug'.tr, 'fact': 'ladybug_fact'.tr},
+    {'insect': '🦗 ' + 'cricket'.tr, 'fact': 'cricket_fact'.tr},
+    {'insect': '🐜 ' + 'ant'.tr, 'fact': 'ant_fact'.tr},
+    {'insect': '🪲 ' + 'beetle'.tr, 'fact': 'beetle_fact'.tr},
   ];
 
   @override
@@ -111,12 +113,12 @@ class _MemoryGameScreenState extends State<MemoryGameScreen> {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('¡Felicitaciones! 🎉'),
+          title: Text('memory_game_won_title'.tr),
           content: Text(
-              '¡Has completado el juego en ${secondsElapsed ~/ 60}:${(secondsElapsed % 60).toString().padLeft(2, '0')}!'),
+              'memory_game_won_message'.tr + ' ${secondsElapsed ~/ 60}:${(secondsElapsed % 60).toString().padLeft(2, '0')}'),
           actions: <Widget>[
             TextButton(
-              child: const Text('Jugar de nuevo'),
+              child: Text('memory_game_play_again'.tr),
               onPressed: () {
                 Navigator.of(context).pop();
                 setState(() {
@@ -141,28 +143,32 @@ class _MemoryGameScreenState extends State<MemoryGameScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Juego de Memoria de Insectos'),
-        actions: [
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.only(right: 16.0),
-              child: Text(
-                'Tiempo: ${secondsElapsed ~/ 60}:${(secondsElapsed % 60).toString().padLeft(2, '0')}',
-                style: const TextStyle(fontSize: 16),
-              ),
-            ),
-          ),
-        ],
-      ),
-      body: Column(
+    return BaseScreen(
+      title: 'memory_game_title'.tr,
+      child: Column(
         children: [
           Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Text(
-              'Parejas encontradas: $matchesFound/${insectFacts.length}',
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'memory_game_matches'.tr + ': $matchesFound/6',
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: AppTheme.calPolyGreen,
+                  ),
+                ),
+                Text(
+                  'memory_game_time'.tr + ': ${secondsElapsed}s',
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: AppTheme.calPolyGreen,
+                  ),
+                ),
+              ],
             ),
           ),
           Expanded(

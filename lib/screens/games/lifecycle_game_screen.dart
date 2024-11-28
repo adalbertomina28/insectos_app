@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import '../../theme/app_theme.dart';
+import '../../widgets/base_screen.dart';
 
 class LifecycleGameScreen extends StatefulWidget {
   const LifecycleGameScreen({Key? key}) : super(key: key);
@@ -11,30 +13,30 @@ class LifecycleGameScreen extends StatefulWidget {
 class _LifecycleGameScreenState extends State<LifecycleGameScreen> {
   final List<Insect> insects = [
     Insect(
-      name: 'Mariposa Monarca',
+      name: 'monarch_butterfly'.tr,
       stages: [
-        Stage(name: 'Huevo', emoji: '🥚', order: 0),
-        Stage(name: 'Oruga', emoji: '🐛', order: 1),
-        Stage(name: 'Ninfa', emoji: '🧬', order: 2),
-        Stage(name: 'Mariposa', emoji: '🦋', order: 3),
+        Stage(name: 'egg'.tr, emoji: '🥚', order: 0),
+        Stage(name: 'caterpillar'.tr, emoji: '🐛', order: 1),
+        Stage(name: 'chrysalis'.tr, emoji: '🧬', order: 2),
+        Stage(name: 'butterfly'.tr, emoji: '🦋', order: 3),
       ],
     ),
     Insect(
-      name: 'Escarabajo',
+      name: 'beetle'.tr,
       stages: [
-        Stage(name: 'Huevo', emoji: '🥚', order: 0),
-        Stage(name: 'Larva', emoji: '🪱', order: 1),
-        Stage(name: 'Pupa', emoji: '🧬', order: 2),
-        Stage(name: 'Escarabajo', emoji: '🪲', order: 3),
+        Stage(name: 'egg'.tr, emoji: '🥚', order: 0),
+        Stage(name: 'larva'.tr, emoji: '🪱', order: 1),
+        Stage(name: 'pupa'.tr, emoji: '🧬', order: 2),
+        Stage(name: 'beetle'.tr, emoji: '🪲', order: 3),
       ],
     ),
     Insect(
-      name: 'Mosca',
+      name: 'fly'.tr,
       stages: [
-        Stage(name: 'Huevo', emoji: '🥚', order: 0),
-        Stage(name: 'Larva', emoji: '🪱', order: 1),
-        Stage(name: 'Pupa', emoji: '🧬', order: 2),
-        Stage(name: 'Mosca', emoji: '🪰', order: 3),
+        Stage(name: 'egg'.tr, emoji: '🥚', order: 0),
+        Stage(name: 'larva'.tr, emoji: '🪱', order: 1),
+        Stage(name: 'pupa'.tr, emoji: '🧬', order: 2),
+        Stage(name: 'fly'.tr, emoji: '🪰', order: 3),
       ],
     ),
   ];
@@ -68,54 +70,72 @@ class _LifecycleGameScreenState extends State<LifecycleGameScreen> {
       });
 
       Future.delayed(const Duration(seconds: 2), () {
-        setState(() {
-          showSuccess = false;
-          currentInsectIndex = (currentInsectIndex + 1) % insects.length;
-          _initializeStages();
-        });
+        if (mounted) {
+          setState(() {
+            showSuccess = false;
+            if (currentInsectIndex < insects.length - 1) {
+              currentInsectIndex++;
+              _initializeStages();
+            } else {
+              _showCompletionDialog();
+            }
+          });
+        }
       });
     }
   }
 
+  void _showCompletionDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('lifecycle_game_won_title'.tr),
+          content: Text('lifecycle_game_won_message'.tr),
+          actions: <Widget>[
+            TextButton(
+              child: Text('lifecycle_game_play_again'.tr),
+              onPressed: () {
+                Navigator.of(context).pop();
+                setState(() {
+                  currentInsectIndex = 0;
+                  _initializeStages();
+                });
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Ciclo de Vida'),
-        backgroundColor: AppTheme.calPolyGreen,
-      ),
-      body: Column(
+    return BaseScreen(
+      title: 'lifecycle_game_title'.tr,
+      child: Column(
         children: [
-          Container(
-            padding: const EdgeInsets.all(16),
-            color: AppTheme.calPolyGreen.withOpacity(0.1),
-            child: Column(
-              children: [
-                Text(
-                  insects[currentInsectIndex].name,
-                  style: const TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: AppTheme.calPolyGreen,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                const Text(
-                  'Arrastra y suelta las tarjetas para ordenarlas según el ciclo de vida del insecto',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 16),
-                ),
-                const SizedBox(height: 8),
-                const Text(
-                  '👆 Mantén presionada una tarjeta y arrástrala a su posición correcta',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.grey,
-                    fontStyle: FontStyle.italic,
-                  ),
-                ),
-              ],
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text(
+              insects[currentInsectIndex].name,
+              style: const TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: AppTheme.calPolyGreen,
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Text(
+              'lifecycle_game_instruction'.tr,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 16,
+                color: AppTheme.officeGreen.withOpacity(0.8),
+              ),
             ),
           ),
           Expanded(

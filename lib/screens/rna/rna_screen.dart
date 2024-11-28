@@ -4,15 +4,17 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import '../../theme/app_theme.dart';
 import '../../models/rna_content.dart';
+import '../../widgets/base_screen.dart';
 
 class RNAScreen extends StatelessWidget {
   const RNAScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return BaseScreen(
       backgroundColor: Colors.white,
-      body: CustomScrollView(
+      extendBody: true,
+      child: CustomScrollView(
         slivers: [
           SliverAppBar(
             expandedHeight: 300.0,
@@ -20,9 +22,9 @@ class RNAScreen extends StatelessWidget {
             pinned: true,
             backgroundColor: AppTheme.calPolyGreen,
             flexibleSpace: FlexibleSpaceBar(
-              title: const Text(
-                'ARN y Control Biológico',
-                style: TextStyle(
+              title: Text(
+                'rna_title'.tr,
+                style: const TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                   fontSize: 24,
@@ -51,20 +53,11 @@ class RNAScreen extends StatelessWidget {
                     ),
                   ),
                   Center(
-                    child: Container(
-                      width: 120,
-                      height: 120,
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.15),
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Center(
-                        child: Icon(
-                          Icons.biotech_outlined,
-                          size: 64,
-                          color: Colors.white,
-                        ),
-                      ),
+                    child: Lottie.asset(
+                      'assets/animations/dna.json',
+                      width: 200,
+                      height: 200,
+                      fit: BoxFit.contain,
                     ),
                   ),
                 ],
@@ -73,7 +66,8 @@ class RNAScreen extends StatelessWidget {
           ),
           SliverToBoxAdapter(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 32.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 24.0, vertical: 32.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -122,9 +116,9 @@ class RNAScreen extends StatelessWidget {
               ),
               const SizedBox(width: 16),
               Expanded(
-                child: const Text(
-                  'Tecnología Revolucionaria',
-                  style: TextStyle(
+                child: Text(
+                  'rna_intro_title'.tr,
+                  style: const TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                     color: AppTheme.calPolyGreen,
@@ -136,8 +130,7 @@ class RNAScreen extends StatelessWidget {
           ),
           const SizedBox(height: 24),
           Text(
-            'El control biológico mediante ARN representa una revolución en la protección de cultivos, '
-            'ofreciendo soluciones específicas y sostenibles para el manejo de plagas.',
+            'rna_intro_description'.tr,
             style: TextStyle(
               fontSize: 16,
               color: AppTheme.officeGreen.withOpacity(0.8),
@@ -179,7 +172,8 @@ class RNAScreen extends StatelessWidget {
             padding: const EdgeInsets.all(24.0),
             decoration: BoxDecoration(
               color: AppTheme.celadon.withOpacity(0.3),
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+              borderRadius:
+                  const BorderRadius.vertical(top: Radius.circular(16)),
             ),
             child: Row(
               children: [
@@ -198,7 +192,7 @@ class RNAScreen extends StatelessWidget {
                 const SizedBox(width: 16),
                 Expanded(
                   child: Text(
-                    content.title,
+                    content.title.tr,
                     style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
@@ -217,7 +211,7 @@ class RNAScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  content.description,
+                  content.description.tr,
                   style: TextStyle(
                     fontSize: 16,
                     color: AppTheme.officeGreen.withOpacity(0.8),
@@ -226,33 +220,33 @@ class RNAScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 24),
                 ...content.bulletPoints.map((point) => Padding(
-                  padding: const EdgeInsets.only(bottom: 16),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        margin: const EdgeInsets.only(top: 4),
-                        width: 6,
-                        height: 6,
-                        decoration: BoxDecoration(
-                          color: AppTheme.emerald,
-                          borderRadius: BorderRadius.circular(3),
-                        ),
-                      ),
-                      const SizedBox(width: 16),
-                      Expanded(
-                        child: Text(
-                          point,
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: AppTheme.officeGreen.withOpacity(0.8),
-                            height: 1.5,
+                      padding: const EdgeInsets.only(bottom: 16),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.only(top: 4),
+                            width: 6,
+                            height: 6,
+                            decoration: BoxDecoration(
+                              color: AppTheme.emerald,
+                              borderRadius: BorderRadius.circular(3),
+                            ),
                           ),
-                        ),
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: Text(
+                              point.tr,
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: AppTheme.officeGreen.withOpacity(0.8),
+                                height: 1.5,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                )),
+                    )),
               ],
             ),
           ),
@@ -283,9 +277,9 @@ class RNAScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 16),
-              const Text(
-                'Ejemplos en Cultivos',
-                style: TextStyle(
+              Text(
+                'rna_crop_examples_title'.tr,
+                style: const TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                   color: AppTheme.calPolyGreen,
@@ -335,10 +329,12 @@ class RNAScreen extends StatelessWidget {
             ),
           ),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: const BorderRadius.vertical(bottom: Radius.circular(16)),
+              borderRadius:
+                  const BorderRadius.vertical(bottom: Radius.circular(16)),
               boxShadow: [
                 BoxShadow(
                   color: AppTheme.calPolyGreen.withOpacity(0.05),
@@ -351,7 +347,7 @@ class RNAScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  example.cropName,
+                  example.cropName.tr,
                   style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -361,7 +357,7 @@ class RNAScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'Plaga objetivo: ${example.targetPest}',
+                  'rna_crop_pest'.tr + ': ${example.targetPest.tr}',
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
@@ -370,7 +366,7 @@ class RNAScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 16),
                 Text(
-                  example.description,
+                  example.description.tr,
                   style: TextStyle(
                     fontSize: 16,
                     color: AppTheme.officeGreen.withOpacity(0.8),
@@ -378,8 +374,9 @@ class RNAScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 16),
-                _buildInfoRow('Efectividad:', example.effectiveness),
-                _buildInfoRow('Proceso:', example.implementationProcess),
+                _buildInfoRow('rna_effectiveness'.tr, example.effectiveness.tr),
+                _buildInfoRow('rna_implementation_process'.tr,
+                    example.implementationProcess.tr),
               ],
             ),
           ),
@@ -431,7 +428,8 @@ class HexagonPattern extends CustomPainter {
 
     for (double x = 0; x < size.width + hexagonSize; x += horizontalSpacing) {
       for (double y = 0; y < size.height + hexagonSize; y += verticalSpacing) {
-        final double offsetX = (y ~/ verticalSpacing) % 2 == 0 ? 0 : horizontalSpacing / 2;
+        final double offsetX =
+            (y ~/ verticalSpacing) % 2 == 0 ? 0 : horizontalSpacing / 2;
         final path = Path();
         for (int i = 0; i < 6; i++) {
           final double angle = (i * 60) * math.pi / 180;

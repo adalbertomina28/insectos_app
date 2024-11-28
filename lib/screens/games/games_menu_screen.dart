@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../theme/app_theme.dart';
+import '../../widgets/base_screen.dart';
 import 'memory_game_screen.dart';
 import 'lifecycle_game_screen.dart';
 import 'classification_game_screen.dart';
@@ -10,32 +11,28 @@ class GamesMenuScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Juegos Educativos'),
-        backgroundColor: AppTheme.calPolyGreen,
-      ),
-      backgroundColor: Colors.white,
-      body: ListView(
+    return BaseScreen(
+      title: 'games_menu_title'.tr,
+      child: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
         children: [
           _buildGameCard(
-            title: 'Juego de Memoria',
-            description: 'Encuentra pares de insectos y aprende sobre sus características.',
+            title: 'memory_game_title'.tr,
+            description: 'memory_game_description'.tr,
             emoji: '🎴',
             onTap: () => Get.to(() => const MemoryGameScreen()),
           ),
           const SizedBox(height: 20),
           _buildGameCard(
-            title: 'Ciclo de Vida',
-            description: 'Ordena las etapas del ciclo de vida de diferentes insectos.',
+            title: 'lifecycle_game_title'.tr,
+            description: 'lifecycle_game_description'.tr,
             emoji: '🦋',
             onTap: () => Get.to(() => const LifecycleGameScreen()),
           ),
           const SizedBox(height: 20),
           _buildGameCard(
-            title: 'Clasificación',
-            description: 'Aprende a clasificar insectos según sus características como tipo de alas, antenas y metamorfosis.',
+            title: 'classification_game_title'.tr,
+            description: 'classification_game_description'.tr,
             emoji: '🐝',
             onTap: () => Get.to(() => const ClassificationGameScreen()),
           ),

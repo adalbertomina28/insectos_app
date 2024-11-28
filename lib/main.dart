@@ -1,40 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'screens/home/home_screen.dart';
-import 'theme/app_theme.dart';
 import 'routes/app_routes.dart';
+import 'theme/app_theme.dart';
+import 'translations/app_translations.dart';
+import 'controllers/language_controller.dart';
+import 'controllers/insect_controller.dart';
 
 void main() {
+  Get.put(LanguageController());
+  Get.put(InsectController());
   runApp(const InsectosApp());
 }
 
 class InsectosApp extends StatelessWidget {
-  const InsectosApp({Key? key}) : super(key: key);
+  const InsectosApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'Insect Lab',
-      theme: ThemeData(
-        primaryColor: AppTheme.primaryColor,
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: AppTheme.primaryColor,
-          brightness: Brightness.dark,
-        ),
-        useMaterial3: true,
-        scaffoldBackgroundColor: Colors.black,
-        cardTheme: CardTheme(
-          elevation: 4,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-        ),
-      ),
-      initialRoute: '/',
-      getPages: [
-        GetPage(name: '/', page: () => const HomeScreen()),
-        ...AppRoutes.pages,
-      ],
+      title: 'InsectLab',
+      theme: AppTheme.theme,
+      translations: AppTranslations(),
+      locale: const Locale('es'),
+      fallbackLocale: const Locale('en'),
+      getPages: AppRoutes.pages,
+      initialRoute: AppRoutes.home,
       debugShowCheckedModeBanner: false,
     );
   }
