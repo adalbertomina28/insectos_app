@@ -14,11 +14,11 @@ class InsectService {
     int perPage = 20,
   }) async {
     try {
-      final encodedQuery = Uri.encodeComponent(query);
+      // No codificar la consulta aquí, Uri.parse ya lo hará automáticamente
       final uri = Uri.parse(_baseUrl).replace(
         path: '/api/insects/search',
         queryParameters: {
-          'query': encodedQuery,
+          'query': query,
           'locale': locale,
           'page': page.toString(),
           'per_page': perPage.toString(),
@@ -30,18 +30,28 @@ class InsectService {
         headers: _headers,
       );
 
+      print('Realizando petición a: ${uri.toString()}');
+      print('Headers: $_headers');
+      
       if (response.statusCode == 200) {
+        print('Respuesta exitosa (200)');
         final decodedResponse = json.decode(utf8.decode(response.bodyBytes));
-        print('Response for insect search:');
+        print('Contenido de la respuesta: ${response.body.substring(0, response.body.length > 100 ? 100 : response.body.length)}...');
+        
         if (decodedResponse['results'] != null && decodedResponse['results'].isNotEmpty) {
           final firstResult = decodedResponse['results'][0];
-          print('First result default_photo structure: ${firstResult['default_photo']}');
+          print('Primer resultado: ${firstResult.toString().substring(0, firstResult.toString().length > 100 ? 100 : firstResult.toString().length)}...');
+        } else {
+          print('No se encontraron resultados o la estructura es diferente a la esperada');
+          print('Estructura de respuesta: ${decodedResponse.keys.toString()}');
         }
         return decodedResponse;
       } else if (response.statusCode == 429) {
+        print('Error 429: Límite de solicitudes excedido');
         throw Exception('Se ha excedido el límite de solicitudes. Por favor, intenta más tarde.');
       } else {
-        throw Exception('Error al buscar insectos: ${response.statusCode}');
+        print('Error ${response.statusCode}: ${response.body}');
+        throw Exception('Error al buscar insectos: ${response.statusCode}. Respuesta: ${response.body}');
       }
     } catch (e) {
       throw Exception('Error de conexión: $e');

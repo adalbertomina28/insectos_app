@@ -8,6 +8,7 @@ import '../screens/key_insects/key_insects_screen.dart';
 import '../screens/resources/resources_screen.dart';
 import '../screens/about/about_screen.dart';
 import '../screens/home/home_screen.dart';
+import '../screens/identification/identification_screen.dart';
 
 class AppRoutes {
   static const String home = '/';
@@ -17,6 +18,7 @@ class AppRoutes {
   static const String keyInsects = '/key-insects';
   static const String resources = '/resources';
   static const String about = '/about';
+  static const String identification = '/identification';
 
   static List<GetPage> pages = [
     GetPage(
@@ -47,6 +49,10 @@ class AppRoutes {
     GetPage(
       name: about,
       page: () => const AboutScreen(),
+    ),
+    GetPage(
+      name: identification,
+      page: () => IdentificationScreen(),
     ),
   ];
 }

@@ -153,6 +153,15 @@ class BaseScreen extends StatelessWidget {
                 Get.toNamed('/games');
               },
             ),
+            ListTile(
+              leading: const Icon(Icons.camera_alt),
+              title: Text('prediction'.tr),
+              subtitle: Text('identify_insects'.tr),
+              onTap: () {
+                Get.back();
+                Get.toNamed('/identification');
+              },
+            ),
           ],
         ),
       ),

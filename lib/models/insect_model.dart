@@ -32,7 +32,10 @@ class Insect {
     if (photoUrl != null) {
       // Convertir la URL de iNaturalist a nuestra URL proxy
       final Uri originalUri = Uri.parse(photoUrl);
-      photoUrl = 'http://localhost:8000/api/proxy/image?url=${Uri.encodeComponent(photoUrl)}';
+      // Usar 10.0.2.2 para emulador Android en lugar de localhost
+      photoUrl = 'http://10.0.2.2:8000/api/proxy/image?url=${Uri.encodeComponent(photoUrl)}';
+      // Para dispositivos físicos, usar la IP de la computadora en la red local
+      // photoUrl = 'http://192.168.1.X:8000/api/proxy/image?url=${Uri.encodeComponent(photoUrl)}';
     }
 
     return Insect(

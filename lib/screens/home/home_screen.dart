@@ -86,6 +86,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 (context, index) {
                   final features = [
                     {
+                      'title': 'prediction'.tr,
+                      'description': 'identify_insects'.tr,
+                      'icon': Icons.camera_alt,
+                    },
+                    {
                       'title': 'diverse_habitats'.tr,
                       'description': 'diverse_habitats_desc'.tr,
                       'icon': Icons.terrain,
@@ -169,6 +174,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     feature['title'] as String,
                     feature['description'] as String,
                     feature['icon'] as IconData,
+                    onTap: index == 0 ? () => Get.toNamed('/identification') : null,
                   );
                 },
                 childCount: 16,
@@ -273,41 +279,45 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildFeatureCard(String title, String description, IconData icon) {
+  Widget _buildFeatureCard(String title, String description, IconData icon, {VoidCallback? onTap}) {
     return Card(
       elevation: 4,
       color: AppTheme.calPolyGreen,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Icon(
-              icon,
-              size: 32,
-              color: Colors.white,
-            ),
-            const SizedBox(height: 16),
-            Text(
-              title,
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(16),
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Icon(
+                icon,
+                size: 32,
                 color: Colors.white,
               ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              description,
-              style: const TextStyle(
-                fontSize: 14,
-                color: Colors.white,
+              const SizedBox(height: 16),
+              Text(
+                title,
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
               ),
-            ),
-          ],
+              const SizedBox(height: 8),
+              Text(
+                description,
+                style: const TextStyle(
+                  fontSize: 14,
+                  color: Colors.white,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

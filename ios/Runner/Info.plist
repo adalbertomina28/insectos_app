@@ -45,5 +45,14 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<!-- Permisos para la funcionalidad de identificación de insectos -->
+	<key>NSCameraUsageDescription</key>
+	<string>Esta aplicación necesita acceso a la cámara para tomar fotos de insectos para su identificación</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Esta aplicación necesita acceso a la galería para seleccionar fotos de insectos para su identificación</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Esta aplicación utiliza tu ubicación para mejorar la precisión de la identificación de insectos</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Esta aplicación utiliza tu ubicación para mejorar la precisión de la identificación de insectos</string>
 </dict>
 </plist>
