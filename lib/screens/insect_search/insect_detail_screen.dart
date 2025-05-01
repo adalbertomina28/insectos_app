@@ -146,11 +146,12 @@ class InsectDetailScreen extends GetView<InsectController> {
                     ],
                     if (selectedInsect.wikipediaUrl != null)
                       ElevatedButton.icon(
-                        onPressed: () => _launchUrl(selectedInsect.wikipediaUrl),
+                        onPressed: () =>
+                            _launchUrl(selectedInsect.wikipediaUrl),
                         icon: const Icon(Icons.open_in_new),
-                        label: const Text('Ver en Wikipedia'),
+                        label: const Text('Aprende más'),
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: AppTheme.calPolyGreen,
+                          backgroundColor: AppTheme.backgroundColor,
                         ),
                       ),
                   ],
