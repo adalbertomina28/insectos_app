@@ -8,7 +8,7 @@ class LanguageSelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton<String>(
-      icon: const Icon(Icons.language, color: Color.fromRGBO(67, 160, 71, 1)),
+      icon: const Icon(Icons.language, color: Colors.white),
       onSelected: (String langCode) {
         LanguageController.to.changeLanguage(langCode);
       },
@@ -20,7 +20,8 @@ class LanguageSelector extends StatelessWidget {
               Obx(() => Radio<String>(
                     value: 'es',
                     groupValue: LanguageController.to.currentLanguage.value,
-                    onChanged: (_) => LanguageController.to.changeLanguage('es'),
+                    onChanged: (_) =>
+                        LanguageController.to.changeLanguage('es'),
                     fillColor: WidgetStateProperty.all(Colors.white),
                   )),
               Text(
@@ -37,7 +38,8 @@ class LanguageSelector extends StatelessWidget {
               Obx(() => Radio<String>(
                     value: 'en',
                     groupValue: LanguageController.to.currentLanguage.value,
-                    onChanged: (_) => LanguageController.to.changeLanguage('en'),
+                    onChanged: (_) =>
+                        LanguageController.to.changeLanguage('en'),
                     fillColor: WidgetStateProperty.all(Colors.white),
                   )),
               Text(

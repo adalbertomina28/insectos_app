@@ -31,27 +31,12 @@ class _HomeScreenState extends State<HomeScreen> {
     super.dispose();
   }
 
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: Builder(
-          builder: (context) => IconButton(
-            icon: Icon(
-              Icons.menu,
-              color: AppTheme.calPolyGreen,
-            ),
-            onPressed: () {
-              Scaffold.of(context).openDrawer();
-            },
-          ),
-        ),
-        actions: [
-          LanguageSelector(),
-        ],
-      ),
+      key: _scaffoldKey,
       drawer: BaseScreen.buildDrawer(context),
       body: CustomScrollView(
         controller: _scrollController,
@@ -234,6 +219,34 @@ class _HomeScreenState extends State<HomeScreen> {
               painter: HexagonPattern(),
             ),
           ),
+          // Barra superior con menú y selector de idioma
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    IconButton(
+                      icon: const Icon(
+                        Icons.menu,
+                        color: Colors.white,
+                        size: 28,
+                      ),
+                      onPressed: () {
+                        _scaffoldKey.currentState?.openDrawer();
+                      },
+                    ),
+                    const LanguageSelector(),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          // Contenido central
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
