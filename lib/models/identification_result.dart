@@ -52,7 +52,7 @@ class IdentificationMatch {
           json['taxon']['default_photo']['medium_url'] as String;
       // Usar 10.0.2.2 para emulador Android en lugar de localhost
       photoUrl =
-          'http://localhost:8000/api/proxy/image?url=${Uri.encodeComponent(originalUrl)}';
+          'https://insectlab-backend-13e7bfe70f0a.herokuapp.com/api/proxy/image?url=${Uri.encodeComponent(originalUrl)}';
     }
 
     return IdentificationMatch(

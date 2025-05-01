@@ -34,7 +34,7 @@ class Insect {
       final Uri originalUri = Uri.parse(photoUrl);
       // Usar 10.0.2.2 para emulador Android en lugar de localhost
       photoUrl =
-          'http://localhost:8000/api/proxy/image?url=${Uri.encodeComponent(photoUrl)}';
+          'https://insectlab-backend-13e7bfe70f0a.herokuapp.com/api/proxy/image?url=${Uri.encodeComponent(photoUrl)}';
       // Para dispositivos físicos, usar la IP de la computadora en la red local
       // photoUrl = 'http://192.168.1.X:8000/api/proxy/image?url=${Uri.encodeComponent(photoUrl)}';
     }
