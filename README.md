@@ -2,41 +2,41 @@
 
 InsectLab es una aplicación móvil desarrollada con Flutter que proporciona una plataforma educativa completa sobre entomología, con un enfoque especial en la identificación y clasificación de insectos, así como en el control biológico de plagas mediante tecnología de ARN.
 
-![InsectLab Logo](images/logo/insectlab_logo.png)
-
 ## Características Principales
+
+### 1. Base de Datos de Insectos
+- Catálogo extenso de especies de insectos
+- Búsqueda por nombre, familia o características
+- Información detallada sobre cada especie
+- Enlaces a recursos externos como Wikipedia
+
+### 2. Educación Entomológica
+- Introducción a la entomología
+- Información sobre anatomía de insectos
+- Ciclos de vida y comportamientos
+- Importancia ecológica y económica
+
+### 3. Control Biológico y ARN
+- Explicación de la tecnología de ARN para control de plagas
+- Ejemplos prácticos en cultivos importantes (arroz, café, plátano, sandía)
+- Información sobre efectividad y procesos de implementación
+
+### 4. Características Técnicas
+- Interfaz de usuario intuitiva y atractiva
+- Soporte multilingüe (Español e Inglés)
+- Modo oscuro/claro adaptable
+- Diseño responsivo para diferentes tamaños de pantalla
+
+## PROXIMAMENTE
 
 ### 1. Identificación de Insectos con IA
 - Captura de fotos para identificación automática
 - Integración con servicios de geolocalización para mejorar la precisión
 - Visualización de resultados con nivel de confianza
 
-### 2. Base de Datos de Insectos
-- Catálogo extenso de especies de insectos
-- Búsqueda por nombre, familia o características
-- Información detallada sobre cada especie
-- Enlaces a recursos externos como Wikipedia
-
-### 3. Educación Entomológica
-- Introducción a la entomología
-- Información sobre anatomía de insectos
-- Ciclos de vida y comportamientos
-- Importancia ecológica y económica
-
-### 4. Control Biológico y ARN
-- Explicación de la tecnología de ARN para control de plagas
-- Ejemplos prácticos en cultivos importantes (arroz, café, plátano, sandía)
-- Información sobre efectividad y procesos de implementación
-
-### 5. Juegos Educativos
+### 2. Juegos Educativos
 - Actividades interactivas para aprender sobre insectos
 - Cuestionarios y retos de identificación
-
-### 6. Características Técnicas
-- Interfaz de usuario intuitiva y atractiva
-- Soporte multilingüe (Español e Inglés)
-- Modo oscuro/claro adaptable
-- Diseño responsivo para diferentes tamaños de pantalla
 
 ## Tecnologías Utilizadas
 
@@ -85,4 +85,4 @@ Este proyecto está licenciado bajo la Licencia MIT - ver el archivo LICENSE par
 
 ## Contacto
 
-Para más información, contacta con el equipo de desarrollo en info@insectlab.app
+Para más información, contacta con el equipo de desarrollo en bugsappproject@gmail.com
