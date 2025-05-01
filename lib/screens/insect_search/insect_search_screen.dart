@@ -35,19 +35,6 @@ class InsectSearchScreen extends StatelessWidget {
                   'images/home/insect_search.jpg',
                   fit: BoxFit.cover,
                 ),
-                // Overlay de color para mejor visibilidad del texto
-                Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: [
-                        AppTheme.calPolyGreen.withOpacity(0.7),
-                        AppTheme.officeGreen.withOpacity(0.7),
-                      ],
-                    ),
-                  ),
-                ),
                 // Contenido del header
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),

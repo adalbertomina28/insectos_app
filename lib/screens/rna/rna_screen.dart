@@ -52,18 +52,6 @@ class RNAScreen extends StatelessWidget {
                     'images/insects/control-biologico.jpeg',
                     fit: BoxFit.cover,
                   ),
-                  Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [
-                          AppTheme.calPolyGreen.withOpacity(0.7),
-                          AppTheme.officeGreen.withOpacity(0.7),
-                        ],
-                      ),
-                    ),
-                  ),
                   Opacity(
                     opacity: 0.1,
                     child: CustomPaint(
