@@ -59,22 +59,24 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           SliverPadding(
-            padding: const EdgeInsets.fromLTRB(48, 0, 48, 64),
+            padding: const EdgeInsets.fromLTRB(
+                24, 0, 24, 64), // Reducido el padding horizontal
             sliver: SliverGrid(
               gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                maxCrossAxisExtent: 400,
-                mainAxisSpacing: 24,
-                crossAxisSpacing: 24,
-                childAspectRatio: 1.2,
+                maxCrossAxisExtent: 350, // Reducido de 400 a 350
+                mainAxisSpacing: 16, // Reducido de 24 a 16
+                crossAxisSpacing: 16, // Reducido de 24 a 16
+                childAspectRatio:
+                    1.5, // Aumentado de 1.2 a 1.5 para dar más espacio horizontal
               ),
               delegate: SliverChildBuilderDelegate(
                 (context, index) {
                   final features = [
-                    {
+                    /** {
                       'title': 'prediction'.tr,
                       'description': 'identify_insects'.tr,
                       'icon': Icons.camera_alt,
-                    },
+                    }, */
                     {
                       'title': 'diverse_habitats'.tr,
                       'description': 'diverse_habitats_desc'.tr,
@@ -260,12 +262,17 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 SizedBox(height: 16),
-                Text(
-                  'main_text'.tr,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                  child: Text(
+                    'main_text'.tr,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 22, // Reducido de 24 a 22
+                    ),
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
                 SizedBox(height: 32),
@@ -307,30 +314,38 @@ class _HomeScreenState extends State<HomeScreen> {
         onTap: onTap,
         borderRadius: BorderRadius.circular(16),
         child: Padding(
-          padding: const EdgeInsets.all(24),
+          padding: const EdgeInsets.all(16), // Reducido de 24 a 16
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize:
+                MainAxisSize.min, // Ajusta el tamaño al mínimo necesario
             children: [
               Icon(
                 icon,
-                size: 32,
+                size: 28, // Reducido de 32 a 28
                 color: Colors.white,
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 12), // Reducido de 16 a 12
               Text(
                 title,
                 style: const TextStyle(
-                  fontSize: 20,
+                  fontSize: 18, // Reducido de 20 a 18
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                 ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
-              const SizedBox(height: 8),
-              Text(
-                description,
-                style: const TextStyle(
-                  fontSize: 14,
-                  color: Colors.white,
+              const SizedBox(height: 6), // Reducido de 8 a 6
+              Flexible(
+                child: Text(
+                  description,
+                  style: const TextStyle(
+                    fontSize: 13, // Reducido de 14 a 13
+                    color: Colors.white,
+                  ),
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
             ],
