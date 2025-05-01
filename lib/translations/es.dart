@@ -16,12 +16,15 @@ const Map<String, String> es = {
   'try_different_image': 'Intenta con una imagen diferente o más clara',
   'confidence': 'Confianza',
   'use_location': 'Usar ubicación',
-  'location_improves_accuracy': 'La ubicación mejora la precisión de la identificación',
+  'location_improves_accuracy':
+      'La ubicación mejora la precisión de la identificación',
   'permission_denied': 'Permiso denegado',
   'location_permission_required': 'Se requiere permiso de ubicación',
   'error_getting_location': 'Error al obtener la ubicación',
-  'location_services_disabled': 'Los servicios de ubicación están desactivados. Por favor, actívalos en la configuración de tu dispositivo.',
-  'location_permission_permanently_denied': 'Permiso de ubicación denegado permanentemente. Por favor, habilítalo en la configuración de tu dispositivo.',
+  'location_services_disabled':
+      'Los servicios de ubicación están desactivados. Por favor, actívalos en la configuración de tu dispositivo.',
+  'location_permission_permanently_denied':
+      'Permiso de ubicación denegado permanentemente. Por favor, habilítalo en la configuración de tu dispositivo.',
   'prediction': 'Predicción',
   'identify_insects': 'Identificar insectos con IA',
   // Títulos
@@ -61,7 +64,21 @@ const Map<String, String> es = {
   'learn_by_playing': 'Aprende Jugando',
   'about': 'Acerca de',
   'about_app': 'Acerca de la app',
+  'about_insectlab': 'Acerca de InsectLab',
   'our_mission': 'Nuestra Misión',
+  'mission_description':
+      'InsectLab nace con el propósito de hacer accesible el fascinante mundo de la entomología a estudiantes, profesionales y entusiastas. Nuestra misión es proporcionar una plataforma educativa en constante evolución, completa y precisa sobre los insectos.',
+  'team': 'Equipo',
+  'software_engineer': 'Ingeniero de Software',
+  'software_engineer_desc':
+      'Especialista en desarrollo de aplicaciones y arquitectura tecnológica.',
+  'contact': 'Contacto',
+  'email': 'Email',
+  'phone': 'Teléfono',
+  'location': 'Ubicación',
+  'collaborate': 'Colabora con Nosotros',
+  'collaborate_desc':
+      'Si eres entomólogo, biólogo o entusiasta de los insectos y te gustaría contribuir con contenido para la aplicación, ¡nos encantaría escucharte!',
 
   // Entomología
   'introduction_to_entomology': 'Introducción a la Entomología',
@@ -110,6 +127,9 @@ const Map<String, String> es = {
   'tracheal_breathing': 'Respiración traqueal',
   'tracheal_breathing_desc':
       'Los insectos respiran a través de un sistema de tráqueas (tubos ramificados) que llevan oxígeno directamente a las células, lo que elimina la necesidad de un sistema circulatorio para el transporte de oxígeno.',
+  'tracheal_respiration': 'Respiración Traqueal',
+  'tracheal_respiration_desc':
+      'Los insectos respiran a través de un sistema de tráqueas (tubos ramificados) que transportan oxígeno directamente a las células, eliminando la necesidad de un sistema circulatorio para el transporte de oxígeno.',
   'specialized_limbs': 'Extremidades especializadas',
   'specialized_limbs_desc':
       'Sus patas están adaptadas a diferentes funciones según la especie, como caminar, correr, excavar, nadar o capturar presas.',
@@ -121,8 +141,8 @@ const Map<String, String> es = {
       'Muchos insectos pasan por transformaciones en su ciclo de vida: metamorfosis completa (huevo → larva → pupa → adulto) o incompleta (huevo → ninfa → adulto).',
   'wings_desc':
       'Muchos insectos poseen alas, y son el único grupo de artrópodos que ha desarrollado vuelo verdadero, lo que les ha permitido colonizar nuevos hábitats.',
-  'social_behaviors': 'Comportamientos sociales',
-  'social_behaviors_desc':
+  'social_behavior': 'Comportamientos sociales',
+  'social_behavior_desc':
       'Algunos insectos, como las abejas, hormigas y termitas, tienen sociedades altamente organizadas, con divisiones de trabajo y comunicación compleja.',
   'communication': 'Capacidad de comunicación',
   'communication_desc':
@@ -144,7 +164,7 @@ const Map<String, String> es = {
   'explore': 'Explorar',
 
   // RNA Screen
-  'rna_title': 'ARN y Control Biológico',
+  'rna_title': 'Control Biológico',
   'rna_intro_title': 'Tecnología Revolucionaria',
   'rna_intro_description':
       'El control biológico mediante ARN representa una revolución en la protección de cultivos, ofreciendo soluciones específicas y sostenibles para el manejo de plagas.',
@@ -152,6 +172,66 @@ const Map<String, String> es = {
   'rna_crop_pest': 'Plaga objetivo',
   'rna_effectiveness': 'Efectividad',
   'rna_implementation_process': 'Proceso',
+  'rna_basics_title': 'Fundamentos del ARN',
+
+  // RNA Content
+  'rna_what_is': '¿Qué es el ARN?',
+  'rna_what_is_desc':
+      'El ARN (Ácido Ribonucleico) es una molécula fundamental en el control biológico de insectos plaga.',
+  'rna_bullet_essential': 'Molécula esencial para la vida',
+  'rna_bullet_synthesis': 'Participa en la síntesis de proteínas',
+  'rna_bullet_control': 'Puede ser utilizado para control específico de plagas',
+  'rna_bullet_tech': 'Tecnología de vanguardia en agricultura sostenible',
+
+  'rna_mechanism': 'Mecanismo de RNAi',
+  'rna_mechanism_desc':
+      'El ARN de interferencia (RNAi) es un mecanismo natural que puede ser utilizado para silenciar genes específicos en insectos plaga.',
+  'rna_bullet_silencing': 'Silenciamiento génico específico',
+  'rna_bullet_natural': 'Proceso natural y seguro',
+  'rna_bullet_effective': 'Alta efectividad',
+  'rna_bullet_impact': 'Mínimo impacto ambiental',
+
+  'rna_action': 'Proceso de Acción',
+  'rna_action_desc':
+      'El proceso de control mediante ARN implica varios pasos desde su diseño hasta su aplicación en campo.',
+  'rna_bullet_identification': 'Identificación del gen objetivo',
+  'rna_bullet_design': 'Diseño de la secuencia de ARN',
+  'rna_bullet_formulation': 'Formulación del producto',
+  'rna_bullet_application': 'Aplicación en campo',
+
+  // Crop Examples
+  'crop_rice': 'Arroz',
+  'pest_sogata': 'Sogata (Tagosodes orizicolus)',
+  'rice_desc':
+      'Control de la sogata, vector del virus de la hoja blanca, mediante ARN específico que interrumpe genes esenciales para su desarrollo. Cultivo de gran importancia en las provincias de Chiriquí y Coclé.',
+  'rice_effectiveness':
+      '82% de reducción en la transmisión del virus de la hoja blanca',
+  'rice_process':
+      'Aplicación foliar cada 10-14 días durante la etapa de crecimiento vegetativo',
+
+  'crop_coffee': 'Café',
+  'pest_coffee_borer': 'Broca del café (Hypothenemus hampei)',
+  'coffee_desc':
+      'Protección del cultivo de café contra la broca mediante tecnología de ARN. Especialmente relevante para las plantaciones de altura en Boquete y Volcán.',
+  'coffee_effectiveness': '88% de reducción en la infestación de granos',
+  'coffee_process':
+      'Tratamiento preventivo al inicio de la temporada y aplicaciones dirigidas durante la fructificación',
+
+  'crop_banana': 'Plátano',
+  'pest_black_weevil': 'Picudo negro (Cosmopolites sordidus)',
+  'banana_desc':
+      'Control específico del picudo negro del plátano sin afectar a insectos benéficos. Cultivo fundamental en la economía de Barú y otras regiones del país.',
+  'banana_effectiveness': '75% de reducción en daños al cormo y pseudotallo',
+  'banana_process':
+      'Aplicación en trampas y tratamiento directo a la base de las plantas cada 30 días',
+
+  'crop_watermelon': 'Sandía',
+  'pest_whitefly': 'Mosca blanca (Bemisia tabaci)',
+  'watermelon_desc':
+      'Manejo integrado de la mosca blanca en cultivos de sandía de la península de Azuero, principal zona productora de esta fruta en Panamá.',
+  'watermelon_effectiveness': '80% de control de poblaciones en campo abierto',
+  'watermelon_process':
+      'Aplicación semanal durante las primeras etapas del cultivo, combinado con otras estrategias de manejo integrado',
 
   // Games Menu Screen
   'games_menu_title': 'Juegos Educativos',

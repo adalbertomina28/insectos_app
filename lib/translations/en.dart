@@ -20,8 +20,10 @@ const Map<String, String> en = {
   'permission_denied': 'Permission Denied',
   'location_permission_required': 'Location permission is required',
   'error_getting_location': 'Error getting location',
-  'location_services_disabled': 'Location services are disabled. Please enable them in your device settings.',
-  'location_permission_permanently_denied': 'Location permission permanently denied. Please enable it in your device settings.',
+  'location_services_disabled':
+      'Location services are disabled. Please enable them in your device settings.',
+  'location_permission_permanently_denied':
+      'Location permission permanently denied. Please enable it in your device settings.',
   'prediction': 'Prediction',
   'identify_insects': 'Identify insects with AI',
   // Titles
@@ -60,7 +62,21 @@ const Map<String, String> en = {
   'learn_by_playing': 'Learn by Playing',
   'about': 'About',
   'about_app': 'About the app',
+  'about_insectlab': 'About InsectLab',
   'our_mission': 'Our Mission',
+  'mission_description':
+      'InsectLab was created with the purpose of making the fascinating world of entomology accessible to students, professionals, and enthusiasts. Our mission is to provide an evolving, comprehensive, and accurate educational platform about insects.',
+  'team': 'Team',
+  'software_engineer': 'Software Engineer',
+  'software_engineer_desc':
+      'Specialist in application development and technological architecture.',
+  'contact': 'Contact',
+  'email': 'Email',
+  'phone': 'Phone',
+  'location': 'Location',
+  'collaborate': 'Collaborate with Us',
+  'collaborate_desc':
+      'If you are an entomologist, biologist, or insect enthusiast and would like to contribute content to the application, we would love to hear from you!',
   'app_subtitle': 'Entomological Education',
 
   // Entomology
@@ -152,7 +168,7 @@ const Map<String, String> en = {
       'Some insects, like bees, ants, and termites, have highly organized societies with divisions of labor and complex communication.',
 
   // RNA Screen
-  'rna_title': 'RNA and Biological Control',
+  'rna_title': 'Biological Control',
   'rna_intro_title': 'Revolutionary Technology',
   'rna_intro_description':
       'RNA-based biological control represents a revolution in crop protection, offering specific and sustainable solutions for pest management.',
@@ -160,6 +176,65 @@ const Map<String, String> en = {
   'rna_crop_pest': 'Target pest',
   'rna_effectiveness': 'Effectiveness',
   'rna_implementation_process': 'Process',
+  'rna_basics_title': 'RNA Basics',
+
+  // RNA Content
+  'rna_what_is': 'What is RNA?',
+  'rna_what_is_desc':
+      'RNA (Ribonucleic Acid) is a fundamental molecule in the biological control of insect pests.',
+  'rna_bullet_essential': 'Essential molecule for life',
+  'rna_bullet_synthesis': 'Participates in protein synthesis',
+  'rna_bullet_control': 'Can be used for specific pest control',
+  'rna_bullet_tech': 'Cutting-edge technology in sustainable agriculture',
+
+  'rna_mechanism': 'RNAi Mechanism',
+  'rna_mechanism_desc':
+      'RNA interference (RNAi) is a natural mechanism that can be used to silence specific genes in pest insects.',
+  'rna_bullet_silencing': 'Specific gene silencing',
+  'rna_bullet_natural': 'Natural and safe process',
+  'rna_bullet_effective': 'High effectiveness',
+  'rna_bullet_impact': 'Minimal environmental impact',
+
+  'rna_action': 'Action Process',
+  'rna_action_desc':
+      'The RNA control process involves several steps from design to field application.',
+  'rna_bullet_identification': 'Target gene identification',
+  'rna_bullet_design': 'RNA sequence design',
+  'rna_bullet_formulation': 'Product formulation',
+  'rna_bullet_application': 'Field application',
+
+  // Crop Examples
+  'crop_rice': 'Rice',
+  'pest_sogata': 'Sogata (Tagosodes orizicolus)',
+  'rice_desc':
+      'Control of sogata, vector of the white leaf virus, using specific RNA that interrupts genes essential for its development. Crop of great importance in the provinces of Chiriquí and Coclé.',
+  'rice_effectiveness': '82% reduction in white leaf virus transmission',
+  'rice_process':
+      'Foliar application every 10-14 days during the vegetative growth stage',
+
+  'crop_coffee': 'Coffee',
+  'pest_coffee_borer': 'Coffee borer (Hypothenemus hampei)',
+  'coffee_desc':
+      'Protection of coffee crops against the borer using RNA technology. Especially relevant for highland plantations in Boquete and Volcán.',
+  'coffee_effectiveness': '88% reduction in grain infestation',
+  'coffee_process':
+      'Preventive treatment at the beginning of the season and targeted applications during fruiting',
+
+  'crop_banana': 'Banana',
+  'pest_black_weevil': 'Black weevil (Cosmopolites sordidus)',
+  'banana_desc':
+      'Specific control of the black banana weevil without affecting beneficial insects. Fundamental crop in the economy of Barú and other regions of the country.',
+  'banana_effectiveness': '75% reduction in damage to corm and pseudostem',
+  'banana_process':
+      'Application in traps and direct treatment to the base of plants every 30 days',
+
+  'crop_watermelon': 'Watermelon',
+  'pest_whitefly': 'Whitefly (Bemisia tabaci)',
+  'watermelon_desc':
+      'Integrated management of whitefly in watermelon crops of the Azuero peninsula, the main producing area of this fruit in Panama.',
+  'watermelon_effectiveness': '80% control of populations in open field',
+  'watermelon_process':
+      'Weekly application during the early stages of cultivation, combined with other integrated management strategies',
 
   // Games Menu Screen
   'games_menu_title': 'Educational Games',

@@ -144,22 +144,34 @@ class RNAScreen extends StatelessWidget {
   Widget _buildBasicsSection() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: rnaBasics.map((content) => _buildContentCard(content)).toList(),
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(bottom: 16.0),
+          child: Text(
+            'rna_basics_title'.tr,
+            style: const TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              color: AppTheme.calPolyGreen,
+            ),
+          ),
+        ),
+        ...rnaBasics.map((content) => _buildContentCard(content)).toList(),
+      ],
     );
   }
 
   Widget _buildContentCard(RNAContent content) {
     return Container(
       margin: const EdgeInsets.only(bottom: 24),
-      width: double.infinity,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: AppTheme.calPolyGreen.withOpacity(0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
+            color: AppTheme.calPolyGreen.withOpacity(0.08),
+            blurRadius: 15,
+            offset: const Offset(0, 5),
           ),
         ],
       ),
@@ -167,10 +179,9 @@ class RNAScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(24.0),
+            padding: const EdgeInsets.all(24),
             decoration: BoxDecoration(
-              color: AppTheme.celadon.withOpacity(0.3),
+              color: AppTheme.calPolyGreen.withOpacity(0.1),
               borderRadius:
                   const BorderRadius.vertical(top: Radius.circular(16)),
             ),
@@ -196,16 +207,14 @@ class RNAScreen extends StatelessWidget {
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                       color: AppTheme.calPolyGreen,
-                      letterSpacing: -0.5,
                     ),
                   ),
                 ),
               ],
             ),
           ),
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(24.0),
+          Padding(
+            padding: const EdgeInsets.all(24),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -218,34 +227,36 @@ class RNAScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 24),
-                ...content.bulletPoints.map((point) => Padding(
-                      padding: const EdgeInsets.only(bottom: 16),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            margin: const EdgeInsets.only(top: 4),
-                            width: 6,
-                            height: 6,
-                            decoration: BoxDecoration(
-                              color: AppTheme.emerald,
-                              borderRadius: BorderRadius.circular(3),
+                ...content.bulletPoints.map(
+                  (point) => Padding(
+                    padding: const EdgeInsets.only(bottom: 12),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.only(top: 6),
+                          height: 8,
+                          width: 8,
+                          decoration: BoxDecoration(
+                            color: AppTheme.calPolyGreen,
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Text(
+                            point.tr,
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: AppTheme.officeGreen.withOpacity(0.8),
+                              height: 1.5,
                             ),
                           ),
-                          const SizedBox(width: 16),
-                          Expanded(
-                            child: Text(
-                              point.tr,
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: AppTheme.officeGreen.withOpacity(0.8),
-                                height: 1.5,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    )),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ],
             ),
           ),

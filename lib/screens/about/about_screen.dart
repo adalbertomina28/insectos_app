@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/base_screen.dart';
 import '../../widgets/language_selector.dart';
@@ -57,7 +58,7 @@ class AboutScreen extends StatelessWidget {
                       // Título centrado
                       Center(
                         child: Text(
-                          'Acerca de InsectLab',
+                          'about_insectlab'.tr,
                           style: const TextStyle(
                             color: Colors.white,
                             fontSize: 28,
@@ -80,9 +81,9 @@ class AboutScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      'Nuestra Misión',
-                      style: TextStyle(
+                    Text(
+                      'our_mission'.tr,
+                      style: const TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
                         color: AppTheme.calPolyGreen,
@@ -90,7 +91,7 @@ class AboutScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 16),
                     Text(
-                      'InsectLab nace con el propósito de hacer accesible el fascinante mundo de la entomología a estudiantes, profesionales y entusiastas. Nuestra misión es proporcionar una plataforma educativa en constante evolución, completa y precisa sobre los insectos.',
+                      'mission_description'.tr,
                       style: TextStyle(
                         fontSize: 16,
                         color: AppTheme.officeGreen.withOpacity(0.8),
@@ -98,9 +99,9 @@ class AboutScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 32),
-                    const Text(
-                      'Equipo',
-                      style: TextStyle(
+                    Text(
+                      'team'.tr,
+                      style: const TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
                         color: AppTheme.calPolyGreen,
@@ -109,13 +110,13 @@ class AboutScreen extends StatelessWidget {
                     const SizedBox(height: 16),
                     _buildTeamMember(
                       'Ing. Adalberto Mina',
-                      'Ingeniero de Software',
-                      'Especialista en desarrollo de aplicaciones y arquitectura tecnológica.',
+                      'software_engineer'.tr,
+                      'software_engineer_desc'.tr,
                     ),
                     const SizedBox(height: 32),
-                    const Text(
-                      'Contacto',
-                      style: TextStyle(
+                    Text(
+                      'contact'.tr,
+                      style: const TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
                         color: AppTheme.calPolyGreen,
@@ -124,17 +125,17 @@ class AboutScreen extends StatelessWidget {
                     const SizedBox(height: 16),
                     _buildContactItem(
                       Icons.email,
-                      'Email',
+                      'email'.tr,
                       'bugsappproject@gmail.com',
                     ),
                     _buildContactItem(
                       Icons.phone,
-                      'Teléfono',
+                      'phone'.tr,
                       '+507 6981 6306',
                     ),
                     _buildContactItem(
                       Icons.location_on,
-                      'Ubicación',
+                      'location'.tr,
                       'Ciudad de Panamá, Panamá',
                     ),
                     const SizedBox(height: 32),
@@ -147,9 +148,9 @@ class AboutScreen extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
-                            'Colabora con Nosotros',
-                            style: TextStyle(
+                          Text(
+                            'collaborate'.tr,
+                            style: const TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                               color: AppTheme.calPolyGreen,
@@ -157,7 +158,7 @@ class AboutScreen extends StatelessWidget {
                           ),
                           const SizedBox(height: 8),
                           Text(
-                            'Si eres entomólogo, biólogo o entusiasta de los insectos y te gustaría contribuir con contenido para la aplicación, ¡nos encantaría escucharte!',
+                            'collaborate_desc'.tr,
                             style: TextStyle(
                               fontSize: 14,
                               color: AppTheme.officeGreen.withOpacity(0.8),

@@ -34,83 +34,71 @@ class RNACropExample {
 
 final List<RNAContent> rnaBasics = [
   RNAContent(
-    title: '¿Qué es el ARN?',
-    description:
-        'El ARN (Ácido Ribonucleico) es una molécula fundamental en el control biológico de insectos plaga.',
+    title: 'rna_what_is',
+    description: 'rna_what_is_desc',
     iconData: Icons.biotech,
     bulletPoints: [
-      'Molécula esencial para la vida',
-      'Participa en la síntesis de proteínas',
-      'Puede ser utilizado para control específico de plagas',
-      'Tecnología de vanguardia en agricultura sostenible',
+      'rna_bullet_essential',
+      'rna_bullet_synthesis',
+      'rna_bullet_control',
+      'rna_bullet_tech',
     ],
   ),
   RNAContent(
-    title: 'Mecanismo de RNAi',
-    description:
-        'El ARN de interferencia (RNAi) es un mecanismo natural que puede ser utilizado para silenciar genes específicos en insectos plaga.',
+    title: 'rna_mechanism',
+    description: 'rna_mechanism_desc',
     iconData: Icons.schema,
     bulletPoints: [
-      'Silenciamiento génico específico',
-      'Proceso natural y seguro',
-      'Alta efectividad',
-      'Mínimo impacto ambiental',
+      'rna_bullet_silencing',
+      'rna_bullet_natural',
+      'rna_bullet_effective',
+      'rna_bullet_impact',
     ],
   ),
   RNAContent(
-    title: 'Proceso de Acción',
-    description:
-        'El proceso de control mediante ARN implica varios pasos desde su diseño hasta su aplicación en campo.',
+    title: 'rna_action',
+    description: 'rna_action_desc',
     iconData: Icons.science,
     bulletPoints: [
-      'Identificación del gen objetivo',
-      'Diseño de la secuencia de ARN',
-      'Formulación del producto',
-      'Aplicación en campo',
+      'rna_bullet_identification',
+      'rna_bullet_design',
+      'rna_bullet_formulation',
+      'rna_bullet_application',
     ],
   ),
 ];
 
 final List<RNACropExample> cropExamples = [
   RNACropExample(
-    cropName: 'Arroz',
-    targetPest: 'Sogata (Tagosodes orizicolus)',
-    description:
-        'Control de la sogata, vector del virus de la hoja blanca, mediante ARN específico que interrumpe genes esenciales para su desarrollo. Cultivo de gran importancia en las provincias de Chiriquí y Coclé.',
-    effectiveness:
-        '82% de reducción en la transmisión del virus de la hoja blanca',
-    implementationProcess:
-        'Aplicación foliar cada 10-14 días durante la etapa de crecimiento vegetativo',
+    cropName: 'crop_rice',
+    targetPest: 'pest_sogata',
+    description: 'rice_desc',
+    effectiveness: 'rice_effectiveness',
+    implementationProcess: 'rice_process',
     imageUrl: 'assets/images/rna/arroz-panama.jpg',
   ),
   RNACropExample(
-    cropName: 'Café',
-    targetPest: 'Broca del café (Hypothenemus hampei)',
-    description:
-        'Protección del cultivo de café contra la broca mediante tecnología de ARN. Especialmente relevante para las plantaciones de altura en Boquete y Volcán.',
-    effectiveness: '88% de reducción en la infestación de granos',
-    implementationProcess:
-        'Tratamiento preventivo al inicio de la temporada y aplicaciones dirigidas durante la fructificación',
+    cropName: 'crop_coffee',
+    targetPest: 'pest_coffee_borer',
+    description: 'coffee_desc',
+    effectiveness: 'coffee_effectiveness',
+    implementationProcess: 'coffee_process',
     imageUrl: 'assets/images/rna/cafe-panama.jpg',
   ),
   RNACropExample(
-    cropName: 'Plátano',
-    targetPest: 'Picudo negro (Cosmopolites sordidus)',
-    description:
-        'Control específico del picudo negro del plátano sin afectar a insectos benéficos. Cultivo fundamental en la economía de Barú y otras regiones del país.',
-    effectiveness: '75% de reducción en daños al cormo y pseudotallo',
-    implementationProcess:
-        'Aplicación en trampas y tratamiento directo a la base de las plantas cada 30 días',
+    cropName: 'crop_banana',
+    targetPest: 'pest_black_weevil',
+    description: 'banana_desc',
+    effectiveness: 'banana_effectiveness',
+    implementationProcess: 'banana_process',
     imageUrl: 'assets/images/rna/platano-panama.jpg',
   ),
   RNACropExample(
-    cropName: 'Sandía',
-    targetPest: 'Mosca blanca (Bemisia tabaci)',
-    description:
-        'Manejo integrado de la mosca blanca en cultivos de sandía de la península de Azuero, principal zona productora de esta fruta en Panamá.',
-    effectiveness: '80% de control de poblaciones en campo abierto',
-    implementationProcess:
-        'Aplicación semanal durante las primeras etapas del cultivo, combinado con otras estrategias de manejo integrado',
+    cropName: 'crop_watermelon',
+    targetPest: 'pest_whitefly',
+    description: 'watermelon_desc',
+    effectiveness: 'watermelon_effectiveness',
+    implementationProcess: 'watermelon_process',
     imageUrl: 'assets/images/rna/sandia-panama.jpg',
   ),
 ];
