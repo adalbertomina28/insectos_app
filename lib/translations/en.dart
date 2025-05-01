@@ -59,6 +59,7 @@ const Map<String, String> en = {
   'educational_games': 'Educational Games',
   'learn_by_playing': 'Learn by Playing',
   'about': 'About',
+  'about_app': 'About the app',
   'our_mission': 'Our Mission',
   'app_subtitle': 'Entomological Education',
 

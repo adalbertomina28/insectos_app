@@ -60,6 +60,7 @@ const Map<String, String> es = {
   'educational_games': 'Juegos Educativos',
   'learn_by_playing': 'Aprende Jugando',
   'about': 'Acerca de',
+  'about_app': 'Acerca de la app',
   'our_mission': 'Nuestra Misión',
 
   // Entomología

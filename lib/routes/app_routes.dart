@@ -48,7 +48,7 @@ class AppRoutes {
     ),
     GetPage(
       name: about,
-      page: () => const AboutScreen(),
+      page: () => AboutScreen(),
     ),
     GetPage(
       name: identification,

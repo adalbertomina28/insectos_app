@@ -147,6 +147,15 @@ class BaseScreen extends StatelessWidget {
                 Get.toNamed('/key-insects');
               },
             ),
+            ListTile(
+              leading: const Icon(Icons.info),
+              title: Text('about'.tr),
+              subtitle: Text('about_app'.tr),
+              onTap: () {
+                Get.back();
+                Get.toNamed('/about');
+              },
+            ),
             // Comentado para el próximo release
           // ListTile(
           //   leading: const Icon(Icons.games),

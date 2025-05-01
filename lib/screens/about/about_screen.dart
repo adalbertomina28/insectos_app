@@ -1,126 +1,178 @@
 import 'package:flutter/material.dart';
 import '../../theme/app_theme.dart';
+import '../../widgets/base_screen.dart';
+import '../../widgets/language_selector.dart';
 
 class AboutScreen extends StatelessWidget {
-  const AboutScreen({super.key});
+  AboutScreen({super.key});
+  
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: const Text(
-          'Acerca de',
-          style: TextStyle(
-            color: AppTheme.calPolyGreen,
-            fontWeight: FontWeight.bold,
+      drawer: BaseScreen.buildDrawer(context),
+      body: Column(
+        children: [
+          // Header con imagen de fondo
+          Container(
+            height: 200,
+            width: double.infinity,
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                // Imagen de fondo
+                Image.asset(
+                  'images/home/about.jpeg',
+                  fit: BoxFit.cover,
+                ),
+                // Contenido del header
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Barra superior con menú y selector de idioma
+                      SafeArea(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            IconButton(
+                              icon: const Icon(
+                                Icons.menu,
+                                color: Colors.white,
+                                size: 28,
+                              ),
+                              onPressed: () {
+                                _scaffoldKey.currentState?.openDrawer();
+                              },
+                            ),
+                            const LanguageSelector(),
+                          ],
+                        ),
+                      ),
+                      const Spacer(),
+                      // Título centrado
+                      Center(
+                        child: Text(
+                          'Acerca de InsectLab',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 28,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        iconTheme: const IconThemeData(color: AppTheme.calPolyGreen),
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'Nuestra Misión',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: AppTheme.calPolyGreen,
-                ),
-              ),
-              const SizedBox(height: 16),
-              Text(
-                'Insect Lab nace con el propósito de hacer accesible el fascinante mundo de la entomología a estudiantes, profesionales y entusiastas. Nuestra misión es proporcionar una plataforma educativa completa y precisa sobre los insectos.',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: AppTheme.officeGreen.withOpacity(0.8),
-                  height: 1.5,
-                ),
-              ),
-              const SizedBox(height: 32),
-              const Text(
-                'Equipo',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: AppTheme.calPolyGreen,
-                ),
-              ),
-              const SizedBox(height: 16),
-              _buildTeamMember(
-                'Ing. Adalberto Mina',
-                'Ingeniero de Software',
-                'Especialista en desarrollo de aplicaciones y arquitectura tecnológica.',
-              ),
-              _buildTeamMember(
-                'Dra. Maria Paula Mejia',
-                'Entomóloga Principal',
-                'Maestría en Entomología Aplicada a la Agricultura.',
-              ),
-              const SizedBox(height: 32),
-              const Text(
-                'Contacto',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: AppTheme.calPolyGreen,
-                ),
-              ),
-              const SizedBox(height: 16),
-              _buildContactItem(
-                Icons.email,
-                'Email',
-                'bugsappproject@gmail.com',
-              ),
-              _buildContactItem(
-                Icons.web,
-                'Sitio Web',
-                'www.insectlab.app',
-              ),
-              _buildContactItem(
-                Icons.location_on,
-                'Ubicación',
-                'Ciudad de Panamá, Panamá',
-              ),
-              const SizedBox(height: 32),
-              Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  color: AppTheme.emerald.withOpacity(0.1),
-                ),
+          // Contenido principal
+          Expanded(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(24.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text(
-                      'Colabora con Nosotros',
+                      'Nuestra Misión',
                       style: TextStyle(
-                        fontSize: 18,
+                        fontSize: 24,
                         fontWeight: FontWeight.bold,
                         color: AppTheme.calPolyGreen,
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: 16),
                     Text(
-                      'Si eres entomólogo, biólogo o entusiasta de los insectos y te gustaría contribuir con contenido para la aplicación, ¡nos encantaría escucharte!',
+                      'InsectLab nace con el propósito de hacer accesible el fascinante mundo de la entomología a estudiantes, profesionales y entusiastas. Nuestra misión es proporcionar una plataforma educativa en constante evolución, completa y precisa sobre los insectos.',
                       style: TextStyle(
-                        fontSize: 14,
+                        fontSize: 16,
                         color: AppTheme.officeGreen.withOpacity(0.8),
                         height: 1.5,
+                      ),
+                    ),
+                    const SizedBox(height: 32),
+                    const Text(
+                      'Equipo',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: AppTheme.calPolyGreen,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    _buildTeamMember(
+                      'Ing. Adalberto Mina',
+                      'Ingeniero de Software',
+                      'Especialista en desarrollo de aplicaciones y arquitectura tecnológica.',
+                    ),
+                    const SizedBox(height: 32),
+                    const Text(
+                      'Contacto',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: AppTheme.calPolyGreen,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    _buildContactItem(
+                      Icons.email,
+                      'Email',
+                      'bugsappproject@gmail.com',
+                    ),
+                    _buildContactItem(
+                      Icons.phone,
+                      'Teléfono',
+                      '+507 6981 6306',
+                    ),
+                    _buildContactItem(
+                      Icons.location_on,
+                      'Ubicación',
+                      'Ciudad de Panamá, Panamá',
+                    ),
+                    const SizedBox(height: 32),
+                    Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        color: AppTheme.emerald.withOpacity(0.1),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'Colabora con Nosotros',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: AppTheme.calPolyGreen,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            'Si eres entomólogo, biólogo o entusiasta de los insectos y te gustaría contribuir con contenido para la aplicación, ¡nos encantaría escucharte!',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: AppTheme.officeGreen.withOpacity(0.8),
+                              height: 1.5,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
                 ),
               ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
