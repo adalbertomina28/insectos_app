@@ -1,26 +1,41 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
 import '../../theme/app_theme.dart';
 import '../../models/rna_content.dart';
 import '../../widgets/base_screen.dart';
+import '../../widgets/language_selector.dart';
 
 class RNAScreen extends StatelessWidget {
   const RNAScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BaseScreen(
+    return Scaffold(
       backgroundColor: Colors.white,
       extendBody: true,
-      child: CustomScrollView(
+      drawer: BaseScreen.buildDrawer(context),
+      body: CustomScrollView(
         slivers: [
           SliverAppBar(
             expandedHeight: 300.0,
             floating: false,
             pinned: true,
             backgroundColor: AppTheme.calPolyGreen,
+            leading: Builder(
+              builder: (context) => IconButton(
+                icon: const Icon(
+                  Icons.menu,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  Scaffold.of(context).openDrawer();
+                },
+              ),
+            ),
+            actions: const [
+              LanguageSelector(),
+            ],
             flexibleSpace: FlexibleSpaceBar(
               title: Text(
                 'rna_title'.tr,
@@ -33,14 +48,18 @@ class RNAScreen extends StatelessWidget {
               background: Stack(
                 fit: StackFit.expand,
                 children: [
+                  Image.asset(
+                    'images/insects/control-biologico.jpeg',
+                    fit: BoxFit.cover,
+                  ),
                   Container(
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                         colors: [
-                          AppTheme.calPolyGreen,
-                          AppTheme.officeGreen,
+                          AppTheme.calPolyGreen.withOpacity(0.7),
+                          AppTheme.officeGreen.withOpacity(0.7),
                         ],
                       ),
                     ),
@@ -50,14 +69,6 @@ class RNAScreen extends StatelessWidget {
                     child: CustomPaint(
                       painter: HexagonPattern(),
                       size: Size.infinite,
-                    ),
-                  ),
-                  Center(
-                    child: Lottie.asset(
-                      'assets/animations/dna.json',
-                      width: 200,
-                      height: 200,
-                      fit: BoxFit.contain,
                     ),
                   ),
                 ],
@@ -319,12 +330,21 @@ class RNAScreen extends StatelessWidget {
               height: 200,
               width: double.infinity,
               color: AppTheme.celadon.withOpacity(0.3),
-              child: Center(
-                child: Icon(
-                  Icons.grass,
-                  size: 64,
-                  color: AppTheme.calPolyGreen,
-                ),
+              child: Image.asset(
+                example.imageUrl,
+                fit: BoxFit.cover,
+                width: double.infinity,
+                height: 200,
+                errorBuilder: (context, error, stackTrace) {
+                  // Mostrar un icono como fallback si la imagen no se puede cargar
+                  return Center(
+                    child: Icon(
+                      Icons.grass,
+                      size: 64,
+                      color: AppTheme.calPolyGreen,
+                    ),
+                  );
+                },
               ),
             ),
           ),

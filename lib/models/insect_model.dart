@@ -33,7 +33,8 @@ class Insect {
       // Convertir la URL de iNaturalist a nuestra URL proxy
       final Uri originalUri = Uri.parse(photoUrl);
       // Usar 10.0.2.2 para emulador Android en lugar de localhost
-      photoUrl = 'http://10.0.2.2:8000/api/proxy/image?url=${Uri.encodeComponent(photoUrl)}';
+      photoUrl =
+          'http://localhost:8000/api/proxy/image?url=${Uri.encodeComponent(photoUrl)}';
       // Para dispositivos físicos, usar la IP de la computadora en la red local
       // photoUrl = 'http://192.168.1.X:8000/api/proxy/image?url=${Uri.encodeComponent(photoUrl)}';
     }
@@ -47,25 +48,28 @@ class Insect {
       defaultPhoto: photoUrl,
       observationsCount: json['observations_count'] as int?,
       rank: json['rank'] as String?,
-      ancestorTaxa: json['ancestors']?.map((t) => t['name'])?.join(' > ') as String?,
+      ancestorTaxa:
+          json['ancestors']?.map((t) => t['name'])?.join(' > ') as String?,
       wikipediaSummary: json['wikipedia_summary'] as String?,
       conservationStatus: json['conservation_status'] as Map<String, dynamic>?,
-      ancestors: (json['ancestors'] as List<dynamic>?)?.cast<Map<String, dynamic>>(),
+      ancestors:
+          (json['ancestors'] as List<dynamic>?)?.cast<Map<String, dynamic>>(),
     );
   }
 
   Map<String, dynamic> toJson() => {
-    'id': id,
-    'name': name,
-    'scientific_name': scientificName,
-    'preferred_common_name': preferredCommonName,
-    'wikipedia_url': wikipediaUrl,
-    'default_photo': defaultPhoto != null ? {'medium_url': defaultPhoto} : null,
-    'observations_count': observationsCount,
-    'rank': rank,
-    'ancestor_taxa': ancestorTaxa,
-    'wikipedia_summary': wikipediaSummary,
-    'conservation_status': conservationStatus,
-    'ancestors': ancestors,
-  };
+        'id': id,
+        'name': name,
+        'scientific_name': scientificName,
+        'preferred_common_name': preferredCommonName,
+        'wikipedia_url': wikipediaUrl,
+        'default_photo':
+            defaultPhoto != null ? {'medium_url': defaultPhoto} : null,
+        'observations_count': observationsCount,
+        'rank': rank,
+        'ancestor_taxa': ancestorTaxa,
+        'wikipedia_summary': wikipediaSummary,
+        'conservation_status': conservationStatus,
+        'ancestors': ancestors,
+      };
 }

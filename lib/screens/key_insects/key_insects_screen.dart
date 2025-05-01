@@ -1,72 +1,72 @@
 import 'package:flutter/material.dart';
-import '../../theme/app_theme.dart';
+import '../../widgets/base_screen.dart';
 
 class KeyInsectsScreen extends StatelessWidget {
   KeyInsectsScreen({super.key});
 
   final List<Map<String, dynamic>> keyInsects = [
     {
-      'name': 'Gusano Cogollero',
-      'scientificName': 'Spodoptera frugiperda',
-      'crops': ['Maíz', 'Sorgo', 'Algodón'],
-      'importance': 'Plaga principal en cultivos de maíz en América Latina. Puede causar pérdidas de hasta el 70% en la producción.',
-      'control': '• Control biológico con parasitoides\n• Manejo cultural\n• ARN interferente específico\n• Monitoreo temprano',
-      'icon': Icons.pest_control,
-      'emoji': '🐛',
+      'name': 'Sogata del Arroz',
+      'scientificName': 'Tagosodes orizicolus',
+      'crops': ['Arroz'],
+      'importance': 'Principal vector del virus de la hoja blanca del arroz (VHBA) en Panamá. Afecta severamente las zonas arroceras de Chiriquí y Coclé, causando pérdidas de hasta el 50% en la producción.',
+      'control': '• Variedades resistentes al VHBA\n• Control biológico con parasitoides\n• Manejo del agua de riego\n• Aplicación de ARN interferente específico\n• Monitoreo con trampas amarillas',
+      'icon': Icons.grass,
+      'emoji': '🦗',
     },
     {
       'name': 'Broca del Café',
       'scientificName': 'Hypothenemus hampei',
       'crops': ['Café'],
-      'importance': 'Principal plaga del café a nivel mundial. Afecta directamente la calidad y rendimiento del grano.',
-      'control': '• Control biológico con hongos\n• Trampas con feromonas\n• Manejo integrado\n• Control cultural',
+      'importance': 'Plaga clave en las zonas cafetaleras de Boquete y Volcán. Investigaciones del IDIAP han demostrado que puede reducir la producción hasta en un 35% y afectar la calidad de exportación del café panameño.',
+      'control': '• Control biológico con Beauveria bassiana\n• Trampas con atrayentes (etanol-metanol)\n• Cosecha sanitaria\n• Manejo de sombra\n• Monitoreo fenológico',
       'icon': Icons.coffee,
       'emoji': '🪲',
     },
     {
-      'name': 'Polilla del Tomate',
-      'scientificName': 'Tuta absoluta',
-      'crops': ['Tomate', 'Papa', 'Berenjena'],
-      'importance': 'Causa daños severos en cultivos de solanáceas. Puede reducir el rendimiento hasta en un 80-100%.',
-      'control': '• Control biológico\n• Monitoreo con feromonas\n• Manejo cultural\n• Rotación de cultivos',
-      'icon': Icons.bug_report,
-      'emoji': '🦋',
-    },
-    {
-      'name': 'Mosca de la Fruta',
-      'scientificName': 'Ceratitis capitata',
-      'crops': ['Cítricos', 'Mango', 'Guayaba', 'Durazno'],
-      'importance': 'Plaga cuarentenaria que afecta a una amplia variedad de frutas. Impacta el comercio internacional.',
-      'control': '• Trampas con atrayentes\n• Control biológico\n• Manejo de residuos\n• Tratamiento en frío',
+      'name': 'Picudo Negro del Plátano',
+      'scientificName': 'Cosmopolites sordidus',
+      'crops': ['Plátano', 'Banano'],
+      'importance': 'Plaga crítica en las plantaciones de Barú y Bocas del Toro. Las investigaciones del CATIE en Panamá han documentado pérdidas de hasta 60% en plantaciones no manejadas.',
+      'control': '• Trampas tipo sándwich\n• Control biológico con hongos entomopatógenos\n• Eliminación de pseudotallos infestados\n• Uso de cormos sanos\n• Rotación de cultivos',
       'icon': Icons.pest_control,
-      'emoji': '🪰',
-    },
-    {
-      'name': 'Picudo del Algodón',
-      'scientificName': 'Anthonomus grandis',
-      'crops': ['Algodón'],
-      'importance': 'Una de las plagas más destructivas del algodón. Puede causar pérdidas totales si no se controla.',
-      'control': '• Monitoreo con feromonas\n• Control cultural\n• Destrucción de rastrojos\n• Control químico selectivo',
-      'icon': Icons.bug_report,
       'emoji': '🪲',
     },
     {
-      'name': 'Trips de las Flores',
-      'scientificName': 'Frankliniella occidentalis',
-      'crops': ['Flores', 'Hortalizas', 'Frutales'],
-      'importance': 'Vector de virus importantes. Afecta la calidad estética y comercial de flores y frutos.',
-      'control': '• Control biológico con ácaros\n• Manejo del riego\n• Trampas cromáticas\n• Eliminación de malezas',
-      'icon': Icons.local_florist,
-      'emoji': '🐜',
+      'name': 'Mosca Blanca',
+      'scientificName': 'Bemisia tabaci',
+      'crops': ['Sandía', 'Melón', 'Tomate', 'Pimentón'],
+      'importance': 'Vector de geminivirus en cultivos hortícolas de la península de Azuero. Estudios de la Universidad de Panamá han identificado biotipos específicos adaptados a las condiciones locales.',
+      'control': '• Barreras vivas\n• Control biológico con Encarsia formosa\n• Rotación de cultivos\n• Mallas anti-insectos\n• Monitoreo con trampas amarillas',
+      'icon': Icons.bug_report,
+      'emoji': '🪰',
     },
     {
-      'name': 'Gusano Barrenador',
-      'scientificName': 'Diatraea saccharalis',
-      'crops': ['Caña de Azúcar', 'Maíz', 'Sorgo'],
-      'importance': 'Causa pérdidas significativas en cultivos de caña. Afecta el contenido de azúcar y el rendimiento.',
-      'control': '• Control biológico\n• Variedades resistentes\n• Manejo de socas\n• Liberación de parasitoides',
-      'icon': Icons.pest_control,
-      'emoji': '🐛',
+      'name': 'Ácaro Rojo de las Palmas',
+      'scientificName': 'Raoiella indica',
+      'crops': ['Palma de Coco', 'Plátano', 'Plantas ornamentales'],
+      'importance': 'Plaga invasora detectada recientemente en Panamá. Investigaciones del MIDA han documentado su expansión en la zona costera, representando una amenaza para la producción de coco.',
+      'control': '• Control biológico con ácaros depredadores\n• Eliminación de material infestado\n• Aplicaciones de azufre\n• Monitoreo preventivo\n• Cuarentena de material vegetal',
+      'icon': Icons.coronavirus,
+      'emoji': '🕷️',
+    },
+    {
+      'name': 'Chinche Salivosa',
+      'scientificName': 'Aeneolamia spp.',
+      'crops': ['Pastos', 'Caña de Azúcar'],
+      'importance': 'Plaga clave en la ganadería panameña. Investigaciones del IDIAP en Los Santos y Veraguas han documentado reducciones del 40% en la capacidad de carga de los pastos.',
+      'control': '• Manejo de la altura de pastos\n• Control biológico con Metarhizium anisopliae\n• Rotación de potreros\n• Diversificación de especies forrajeras\n• Quema controlada en casos específicos',
+      'icon': Icons.grass,
+      'emoji': '🐞',
+    },
+    {
+      'name': 'Polilla de la Naranja',
+      'scientificName': 'Phyllocnistis citrella',
+      'crops': ['Cítricos'],
+      'importance': 'Plaga emergente en los cultivos cítricos de Chiriquí. Facilita la entrada de la bacteria del HLB (Huanglongbing), enfermedad devastadora para la citricultura panameña.',
+      'control': '• Control biológico con Ageniaspis citricola\n• Manejo de brotes nuevos\n• Aplicaciones de aceites minerales\n• Monitoreo de plantas jóvenes\n• Eliminación de material infestado',
+      'icon': Icons.local_florist,
+      'emoji': '🦋',
     },
   ];
 
@@ -75,17 +75,10 @@ class KeyInsectsScreen extends StatelessWidget {
     final cardBackground = const Color(0xFF317B22);
     final customGreen = const Color(0xFF67E0A3);
     
-    return Scaffold(
+    return BaseScreen(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: const Text(
-          'Insectos Clave en Agricultura',
-          style: TextStyle(color: Colors.white),
-        ),
-        backgroundColor: AppTheme.calPolyGreen,
-        elevation: 0,
-      ),
-      body: ListView.builder(
+      title: 'Insectos Clave en Panamá',
+      child: ListView.builder(
         padding: const EdgeInsets.all(16),
         itemCount: keyInsects.length,
         itemBuilder: (context, index) {

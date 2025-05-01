@@ -79,10 +79,13 @@ class BaseScreen extends StatelessWidget {
                           color: Colors.white.withOpacity(0.2),
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        child: const Center(
-                          child: Text(
-                            '🐝',
-                            style: TextStyle(fontSize: 28),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: Image.asset(
+                            'images/home/insectlab_logo.png',
+                            width: 48,
+                            height: 48,
+                            fit: BoxFit.cover,
                           ),
                         ),
                       ),
@@ -144,24 +147,25 @@ class BaseScreen extends StatelessWidget {
                 Get.toNamed('/key-insects');
               },
             ),
-            ListTile(
-              leading: const Icon(Icons.games),
-              title: Text('educational_games'.tr),
-              subtitle: Text('learn_by_playing'.tr),
-              onTap: () {
-                Get.back();
-                Get.toNamed('/games');
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.camera_alt),
-              title: Text('prediction'.tr),
-              subtitle: Text('identify_insects'.tr),
-              onTap: () {
-                Get.back();
-                Get.toNamed('/identification');
-              },
-            ),
+            // Comentado para el próximo release
+          // ListTile(
+          //   leading: const Icon(Icons.games),
+          //   title: Text('educational_games'.tr),
+          //   subtitle: Text('learn_by_playing'.tr),
+          //   onTap: () {
+          //     Get.back();
+          //     Get.toNamed('/games');
+          //   },
+          // ),
+          // ListTile(
+          //   leading: const Icon(Icons.camera_alt),
+          //   title: Text('prediction'.tr),
+          //   subtitle: Text('identify_insects'.tr),
+          //   onTap: () {
+          //     Get.back();
+          //     Get.toNamed('/identification');
+          //   },
+          // ),
           ],
         ),
       ),

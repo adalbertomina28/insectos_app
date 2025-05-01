@@ -174,7 +174,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     feature['title'] as String,
                     feature['description'] as String,
                     feature['icon'] as IconData,
-                    onTap: index == 0 ? () => Get.toNamed('/identification') : null,
+                    onTap: index == 0
+                        ? () => Get.toNamed('/identification')
+                        : null,
                   );
                 },
                 childCount: 16,
@@ -216,13 +218,13 @@ class _HomeScreenState extends State<HomeScreen> {
     return Container(
       height: 600,
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            AppTheme.calPolyGreen,
-            AppTheme.calPolyGreen.withGreen(100),
-          ],
+        image: DecorationImage(
+          image: AssetImage('images/home/home_bg.jpg'),
+          fit: BoxFit.cover,
+          colorFilter: ColorFilter.mode(
+            AppTheme.calPolyGreen.withOpacity(0.7),
+            BlendMode.overlay,
+          ),
         ),
       ),
       child: Stack(
@@ -247,6 +249,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 SizedBox(height: 16),
                 Text(
                   'main_text'.tr,
+                  textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 24,
@@ -279,7 +282,8 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildFeatureCard(String title, String description, IconData icon, {VoidCallback? onTap}) {
+  Widget _buildFeatureCard(String title, String description, IconData icon,
+      {VoidCallback? onTap}) {
     return Card(
       elevation: 4,
       color: AppTheme.calPolyGreen,
