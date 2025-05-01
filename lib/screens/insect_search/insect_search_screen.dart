@@ -13,10 +13,12 @@ class InsectSearchScreen extends StatelessWidget {
 
   final InsectController controller = Get.find<InsectController>();
   final TextEditingController searchController = TextEditingController();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: Colors.white,
       drawer: BaseScreen.buildDrawer(context),
       body: Column(
@@ -64,7 +66,7 @@ class InsectSearchScreen extends StatelessWidget {
                                 size: 28,
                               ),
                               onPressed: () {
-                                Scaffold.of(context).openDrawer();
+                                _scaffoldKey.currentState?.openDrawer();
                               },
                             ),
                             const LanguageSelector(),
@@ -93,7 +95,7 @@ class InsectSearchScreen extends StatelessWidget {
           // Contenido principal
           Expanded(
             child: Container(
-              color: AppTheme.calPolyGreen,
+              color: AppTheme.backgroundColor,
               child: Column(
                 children: [
                   Padding(
