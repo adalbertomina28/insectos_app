@@ -52,7 +52,7 @@ class IdentificationMatch {
           json['taxon']['default_photo']['medium_url'] as String;
       // Usar 10.0.2.2 para emulador Android en lugar de localhost
       photoUrl =
-          'http://t0gsggssgg8ow04ocwww08oo.195.35.36.123.sslip.io/api/proxy/image?url=${Uri.encodeComponent(originalUrl)}';
+          'https://api.insectlab.app/api/proxy/image?url=${Uri.encodeComponent(originalUrl)}';
     }
 
     return IdentificationMatch(
