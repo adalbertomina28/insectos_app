@@ -10,18 +10,18 @@ RUN apt-get update && apt-get install -y \
     git \
     unzip \
     xz-utils \
+    zip \
+    libglu1-mesa \
     && rm -rf /var/lib/apt/lists/*
 
-# Configurar variables de entorno para Flutter
-ENV FLUTTER_HOME=/opt/flutter
-ENV PATH=$FLUTTER_HOME/bin:$PATH
+# Descargar Flutter
+RUN git clone --depth 1 --branch stable https://github.com/flutter/flutter.git /flutter
 
-# Descargar e instalar Flutter (versión estable)
-RUN git clone -b stable --depth 1 https://github.com/flutter/flutter.git $FLUTTER_HOME
+# Agregar Flutter al PATH
+ENV PATH="/flutter/bin:/flutter/bin/cache/dart-sdk/bin:${PATH}"
 
-# Configurar Flutter para web
-RUN flutter config --no-analytics && \
-    flutter config --enable-web
+# Verificar instalación y precalentar
+RUN flutter doctor -v && flutter precache
 
 # Configurar directorio de trabajo
 WORKDIR /app
@@ -29,15 +29,28 @@ WORKDIR /app
 # Copiar archivos del proyecto
 COPY . .
 
+# Modificar el index.html para asegurar que los assets se carguen correctamente
+RUN sed -i 's|<base href="$FLUTTER_BASE_HREF">|<base href="/">|g' web/index.html
+
 # Obtener dependencias y construir para web
 RUN flutter pub get && \
-    flutter build web --release
+    flutter build web --release --web-renderer html --base-href /
 
 # Etapa 2: Servir la aplicación con Nginx
 FROM nginx:alpine
 
 # Copiar archivos de construcción web de Flutter
 COPY --from=build /app/build/web /usr/share/nginx/html
+
+# Crear enlaces simbólicos para compatibilidad con rutas de assets
+RUN mkdir -p /usr/share/nginx/html/images && \
+    ln -sf /usr/share/nginx/html/assets/images/home /usr/share/nginx/html/images/home && \
+    ln -sf /usr/share/nginx/html/assets/images/crops /usr/share/nginx/html/images/crops && \
+    ln -sf /usr/share/nginx/html/assets/images/insects /usr/share/nginx/html/images/insects && \
+    ln -sf /usr/share/nginx/html/assets/images/tech /usr/share/nginx/html/images/tech && \
+    ln -sf /usr/share/nginx/html/assets/images/rna /usr/share/nginx/html/images/rna && \
+    ln -sf /usr/share/nginx/html/assets/icons /usr/share/nginx/html/icons && \
+    ln -sf /usr/share/nginx/html/assets/animations /usr/share/nginx/html/animations
 
 # Copiar configuración personalizada de Nginx
 COPY nginx.conf /etc/nginx/conf.d/default.conf
