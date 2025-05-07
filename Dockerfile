@@ -1,5 +1,5 @@
 # Stage 1: build Flutter web
-FROM cirrusci/flutter:latest AS build
+FROM ghcr.io/cirruslabs/flutter:3.19.3 AS build
 WORKDIR /app
 
 # Cache dependencies
