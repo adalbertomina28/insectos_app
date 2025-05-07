@@ -9,6 +9,7 @@ class ApiConfig {
     
     // Valores por defecto según el entorno
     return envUrl ?? 'https://api.insectlab.app'; // URL por defecto si no hay variable de entorno
+  }
 
   static const Map<String, String> headers = {
     'Content-Type': 'application/json',
