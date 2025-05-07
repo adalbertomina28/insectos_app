@@ -34,7 +34,7 @@ RUN sed -i 's|<base href="$FLUTTER_BASE_HREF">|<base href="/">|g' web/index.html
 
 # Obtener dependencias y construir para web
 RUN flutter pub get && \
-    flutter build web --release --web-renderer html --base-href /
+    flutter build web --release --base-href /
 
 # Etapa 2: Servir la aplicación con Nginx
 FROM nginx:alpine
@@ -44,13 +44,20 @@ COPY --from=build /app/build/web /usr/share/nginx/html
 
 # Crear enlaces simbólicos para compatibilidad con rutas de assets
 RUN mkdir -p /usr/share/nginx/html/images && \
-    ln -sf /usr/share/nginx/html/assets/images/home /usr/share/nginx/html/images/home && \
-    ln -sf /usr/share/nginx/html/assets/images/crops /usr/share/nginx/html/images/crops && \
-    ln -sf /usr/share/nginx/html/assets/images/insects /usr/share/nginx/html/images/insects && \
-    ln -sf /usr/share/nginx/html/assets/images/tech /usr/share/nginx/html/images/tech && \
-    ln -sf /usr/share/nginx/html/assets/images/rna /usr/share/nginx/html/images/rna && \
-    ln -sf /usr/share/nginx/html/assets/icons /usr/share/nginx/html/icons && \
-    ln -sf /usr/share/nginx/html/assets/animations /usr/share/nginx/html/animations
+    mkdir -p /usr/share/nginx/html/images/home && \
+    mkdir -p /usr/share/nginx/html/images/crops && \
+    mkdir -p /usr/share/nginx/html/images/insects && \
+    mkdir -p /usr/share/nginx/html/images/tech && \
+    mkdir -p /usr/share/nginx/html/images/rna && \
+    mkdir -p /usr/share/nginx/html/icons && \
+    mkdir -p /usr/share/nginx/html/animations && \
+    cp -r /usr/share/nginx/html/assets/images/home/* /usr/share/nginx/html/images/home/ || true && \
+    cp -r /usr/share/nginx/html/assets/images/crops/* /usr/share/nginx/html/images/crops/ || true && \
+    cp -r /usr/share/nginx/html/assets/images/insects/* /usr/share/nginx/html/images/insects/ || true && \
+    cp -r /usr/share/nginx/html/assets/images/tech/* /usr/share/nginx/html/images/tech/ || true && \
+    cp -r /usr/share/nginx/html/assets/images/rna/* /usr/share/nginx/html/images/rna/ || true && \
+    cp -r /usr/share/nginx/html/assets/icons/* /usr/share/nginx/html/icons/ || true && \
+    cp -r /usr/share/nginx/html/assets/animations/* /usr/share/nginx/html/animations/ || true
 
 # Copiar configuración personalizada de Nginx
 COPY nginx.conf /etc/nginx/conf.d/default.conf
