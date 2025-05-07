@@ -33,11 +33,10 @@ class Insect {
 
     String? photoUrl = json['default_photo']?['medium_url'] as String?;
     if (photoUrl != null) {
-      // Convertir la URL de iNaturalist a nuestra URL proxy
       final Uri originalUri = Uri.parse(photoUrl);
-      // Usar la URL de la API desde la configuración
+      // Usar la URL de la API desde la constante global
       photoUrl =
-          'https://api.insectlab.app/api/proxy/image?url=${Uri.encodeComponent(photoUrl)}';
+          '$API_BASE_URL/api/proxy/image?url=${Uri.encodeComponent(photoUrl)}';
     }
 
     return Insect(

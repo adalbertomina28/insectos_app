@@ -6,7 +6,7 @@ import '../config/api_config.dart';
 import '../models/identification_result.dart';
 
 class IdentificationService {
-  final String _baseUrl = 'https://api.insectlab.app';
+  final String _baseUrl = API_BASE_URL;
   final Map<String, String> _headers = ApiConfig.headers;
 
   Future<IdentificationResult> identifyInsect({

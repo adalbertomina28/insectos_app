@@ -39,10 +39,9 @@ RUN if grep -q "\$FLUTTER_BASE_HREF" web/index.html; then \
     sed -i 's|<head>|<head>\n  <base href="/">|g' web/index.html; \
   fi
 
-# Obtener dependencias y construir para web con la variable de entorno
+# Obtener dependencias y construir para web
 # Deshabilitamos el tree-shaking de iconos para evitar errores con las fuentes
-RUN flutter pub get && \
-    flutter build web --release --dart-define=API_URL=${API_URL} --no-tree-shake-icons
+RUN flutter clean && flutter pub get && flutter build web --release --no-tree-shake-icons
 
 # Etapa 2: Servir la aplicación con Nginx
 FROM nginx:alpine
