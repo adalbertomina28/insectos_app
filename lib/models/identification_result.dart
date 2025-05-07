@@ -54,7 +54,7 @@ class IdentificationMatch {
           json['taxon']['default_photo']['medium_url'] as String;
       // Usar la URL de la API desde la configuración
       photoUrl =
-          '${ApiConfig.baseUrl}/api/proxy/image?url=${Uri.encodeComponent(originalUrl)}';
+          'https://api.insectlab.app/api/proxy/image?url=${Uri.encodeComponent(originalUrl)}';
     }
 
     return IdentificationMatch(

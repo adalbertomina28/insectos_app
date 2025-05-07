@@ -37,7 +37,7 @@ class Insect {
       final Uri originalUri = Uri.parse(photoUrl);
       // Usar la URL de la API desde la configuración
       photoUrl =
-          '${ApiConfig.baseUrl}/api/proxy/image?url=${Uri.encodeComponent(photoUrl)}';
+          'https://api.insectlab.app/api/proxy/image?url=${Uri.encodeComponent(photoUrl)}';
     }
 
     return Insect(

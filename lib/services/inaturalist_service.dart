@@ -4,7 +4,7 @@ import '../config/api_config.dart';
 import '../models/insect_model.dart';
 
 class InsectService {
-  final String _baseUrl = ApiConfig.baseUrl;
+  final String _baseUrl = 'https://api.insectlab.app';
   final Map<String, String> _headers = ApiConfig.headers;
 
   Future<Map<String, dynamic>> searchInsects({

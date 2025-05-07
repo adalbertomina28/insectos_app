@@ -3,7 +3,7 @@ class ApiConfig {
   // Se define usando --dart-define=API_URL=valor
   static String get baseUrl {
     // Usar String.fromEnvironment para obtener el valor definido en tiempo de compilación
-    const apiUrl = String.fromEnvironment('API_URL', defaultValue: 'https://api.insectlab.app');
+    const apiUrl = 'https://api.insectlab.app';
     
     // Imprimir para depuración
     print('ApiConfig: Usando API URL: $apiUrl');
