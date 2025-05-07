@@ -61,6 +61,8 @@ class IdentificationService {
       });
       
       // Enviar la solicitud
+      print('API_BASE_URL configurada como: $API_BASE_URL');
+      print('_baseUrl en el servicio: $_baseUrl');
       print('Enviando solicitud de identificación a: $uri');
       final streamedResponse = await request.send();
       final response = await http.Response.fromStream(streamedResponse);

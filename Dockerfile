@@ -8,11 +8,29 @@ RUN flutter pub get
 
 # Copy source and build
 COPY . .
-RUN flutter build web --release --no-tree-shake-icons
+# Asegurar que la base href esté configurada correctamente
+RUN sed -i 's|<base href=".*">|<base href="/">|g' web/index.html || true
+# Reforzar la URL de la API hardcodeada
+RUN grep -l "API_BASE_URL" lib/config/* | xargs sed -i 's|API_BASE_URL = .*|API_BASE_URL = \'https://api.insectlab.app\';|g' || true
+# Construir la aplicación con la URL base correcta
+RUN flutter build web --release --no-tree-shake-icons --base-href="/" --dart-define=API_BASE_URL=https://api.insectlab.app
 
 # Stage 2: serve with Nginx
 FROM nginx:alpine
 COPY --from=build /app/build/web /usr/share/nginx/html
+
+# Configurar Nginx para SPA
+RUN echo '
+server {
+    listen 80;
+    server_name _;
+    root /usr/share/nginx/html;
+    index index.html;
+    
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+}' > /etc/nginx/conf.d/default.conf
 
 # Copy assets to public directories (if they exist)
 RUN mkdir -p /usr/share/nginx/html/images /usr/share/nginx/html/icons /usr/share/nginx/html/animations \
