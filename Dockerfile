@@ -29,12 +29,16 @@ WORKDIR /app
 # Copiar archivos del proyecto
 COPY . .
 
-# Modificar el index.html para asegurar que los assets se carguen correctamente
-RUN sed -i 's|<base href="$FLUTTER_BASE_HREF">|<base href="/">|g' web/index.html
+# Asegurar que el index.html tenga la etiqueta base href correcta
+RUN if grep -q "\$FLUTTER_BASE_HREF" web/index.html; then \
+    sed -i 's|<base href="\$FLUTTER_BASE_HREF">|<base href="/">|g' web/index.html; \
+  else \
+    sed -i 's|<head>|<head>\n  <base href="/">|g' web/index.html; \
+  fi
 
 # Obtener dependencias y construir para web
 RUN flutter pub get && \
-    flutter build web --release --base-href /
+    flutter build web --release
 
 # Etapa 2: Servir la aplicación con Nginx
 FROM nginx:alpine
