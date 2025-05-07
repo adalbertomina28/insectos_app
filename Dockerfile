@@ -46,22 +46,26 @@ FROM nginx:alpine
 # Copiar archivos de construcción web de Flutter
 COPY --from=build /app/build/web /usr/share/nginx/html
 
-# Crear enlaces simbólicos para compatibilidad con rutas de assets
-RUN mkdir -p /usr/share/nginx/html/images && \
-    mkdir -p /usr/share/nginx/html/images/home && \
-    mkdir -p /usr/share/nginx/html/images/crops && \
-    mkdir -p /usr/share/nginx/html/images/insects && \
-    mkdir -p /usr/share/nginx/html/images/tech && \
-    mkdir -p /usr/share/nginx/html/images/rna && \
-    mkdir -p /usr/share/nginx/html/icons && \
-    mkdir -p /usr/share/nginx/html/animations && \
-    cp -r /usr/share/nginx/html/assets/images/home/* /usr/share/nginx/html/images/home/ || true && \
-    cp -r /usr/share/nginx/html/assets/images/crops/* /usr/share/nginx/html/images/crops/ || true && \
-    cp -r /usr/share/nginx/html/assets/images/insects/* /usr/share/nginx/html/images/insects/ || true && \
-    cp -r /usr/share/nginx/html/assets/images/tech/* /usr/share/nginx/html/images/tech/ || true && \
-    cp -r /usr/share/nginx/html/assets/images/rna/* /usr/share/nginx/html/images/rna/ || true && \
-    cp -r /usr/share/nginx/html/assets/icons/* /usr/share/nginx/html/icons/ || true && \
-    cp -r /usr/share/nginx/html/assets/animations/* /usr/share/nginx/html/animations/ || true
+# Crear estructura de directorios y copiar assets para asegurar compatibilidad con múltiples rutas
+RUN mkdir -p /usr/share/nginx/html/images/home \
+    /usr/share/nginx/html/images/crops \
+    /usr/share/nginx/html/images/insects \
+    /usr/share/nginx/html/images/tech \
+    /usr/share/nginx/html/images/rna \
+    /usr/share/nginx/html/icons \
+    /usr/share/nginx/html/animations \
+    && find /usr/share/nginx/html/assets -type f -name "*.jpg" -o -name "*.jpeg" -o -name "*.png" -o -name "*.gif" -o -name "*.svg" | while read file; do \
+       relpath=$(echo "$file" | sed 's|/usr/share/nginx/html/assets/||'); \
+       mkdir -p "/usr/share/nginx/html/$(dirname "$relpath")"; \
+       cp "$file" "/usr/share/nginx/html/$relpath"; \
+    done \
+    && cp -r /usr/share/nginx/html/assets/images/home/* /usr/share/nginx/html/images/home/ 2>/dev/null || true \
+    && cp -r /usr/share/nginx/html/assets/images/crops/* /usr/share/nginx/html/images/crops/ 2>/dev/null || true \
+    && cp -r /usr/share/nginx/html/assets/images/insects/* /usr/share/nginx/html/images/insects/ 2>/dev/null || true \
+    && cp -r /usr/share/nginx/html/assets/images/tech/* /usr/share/nginx/html/images/tech/ 2>/dev/null || true \
+    && cp -r /usr/share/nginx/html/assets/images/rna/* /usr/share/nginx/html/images/rna/ 2>/dev/null || true \
+    && cp -r /usr/share/nginx/html/assets/icons/* /usr/share/nginx/html/icons/ 2>/dev/null || true \
+    && cp -r /usr/share/nginx/html/assets/animations/* /usr/share/nginx/html/animations/ 2>/dev/null || true
 
 # Copiar configuración personalizada de Nginx
 COPY nginx.conf /etc/nginx/conf.d/default.conf
