@@ -29,9 +29,6 @@ WORKDIR /app
 # Copiar archivos del proyecto
 COPY . .
 
-# Definir argumentos para variables de entorno
-ARG API_URL=https://api.insectlab.app
-
 # Asegurar que el index.html tenga la etiqueta base href correcta
 RUN if grep -q "\$FLUTTER_BASE_HREF" web/index.html; then \
     sed -i 's|<base href="\$FLUTTER_BASE_HREF">|<base href="/">|g' web/index.html; \
