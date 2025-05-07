@@ -9,7 +9,7 @@ RUN flutter pub get
 # Copy source and build
 COPY . .
 # Construir la aplicación con la URL base correcta
-RUN flutter build web --release --no-tree-shake-icons --base-href="/" --dart-define=API_BASE_URL=https://api.insectlab.app
+RUN flutter build web --release --no-tree-shake-icons --base-href="/" --dart-define=API_BASE_URL=https://api.insectlab.app --web-renderer html
 
 # Stage 2: serve with Nginx
 FROM nginx:alpine
