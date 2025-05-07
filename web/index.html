@@ -32,8 +32,10 @@
   <title>InsectLab</title>
   <link rel="manifest" href="manifest.json">
   
-  <!-- La configuración de la API URL ahora se maneja a través de --dart-define durante la compilación -->
-  <!-- No se necesita script de configuración en el HTML -->
+  <!-- Configuración explícita de la URL de la API -->
+  <script>
+    window.API_BASE_URL = "https://api.insectlab.app";
+  </script>
 </head>
 <body>
   <script src="flutter_bootstrap.js" async></script>
