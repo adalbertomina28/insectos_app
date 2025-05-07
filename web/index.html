@@ -32,21 +32,8 @@
   <title>InsectLab</title>
   <link rel="manifest" href="manifest.json">
   
-  <!-- Variables de entorno para la aplicación -->
-  <script>
-    // Establecer variables de entorno como atributos de datos en el documento
-    var apiUrl = "__SEARCH_API_URL__";
-    console.log("API URL configurada: " + apiUrl);
-    document.documentElement.dataset.searchApiUrl = apiUrl;
-    
-    // Verificar si la URL es el placeholder y no ha sido reemplazada
-    if (apiUrl === "__SEARCH_API_URL__") {
-      console.warn("La variable SEARCH_API_URL no fue reemplazada correctamente");
-      // Usar URL predeterminada
-      document.documentElement.dataset.searchApiUrl = "https://api.insectlab.app";
-      console.log("Usando URL predeterminada: https://api.insectlab.app");
-    }
-  </script>
+  <!-- La configuración de la API URL ahora se maneja a través de --dart-define durante la compilación -->
+  <!-- No se necesita script de configuración en el HTML -->
 </head>
 <body>
   <script src="flutter_bootstrap.js" async></script>

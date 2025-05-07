@@ -30,26 +30,21 @@ WORKDIR /app
 COPY . .
 
 # Definir argumentos para variables de entorno
-ARG SEARCH_API_URL=https://api.insectlab.app
+ARG API_URL=https://api.insectlab.app
 
-# Asegurar que el index.html tenga la etiqueta base href correcta y configurar variables de entorno
+# Asegurar que el index.html tenga la etiqueta base href correcta
 RUN if grep -q "\$FLUTTER_BASE_HREF" web/index.html; then \
     sed -i 's|<base href="\$FLUTTER_BASE_HREF">|<base href="/">|g' web/index.html; \
   else \
     sed -i 's|<head>|<head>\n  <base href="/">|g' web/index.html; \
-  fi && \
-  sed -i "s|__SEARCH_API_URL__|${SEARCH_API_URL}|g" web/index.html
+  fi
 
-# Obtener dependencias y construir para web
+# Obtener dependencias y construir para web con la variable de entorno
 RUN flutter pub get && \
-    flutter build web --release
+    flutter build web --release --dart-define=API_URL=${API_URL}
 
 # Etapa 2: Servir la aplicación con Nginx
 FROM nginx:alpine
-
-# Pasar la variable de entorno del build al runtime
-ARG SEARCH_API_URL
-ENV SEARCH_API_URL=${SEARCH_API_URL}
 
 # Copiar archivos de construcción web de Flutter
 COPY --from=build /app/build/web /usr/share/nginx/html
@@ -78,12 +73,8 @@ RUN mkdir -p /usr/share/nginx/html/images/home \
 # Copiar configuración personalizada de Nginx
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Copiar y dar permisos al script de entrada
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
-
 # Exponer puerto
 EXPOSE 80
 
-# Usar el script de entrada como punto de inicio
-ENTRYPOINT ["/entrypoint.sh"]
+# Comando para iniciar Nginx
+CMD ["nginx", "-g", "daemon off;"]
