@@ -31,6 +31,12 @@
 
   <title>InsectLab</title>
   <link rel="manifest" href="manifest.json">
+  
+  <!-- Variables de entorno para la aplicación -->
+  <script>
+    // Establecer variables de entorno como atributos de datos en el documento
+    document.documentElement.dataset.searchApiUrl = "__SEARCH_API_URL__";
+  </script>
 </head>
 <body>
   <script src="flutter_bootstrap.js" async></script>

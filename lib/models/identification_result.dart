@@ -1,3 +1,5 @@
+import '../config/api_config.dart';
+
 class IdentificationResult {
   final String status;
   final String? message;
@@ -50,9 +52,9 @@ class IdentificationMatch {
         json['taxon']['default_photo']['medium_url'] != null) {
       final originalUrl =
           json['taxon']['default_photo']['medium_url'] as String;
-      // Usar 10.0.2.2 para emulador Android en lugar de localhost
+      // Usar la URL de la API desde la configuración
       photoUrl =
-          'https://api.insectlab.app/api/proxy/image?url=${Uri.encodeComponent(originalUrl)}';
+          '${ApiConfig.baseUrl}/api/proxy/image?url=${Uri.encodeComponent(originalUrl)}';
     }
 
     return IdentificationMatch(
