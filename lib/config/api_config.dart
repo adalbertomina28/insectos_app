@@ -7,8 +7,17 @@ class ApiConfig {
     // Intentar obtener la URL desde la variable de entorno
     final envUrl = html.window.document.documentElement?.dataset['searchApiUrl'];
     
-    // Valores por defecto según el entorno
-    return envUrl ?? 'https://api.insectlab.app'; // URL por defecto si no hay variable de entorno
+    // Imprimir para depuración
+    print('ApiConfig: URL obtenida del dataset: $envUrl');
+    
+    // Si la URL está vacía o es nula, usar el valor predeterminado
+    if (envUrl == null || envUrl.isEmpty || envUrl == '__SEARCH_API_URL__') {
+      print('ApiConfig: Usando URL predeterminada');
+      return 'https://api.insectlab.app';
+    }
+    
+    print('ApiConfig: Usando URL del entorno: $envUrl');
+    return envUrl;
   }
 
   static const Map<String, String> headers = {

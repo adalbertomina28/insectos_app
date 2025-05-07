@@ -47,6 +47,10 @@ RUN flutter pub get && \
 # Etapa 2: Servir la aplicación con Nginx
 FROM nginx:alpine
 
+# Pasar la variable de entorno del build al runtime
+ARG SEARCH_API_URL
+ENV SEARCH_API_URL=${SEARCH_API_URL}
+
 # Copiar archivos de construcción web de Flutter
 COPY --from=build /app/build/web /usr/share/nginx/html
 
@@ -74,8 +78,12 @@ RUN mkdir -p /usr/share/nginx/html/images/home \
 # Copiar configuración personalizada de Nginx
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
+# Copiar y dar permisos al script de entrada
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
 # Exponer puerto
 EXPOSE 80
 
-# Comando para iniciar Nginx
-CMD ["nginx", "-g", "daemon off;"]
+# Usar el script de entrada como punto de inicio
+ENTRYPOINT ["/entrypoint.sh"]

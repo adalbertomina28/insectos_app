@@ -35,7 +35,17 @@
   <!-- Variables de entorno para la aplicación -->
   <script>
     // Establecer variables de entorno como atributos de datos en el documento
-    document.documentElement.dataset.searchApiUrl = "__SEARCH_API_URL__";
+    var apiUrl = "__SEARCH_API_URL__";
+    console.log("API URL configurada: " + apiUrl);
+    document.documentElement.dataset.searchApiUrl = apiUrl;
+    
+    // Verificar si la URL es el placeholder y no ha sido reemplazada
+    if (apiUrl === "__SEARCH_API_URL__") {
+      console.warn("La variable SEARCH_API_URL no fue reemplazada correctamente");
+      // Usar URL predeterminada
+      document.documentElement.dataset.searchApiUrl = "https://api.insectlab.app";
+      console.log("Usando URL predeterminada: https://api.insectlab.app");
+    }
   </script>
 </head>
 <body>
