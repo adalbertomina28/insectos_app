@@ -20,7 +20,7 @@ FROM nginx:alpine
 COPY --from=build /app/build/web /usr/share/nginx/html
 
 # Configurar Nginx para SPA
-RUN echo '
+COPY <<EOF /etc/nginx/conf.d/default.conf
 server {
     listen 80;
     server_name _;
@@ -28,9 +28,10 @@ server {
     index index.html;
     
     location / {
-        try_files $uri $uri/ /index.html;
+        try_files \$uri \$uri/ /index.html;
     }
-}' > /etc/nginx/conf.d/default.conf
+}
+EOF
 
 # Copy assets to public directories (if they exist)
 RUN mkdir -p /usr/share/nginx/html/images /usr/share/nginx/html/icons /usr/share/nginx/html/animations \
