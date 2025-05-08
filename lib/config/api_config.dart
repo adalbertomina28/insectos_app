@@ -1,15 +1,33 @@
+import 'dart:js' as js;
+
 // Definir una constante global para la URL de la API
-// Usando la URL completa de Coolify
+// Usando la URL completa de Coolify como fallback
 const String API_BASE_URL = String.fromEnvironment('API_BASE_URL',
-    defaultValue: 'http://t0gsggssgg8ow04ocwww08oo.195.35.36.123.sslip.io');
-// URL forzada para todos los entornos
-const String FORCED_API_URL = API_BASE_URL;
+    defaultValue: 'https://api.insectlab.app');
+
+// URL que se usará realmente, determinada en tiempo de ejecución
+String get FORCED_API_URL {
+  try {
+    // Intentar obtener la URL desde JavaScript (establecida en index.html)
+    if (js.context.hasProperty('API_BASE_URL')) {
+      final jsUrl = js.context['API_BASE_URL'];
+      if (jsUrl != null && jsUrl is String && jsUrl.isNotEmpty) {
+        print('Using API URL from JavaScript: $jsUrl');
+        return jsUrl;
+      }
+    }
+  } catch (e) {
+    print('Error accessing window.API_BASE_URL: $e');
+  }
+  
+  // Si no se puede obtener desde JS, usar el valor de Dart
+  print('Using API URL from Dart: $API_BASE_URL');
+  return API_BASE_URL;
+}
 
 class ApiConfig {
   // Retornar la URL base de la API
   static String get baseUrl {
-    // SIEMPRE usar la URL forzada para evitar problemas con Coolify
-    print('Using forced API URL: $FORCED_API_URL');
     return FORCED_API_URL;
   }
 
