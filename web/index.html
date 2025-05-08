@@ -101,6 +101,7 @@
         return element;
       };
       
+      // Verificación inicial
       setTimeout(function() {
         try {
           // Intentar acceder al objeto global de Dart
@@ -112,6 +113,30 @@
           logApiUrl(`Error al interactuar con Dart: ${e}`, 'error');
         }
       }, 1000);
+      
+      // Configurar verificación periódica de la URL
+      setInterval(function() {
+        try {
+          // Verificar si la URL ha cambiado
+          logApiUrl(`Verificación periódica - URL actual: ${window.BACKEND_API_BASE_URL}`);
+          
+          // Intentar acceder a variables globales de Dart
+          if (window.dart_library) {
+            logApiUrl('Biblioteca Dart detectada');
+          }
+          
+          // Verificar si hay elementos en el DOM que puedan contener la URL
+          const allElements = document.querySelectorAll('*');
+          for (let i = 0; i < allElements.length; i++) {
+            const el = allElements[i];
+            if (el.textContent && el.textContent.includes('api.insectlab.app')) {
+              logApiUrl(`Encontrada referencia a la URL en elemento: ${el.tagName}`, 'warn');
+            }
+          }
+        } catch(e) {
+          logApiUrl(`Error en verificación periódica: ${e}`, 'error');
+        }
+      }, 5000);
     });
   </script>
 </head>
