@@ -2,7 +2,7 @@
 FROM debian:bullseye-slim AS build
 
 # Definir argumento para la URL de la API
-ARG API_BASE_URL=https://api.insectlab.app
+ARG API_BASE_URL=http://t0gsggssgg8ow04ocwww08oo.195.35.36.123.sslip.io
 
 # Evitar interacciones durante la instalación de paquetes
 ENV DEBIAN_FRONTEND=noninteractive
