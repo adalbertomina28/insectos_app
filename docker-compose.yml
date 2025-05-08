@@ -1,6 +1,10 @@
 version: '3.8'
 
 services:
+  frontend:
+    environment:
+      - BACKEND_API_BASE_URL=https://api.insectlab.app
+      - API_BASE_URL=https://api.insectlab.app
   insectos_app:
     build:
       context: .
