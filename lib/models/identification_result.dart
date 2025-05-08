@@ -54,7 +54,7 @@ class IdentificationMatch {
           json['taxon']['default_photo']['medium_url'] as String;
       // Usar la URL de la API desde la constante global
       photoUrl =
-          '$API_BASE_URL/api/proxy/image?url=${Uri.encodeComponent(originalUrl)}';
+          '$FORCED_API_URL/api/proxy/image?url=${Uri.encodeComponent(originalUrl)}';
     }
 
     return IdentificationMatch(
