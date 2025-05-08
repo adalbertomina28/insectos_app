@@ -1,39 +1,49 @@
-# Stage 1: build Flutter web
-FROM ghcr.io/cirruslabs/flutter:3.29.3 AS build
+# Etapa 1: Construir la aplicación Flutter
+FROM debian:bullseye-slim AS build
+
+# Evitar interacciones durante la instalación de paquetes
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Instalar dependencias mínimas necesarias
+RUN apt-get update && apt-get install -y \
+    curl \
+    git \
+    unzip \
+    xz-utils \
+    && rm -rf /var/lib/apt/lists/*
+
+# Configurar variables de entorno para Flutter
+ENV FLUTTER_HOME=/opt/flutter
+ENV PATH=$FLUTTER_HOME/bin:$PATH
+
+# Descargar e instalar Flutter (versión estable)
+RUN git clone -b stable --depth 1 https://github.com/flutter/flutter.git $FLUTTER_HOME
+
+# Configurar Flutter para web
+RUN flutter config --no-analytics && \
+    flutter config --enable-web
+
+# Configurar directorio de trabajo
 WORKDIR /app
 
-# Cache dependencies
-COPY pubspec.* ./
-RUN flutter pub get
-
-# Copy source and build
+# Copiar archivos del proyecto
 COPY . .
-# Construir la aplicación con la URL base correcta
-RUN flutter build web --release --no-tree-shake-icons --base-href="/" --dart-define=API_BASE_URL=https://api.insectlab.app
 
-# Stage 2: serve with Nginx
+# Obtener dependencias y construir para web
+RUN flutter pub get && \
+    flutter build web --release
+
+# Etapa 2: Servir la aplicación con Nginx
 FROM nginx:alpine
+
+# Copiar archivos de construcción web de Flutter
 COPY --from=build /app/build/web /usr/share/nginx/html
 
-# Configurar Nginx para SPA
-COPY <<EOF /etc/nginx/conf.d/default.conf
-server {
-    listen 80;
-    server_name _;
-    root /usr/share/nginx/html;
-    index index.html;
-    
-    location / {
-        try_files \$uri \$uri/ /index.html;
-    }
-}
-EOF
+# Copiar configuración personalizada de Nginx
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Copy assets to public directories (if they exist)
-RUN mkdir -p /usr/share/nginx/html/images /usr/share/nginx/html/icons /usr/share/nginx/html/animations \
-    && if [ -d "/usr/share/nginx/html/assets/images" ]; then cp -a /usr/share/nginx/html/assets/images/. /usr/share/nginx/html/images/ 2>/dev/null || true; fi \
-    && if [ -d "/usr/share/nginx/html/assets/icons" ]; then cp -a /usr/share/nginx/html/assets/icons/. /usr/share/nginx/html/icons/ 2>/dev/null || true; fi \
-    && if [ -d "/usr/share/nginx/html/assets/animations" ]; then cp -a /usr/share/nginx/html/assets/animations/. /usr/share/nginx/html/animations/ 2>/dev/null || true; fi
-
+# Exponer puerto
 EXPOSE 80
+
+# Comando para iniciar Nginx
 CMD ["nginx", "-g", "daemon off;"]
