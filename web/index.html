@@ -34,7 +34,13 @@
   
   <!-- Configuración explícita de la URL de la API -->
   <script>
-    window.API_BASE_URL = "https://api.insectlab.app";
+    // Asegurarse de que la URL de la API sea la correcta
+    if (!window.API_BASE_URL || window.API_BASE_URL.includes('sslip.io') || window.API_BASE_URL.includes('t0gsggssgg8ow04ocwww08oo')) {
+      window.API_BASE_URL = "https://api.insectlab.app";
+      console.log("API URL forzada a: " + window.API_BASE_URL);
+    } else {
+      console.log("API URL actual: " + window.API_BASE_URL);
+    }
   </script>
 </head>
 <body>
