@@ -59,6 +59,9 @@ RUN apk add --no-cache bash gettext
 # Copiar archivos de construcción web de Flutter
 COPY --from=build /app/build/web /usr/share/nginx/html
 
+# Copiar explícitamente las carpetas de assets
+COPY --from=build /app/assets /usr/share/nginx/html/assets
+
 # Copiar configuración personalizada de Nginx
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
@@ -67,7 +70,7 @@ COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
 # Definir variable de entorno para la URL de la API
-ENV API_BASE_URL=https://api.insectlab.app
+ENV API_URL=https://api.insectlab.app
 
 # Exponer puerto
 EXPOSE 80
