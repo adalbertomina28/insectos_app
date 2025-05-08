@@ -1,30 +1,37 @@
-# Etapa 1: Construir la aplicación Flutter
-FROM debian:bullseye-slim AS build
-
-# Ya no usamos argumentos para la URL de la API porque ahora está hardcodeada en el código
-# Esto evita que Coolify pueda manipular la URL durante la construcción
+FROM ubuntu:20.04
 
 # Evitar interacciones durante la instalación de paquetes
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Instalar dependencias mínimas necesarias
+# Instalar dependencias necesarias
 RUN apt-get update && apt-get install -y \
     curl \
     git \
     unzip \
     xz-utils \
+    zip \
+    libglu1-mesa \
+    openjdk-11-jdk \
+    wget \
+    build-essential \
+    libsqlite3-dev \
+    libssl-dev \
+    zlib1g-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Configurar variables de entorno para Flutter
-ENV FLUTTER_HOME=/opt/flutter
+ENV FLUTTER_HOME=/usr/local/flutter
+ENV FLUTTER_VERSION=3.19.3
 ENV PATH=$FLUTTER_HOME/bin:$PATH
 
-# Descargar e instalar Flutter (versión estable)
-RUN git clone -b stable --depth 1 https://github.com/flutter/flutter.git $FLUTTER_HOME
+# Descargar e instalar Flutter
+RUN git clone -b stable https://github.com/flutter/flutter.git $FLUTTER_HOME && \
+    cd $FLUTTER_HOME && \
+    git checkout $FLUTTER_VERSION
 
-# Configurar Flutter para web
-RUN flutter config --no-analytics && \
-    flutter config --enable-web
+# Verificar la instalación de Flutter y pre-descargar dependencias
+RUN flutter precache && \
+    flutter doctor
 
 # Configurar directorio de trabajo
 WORKDIR /app
@@ -32,23 +39,11 @@ WORKDIR /app
 # Copiar archivos del proyecto
 COPY . .
 
-# Obtener dependencias y construir para web sin usar variables de entorno
-# Esto asegura que se usen las URLs hardcodeadas en el código
-RUN flutter clean && \
-    flutter pub get && \
-    flutter build web --release
+# Obtener dependencias
+RUN flutter pub get
 
-# Etapa 2: Servir la aplicación con Nginx
-FROM nginx:alpine
+# Configurar para compilación web
+RUN flutter config --enable-web
 
-# Copiar archivos de construcción web de Flutter
-COPY --from=build /app/build/web /usr/share/nginx/html
-
-# Copiar configuración personalizada de Nginx
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-
-# Exponer puerto
-EXPOSE 80
-
-# Comando para iniciar Nginx
-CMD ["nginx", "-g", "daemon off;"]
+# Comando por defecto para ejecutar la aplicación en modo web
+CMD ["flutter", "run", "--release", "--web-port", "8080", "--web-renderer", "html", "--no-sound-null-safety", "--web-hostname", "0.0.0.0"]
