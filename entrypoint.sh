@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Obtener la URL de la API desde la variable de entorno o usar el valor predeterminado
-SEARCH_API_URL=${SEARCH_API_URL:-https://api.insectlab.app}
+SEARCH_API_URL=${SEARCH_API_URL:-http://api.insectlab.app}
 
 # Reemplazar el marcador en el archivo index.html
 sed -i "s|__SEARCH_API_URL__|${SEARCH_API_URL}|g" /usr/share/nginx/html/index.html

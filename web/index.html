@@ -35,12 +35,12 @@
   <!-- Configuración explícita de la URL de la API -->
   <script>
     // Forzar la URL de la API siempre a api.insectlab.app
-    window.API_BASE_URL = "https://api.insectlab.app";
+    window.API_BASE_URL = "http://api.insectlab.app";
     console.log("API URL forzada a: " + window.API_BASE_URL);
     
     // Sobrescribir cualquier intento de cambiar la URL
     Object.defineProperty(window, 'API_BASE_URL', {
-      value: "https://api.insectlab.app",
+      value: "http://api.insectlab.app",
       writable: false,
       configurable: false
     });
