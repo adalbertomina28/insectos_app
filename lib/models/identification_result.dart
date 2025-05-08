@@ -1,4 +1,4 @@
-// Ya no necesitamos importar api_config.dart porque estamos ofuscando la URL directamente
+import 'dart:convert';
 
 class IdentificationResult {
   final String status;
@@ -52,11 +52,21 @@ class IdentificationMatch {
         json['taxon']['default_photo']['medium_url'] != null) {
       final originalUrl =
           json['taxon']['default_photo']['medium_url'] as String;
-      // Ofuscar la URL para evitar que Coolify la reemplace
-      const part1 = 'https://a';
-      const part2 = 'pi.insect';
-      const part3 = 'lab.app';
-      final apiUrl = part1 + part2 + part3;
+      // Ofuscar la URL usando codificación Base64
+      // URL codificada en Base64: 'https://api.insectlab.app'
+      const encodedUrl = 'aHR0cHM6Ly9hcGkuaW5zZWN0bGFiLmFwcA==';
+      String apiUrl;
+      try {
+        // Decodificar la URL desde Base64
+        final bytes = base64.decode(encodedUrl);
+        apiUrl = utf8.decode(bytes);
+      } catch (e) {
+        // Fallback en caso de error (usando valores ASCII)
+        apiUrl = String.fromCharCodes([
+          104, 116, 116, 112, 115, 58, 47, 47, 97, 112, 105, 46, 
+          105, 110, 115, 101, 99, 116, 108, 97, 98, 46, 97, 112, 112
+        ]);
+      }
       photoUrl =
           '$apiUrl/api/proxy/image?url=${Uri.encodeComponent(originalUrl)}';
     }

@@ -6,13 +6,22 @@ import '../config/api_config.dart';
 import '../models/identification_result.dart';
 
 class IdentificationService {
-  // Construir la URL de forma dinámica para evitar que Coolify la reemplace
+  // Construir la URL de forma dinámica usando codificación Base64
   String get _baseUrl {
-    // Dividir la URL en partes para ofuscarla
-    const part1 = 'https://a';
-    const part2 = 'pi.insect';
-    const part3 = 'lab.app';
-    return part1 + part2 + part3;
+    // URL codificada en Base64: 'https://api.insectlab.app'
+    const encodedUrl = 'aHR0cHM6Ly9hcGkuaW5zZWN0bGFiLmFwcA==';
+    try {
+      // Decodificar la URL desde Base64
+      final bytes = base64.decode(encodedUrl);
+      final decodedUrl = utf8.decode(bytes);
+      return decodedUrl;
+    } catch (e) {
+      // Fallback en caso de error (usando valores ASCII)
+      return String.fromCharCodes([
+        104, 116, 116, 112, 115, 58, 47, 47, 97, 112, 105, 46, 
+        105, 110, 115, 101, 99, 116, 108, 97, 98, 46, 97, 112, 112
+      ]);
+    }
   }
   final Map<String, String> _headers = ApiConfig.headers;
 
