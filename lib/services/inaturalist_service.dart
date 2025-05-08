@@ -21,10 +21,11 @@ class InsectService {
     int perPage = 20,
   }) async {
     try {
-      // IMPORTANTE: Usar directamente la URL correcta sin variables intermedias
-      print('SOLICITUD: Usando URL hardcodeada para evitar reemplazo por Coolify');
-      final uri = Uri.parse('https://api.insectlab.app').replace(
-        path: '/api/insects/search',
+      // IMPORTANTE: Usar directamente la URL completa sin métodos que puedan ser alterados
+      print('SOLICITUD: Usando URL hardcodeada completa para evitar reemplazo por Coolify');
+      // Construir la URL completa directamente
+      final String baseUrl = 'https://api.insectlab.app/api/insects/search';
+      final uri = Uri.parse(baseUrl).replace(
         queryParameters: {
           'query': query,
           'locale': locale,
@@ -32,6 +33,7 @@ class InsectService {
           'per_page': perPage.toString(),
         },
       );
+      print('URL base utilizada: $baseUrl');
 
       final response = await http.get(
         uri,
@@ -75,13 +77,14 @@ class InsectService {
   Future<Map<String, dynamic>> getInsectDetails(int id,
       {String locale = 'es'}) async {
     try {
-      // IMPORTANTE: Usar directamente la URL correcta
-      final uri = Uri.parse('https://api.insectlab.app').replace(
-        path: '/api/insects/$id',
+      // IMPORTANTE: Usar directamente la URL completa sin métodos que puedan ser alterados
+      final String baseUrl = 'https://api.insectlab.app/api/insects/$id';
+      final uri = Uri.parse(baseUrl).replace(
         queryParameters: {
           'locale': locale,
         },
       );
+      print('URL base utilizada para detalles: $baseUrl');
 
       final response = await http.get(
         uri,
@@ -108,9 +111,9 @@ class InsectService {
     String locale = 'es',
   }) async {
     try {
-      // IMPORTANTE: Usar directamente la URL correcta
-      final uri = Uri.parse('https://api.insectlab.app').replace(
-        path: '/api/insects/nearby',
+      // IMPORTANTE: Usar directamente la URL completa sin métodos que puedan ser alterados
+      final String baseUrl = 'https://api.insectlab.app/api/insects/nearby';
+      final uri = Uri.parse(baseUrl).replace(
         queryParameters: {
           'lat': latitude.toString(),
           'lng': longitude.toString(),
@@ -118,6 +121,7 @@ class InsectService {
           'locale': locale,
         },
       );
+      print('URL base utilizada para insectos cercanos: $baseUrl');
 
       final response = await http.get(
         uri,

@@ -25,9 +25,16 @@ class IdentificationService {
     String locale = 'es',
   }) async {
     try {
-      // IMPORTANTE: Usar directamente la URL correcta sin variables intermedias
+      // IMPORTANTE: Usar directamente la URL completa sin variables intermedias
+      final String apiUrl = 'https://api.insectlab.app/api/identification/identify';
       print('SOLICITUD: Usando URL hardcodeada para evitar reemplazo por Coolify');
-      final uri = Uri.parse('https://api.insectlab.app/api/identification/identify');
+      print('URL de identificación utilizada: $apiUrl');
+      final uri = Uri.parse(apiUrl);
+      
+      // Verificar que la URL no ha sido alterada
+      if (!uri.toString().startsWith('https://api.insectlab.app')) {
+        print('ADVERTENCIA: La URL ha sido alterada: ${uri.toString()}');
+      }
 
       // Preparar la solicitud multipart
       var request = http.MultipartRequest('POST', uri);
