@@ -46,4 +46,4 @@ RUN flutter pub get
 RUN flutter config --enable-web
 
 # Comando por defecto para ejecutar la aplicación en modo web
-CMD ["flutter", "run", "--release", "--web-port", "8080", "--web-renderer", "html", "--no-sound-null-safety", "--web-hostname", "0.0.0.0"]
+CMD ["flutter", "run", "--release", "--web-port", "8080", "--web-hostname", "0.0.0.0"]
