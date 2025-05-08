@@ -33,7 +33,8 @@ WORKDIR /app
 COPY . .
 
 # Obtener dependencias y construir para web usando la variable de entorno
-RUN flutter pub get && \
+RUN flutter clean && \
+    flutter pub get && \
     flutter build web --release --dart-define=BACKEND_API_BASE_URL=https://api.insectlab.app
 
 # Etapa 2: Servir la aplicación con Nginx
