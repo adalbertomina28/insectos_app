@@ -1,8 +1,8 @@
 # Etapa 1: Construir la aplicación Flutter
 FROM debian:bullseye-slim AS build
 
-# Definir argumento para la URL de la API
-ARG API_BASE_URL=https://t0gsggssgg8ow04ocwww08oo.195.35.36.123.sslip.io
+# Definir argumento para la URL de la API - usando URL relativa para el proxy
+ARG API_BASE_URL=
 
 # Evitar interacciones durante la instalación de paquetes
 ENV DEBIAN_FRONTEND=noninteractive
