@@ -1,4 +1,5 @@
-FROM ubuntu:20.04
+# Etapa 1: Construir la aplicación Flutter
+FROM ubuntu:20.04 AS build
 
 # Evitar interacciones durante la instalación de paquetes
 ENV DEBIAN_FRONTEND=noninteractive
@@ -45,5 +46,20 @@ RUN flutter pub get
 # Configurar para compilación web
 RUN flutter config --enable-web
 
-# Comando por defecto para ejecutar la aplicación en modo web
-CMD ["flutter", "run", "--release", "--web-port", "8080", "--web-hostname", "0.0.0.0"]
+# Construir la aplicación web
+RUN flutter build web --release
+
+# Etapa 2: Servir la aplicación con Nginx
+FROM nginx:alpine
+
+# Copiar archivos de construcción web de Flutter
+COPY --from=build /app/build/web /usr/share/nginx/html
+
+# Copiar configuración personalizada de Nginx
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Exponer puerto
+EXPOSE 80
+
+# Comando para iniciar Nginx
+CMD ["nginx", "-g", "daemon off;"]

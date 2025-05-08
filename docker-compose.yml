@@ -5,19 +5,10 @@ services:
     build: .
     container_name: insectos_app
     ports:
-      - "8080:8080"
-    volumes:
-      - .:/app
-      # Excluir directorios que no necesitan ser montados
-      - /app/.dart_tool
-      - /app/build
-      - /app/.flutter-plugins-dependencies
-    environment:
-      - FLUTTER_WEB_PORT=8080
-      - FLUTTER_WEB_HOSTNAME=0.0.0.0
+      - "80:80"
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080"]
+      test: ["CMD", "curl", "-f", "http://localhost:80"]
       interval: 30s
       timeout: 10s
       retries: 3
