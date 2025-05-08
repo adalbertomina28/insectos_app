@@ -1,6 +1,7 @@
-import 'dart:io';
-import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'dart:io';
+import 'dart:developer' as developer;
+import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import '../config/api_config.dart';
 import '../models/identification_result.dart';
@@ -8,6 +9,13 @@ import '../models/identification_result.dart';
 class IdentificationService {
   // URL directa sin ofuscación
   final String _baseUrl = 'https://api.insectlab.app';
+
+  IdentificationService() {
+    // Log al crear la instancia del servicio
+    developer.log(
+        'SERVICIO: IdentificationService creado con URL base: $_baseUrl',
+        name: 'identification_service');
+  }
   final Map<String, String> _headers = ApiConfig.headers;
 
   Future<IdentificationResult> identifyInsect({
@@ -17,8 +25,12 @@ class IdentificationService {
     String locale = 'es',
   }) async {
     try {
-      // Crear una solicitud multipart con la URL ofuscada
-      final uri = Uri.parse(_baseUrl + '/api/identification/identify');
+      // Crear una solicitud multipart y registrar la URL
+      final uriString = '$_baseUrl/api/identification/identify';
+      developer.log(
+          'SOLICITUD: Construyendo URL para identificación: $uriString',
+          name: 'identification_service');
+      final uri = Uri.parse(uriString);
 
       // Preparar la solicitud multipart
       var request = http.MultipartRequest('POST', uri);
@@ -62,7 +74,9 @@ class IdentificationService {
       });
 
       // Enviar la solicitud
-      print('Usando URL ofuscada: $_baseUrl');
+      developer.log('SOLICITUD: Enviando solicitud de identificación a: $uri',
+          name: 'identification_service');
+      print('Usando URL: $_baseUrl');
       print('Enviando solicitud de identificación a: $uri');
       final streamedResponse = await request.send();
       final response = await http.Response.fromStream(streamedResponse);

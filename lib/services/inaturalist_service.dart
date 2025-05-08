@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer' as developer;
 import 'package:http/http.dart' as http;
 import '../config/api_config.dart';
 import '../models/insect_model.dart';
@@ -6,6 +7,11 @@ import '../models/insect_model.dart';
 class InsectService {
   // URL directa sin ofuscación
   final String _baseUrl = 'https://api.insectlab.app';
+  
+  InsectService() {
+    // Log al crear la instancia del servicio
+    developer.log('SERVICIO: InsectService creado con URL base: $_baseUrl', name: 'insect_service');
+  }
   final Map<String, String> _headers = ApiConfig.headers;
 
   Future<Map<String, dynamic>> searchInsects({
@@ -15,7 +21,8 @@ class InsectService {
     int perPage = 20,
   }) async {
     try {
-      // Construir la URL de forma dinámica
+      // Construir la URL y registrarla
+      developer.log('SOLICITUD: Construyendo URL con base: $_baseUrl', name: 'insect_service');
       final uri = Uri.parse(_baseUrl).replace(
         path: '/api/insects/search',
         queryParameters: {

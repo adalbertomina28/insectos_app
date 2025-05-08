@@ -32,30 +32,84 @@
   <title>InsectLab</title>
   <link rel="manifest" href="manifest.json">
   
-  <!-- Configuración explícita de la URL de la API -->
+  <!-- Configuración explícita de la URL de la API con logs detallados -->
   <script>
+    // Configurar sistema de logs
+    function logApiUrl(message, type = 'info') {
+      const timestamp = new Date().toISOString();
+      const logPrefix = `[API_URL_TRACKER][${timestamp}]`;
+      console[type](`${logPrefix} ${message}`);
+      
+      // Guardar en localStorage para poder revisarlo después
+      const logs = JSON.parse(localStorage.getItem('api_url_logs') || '[]');
+      logs.push({ timestamp, message, type });
+      localStorage.setItem('api_url_logs', JSON.stringify(logs));
+    }
+    
+    // Log inicial
+    logApiUrl('Iniciando rastreo de URL API');
+    
+    // Registrar la URL original del documento
+    logApiUrl(`URL del documento: ${window.location.href}`);
+    
     // Forzar la URL de la API siempre a api.insectlab.app
-    window.API_BASE_URL = "https://api.insectlab.app";
-    console.log("API URL forzada a: " + window.API_BASE_URL);
+    window.BACKEND_API_BASE_URL = "https://api.insectlab.app";
+    logApiUrl(`URL API inicial establecida: ${window.BACKEND_API_BASE_URL}`);
+    
+    // Monitorear cambios en la URL
+    const originalDefineProperty = Object.defineProperty;
+    Object.defineProperty = function(obj, prop, descriptor) {
+      if (prop === 'BACKEND_API_BASE_URL' || prop === 'API_BASE_URL') {
+        logApiUrl(`Intento de redefinir ${prop} con valor: ${descriptor.value || '[getter/setter]'}`, 'warn');
+      }
+      return originalDefineProperty.apply(this, arguments);
+    };
     
     // Sobrescribir cualquier intento de cambiar la URL
-    Object.defineProperty(window, 'API_BASE_URL', {
+    Object.defineProperty(window, 'BACKEND_API_BASE_URL', {
       value: "https://api.insectlab.app",
       writable: false,
       configurable: false
     });
+    logApiUrl('Protección contra cambios aplicada');
+    
+    // Monitorear el objeto window para detectar cambios
+    window.addEventListener('storage', function(e) {
+      logApiUrl(`Evento de almacenamiento detectado: ${e.key} = ${e.newValue}`);
+    });
     
     // Inyectar la URL directamente en el objeto global de Dart
     document.addEventListener('DOMContentLoaded', function() {
-      console.log("Inyectando URL en Dart...");
+      logApiUrl('DOM cargado, preparando inyección en Dart...');
+      
+      // Crear un elemento meta para comunicarse con Dart
+      const metaElement = document.createElement('meta');
+      metaElement.setAttribute('name', 'backend-api-url');
+      metaElement.setAttribute('content', 'https://api.insectlab.app');
+      document.head.appendChild(metaElement);
+      logApiUrl('Meta tag para API URL creado');
+      
+      // Monitorear carga de scripts
+      const originalCreateElement = document.createElement;
+      document.createElement = function(tagName) {
+        const element = originalCreateElement.call(document, tagName);
+        if (tagName.toLowerCase() === 'script') {
+          element.addEventListener('load', function() {
+            logApiUrl(`Script cargado: ${element.src || 'inline script'}`);
+          });
+        }
+        return element;
+      };
+      
       setTimeout(function() {
         try {
           // Intentar acceder al objeto global de Dart
           if (window.dartDeferredLibraries) {
-            console.log("Dart detectado, forzando URL...");
+            logApiUrl('Dart detectado, verificando URL...');
+            logApiUrl(`URL actual: ${window.BACKEND_API_BASE_URL}`);
           }
         } catch(e) {
-          console.log("Error al inyectar URL en Dart: " + e);
+          logApiUrl(`Error al interactuar con Dart: ${e}`, 'error');
         }
       }, 1000);
     });
