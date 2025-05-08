@@ -52,8 +52,8 @@
     // Registrar la URL original del documento
     logApiUrl(`URL del documento: ${window.location.href}`);
     
-    // Forzar la URL de la API siempre a api.insectlab.app
-    window.BACKEND_API_BASE_URL = "https://api.insectlab.app";
+    // Usar la variable de entorno que será reemplazada por envsubst
+    window.BACKEND_API_BASE_URL = "$API_BASE_URL";
     logApiUrl(`URL API inicial establecida: ${window.BACKEND_API_BASE_URL}`);
     
     // Monitorear cambios en la URL

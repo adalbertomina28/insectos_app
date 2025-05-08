@@ -52,14 +52,24 @@ RUN flutter build web --release
 # Etapa 2: Servir la aplicación con Nginx
 FROM nginx:alpine
 
+# Instalar herramientas necesarias para el reemplazo de variables
+RUN apk add --no-cache bash gettext
+
 # Copiar archivos de construcción web de Flutter
 COPY --from=build /app/build/web /usr/share/nginx/html
 
 # Copiar configuración personalizada de Nginx
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
+# Copiar script de entrada
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+# Definir variable de entorno para la URL de la API
+ENV API_BASE_URL=https://api.insectlab.app
+
 # Exponer puerto
 EXPOSE 80
 
-# Comando para iniciar Nginx
-CMD ["nginx", "-g", "daemon off;"]
+# Usar script de entrada para reemplazar variables y iniciar Nginx
+CMD ["/entrypoint.sh"]
