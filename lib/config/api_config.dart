@@ -1,7 +1,7 @@
+import 'dart:js' as js;
+
 // Definir una constante global para la URL de la API
 const String API_BASE_URL = 'https://api.insectlab.app';
-
-import 'dart:js' as js;
 
 class ApiConfig {
   // Retornar la URL base de la API
