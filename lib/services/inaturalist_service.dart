@@ -5,7 +5,7 @@ import '../models/insect_model.dart';
 
 class InsectService {
   // URL directa sin ofuscación
-  final String _baseUrl = 'http://api.insectlab.app';
+  final String _baseUrl = 'https://api.insectlab.app';
   final Map<String, String> _headers = ApiConfig.headers;
 
   Future<Map<String, dynamic>> searchInsects({

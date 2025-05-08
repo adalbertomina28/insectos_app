@@ -7,7 +7,7 @@ import '../models/identification_result.dart';
 
 class IdentificationService {
   // URL directa sin ofuscación
-  final String _baseUrl = 'http://api.insectlab.app';
+  final String _baseUrl = 'https://api.insectlab.app';
   final Map<String, String> _headers = ApiConfig.headers;
 
   Future<IdentificationResult> identifyInsect({

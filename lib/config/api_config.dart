@@ -1,8 +1,8 @@
 // Definir directamente la URL de la API sin ofuscación
-const String API_BASE_URL = 'http://api.insectlab.app';
+const String BACKEND_API_BASE_URL = 'https://api.insectlab.app';
 
 // URL forzada para todos los entornos
-const String FORCED_API_URL = API_BASE_URL;
+const String FORCED_API_URL = BACKEND_API_BASE_URL;
 
 class ApiConfig {
   // Retornar la URL base de la API

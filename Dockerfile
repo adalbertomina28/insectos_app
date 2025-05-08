@@ -2,7 +2,7 @@
 FROM debian:bullseye-slim AS build
 
 # Definir argumento para la URL de la API - usando URL relativa para el proxy
-ARG API_BASE_URL=
+ARG BACKEND_API_BASE_URL=https://api.insectlab.app
 
 # Evitar interacciones durante la instalación de paquetes
 ENV DEBIAN_FRONTEND=noninteractive
@@ -34,7 +34,7 @@ COPY . .
 
 # Obtener dependencias y construir para web usando la variable de entorno
 RUN flutter pub get && \
-    flutter build web --release --dart-define=API_BASE_URL=$API_BASE_URL
+    flutter build web --release --dart-define=BACKEND_API_BASE_URL=https://api.insectlab.app
 
 # Etapa 2: Servir la aplicación con Nginx
 FROM nginx:alpine
