@@ -10,7 +10,7 @@ class ApiConfig {
     print('Using forced API URL: $FORCED_API_URL');
     return FORCED_API_URL;
   }
-  
+
   // Constructor privado para evitar instanciación
   ApiConfig._();
 
