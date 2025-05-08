@@ -1,7 +1,7 @@
 // Definir una constante global para la URL de la API
-// Usando una URL relativa para que las solicitudes pasen por nuestro proxy Nginx
+// Usando la URL completa de Coolify
 const String API_BASE_URL = String.fromEnvironment('API_BASE_URL',
-    defaultValue: '');
+    defaultValue: 'http://t0gsggssgg8ow04ocwww08oo.195.35.36.123.sslip.io');
 // URL forzada para todos los entornos
 const String FORCED_API_URL = API_BASE_URL;
 
