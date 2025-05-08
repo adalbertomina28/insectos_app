@@ -5,7 +5,7 @@ import '../config/api_config.dart';
 import '../models/insect_model.dart';
 
 class InsectService {
-  // URL directa sin ofuscación
+  // URL directa sin ofuscación - no usar esta propiedad
   final String _baseUrl = 'https://api.insectlab.app';
   
   InsectService() {
@@ -21,9 +21,9 @@ class InsectService {
     int perPage = 20,
   }) async {
     try {
-      // Construir la URL y registrarla
-      developer.log('SOLICITUD: Construyendo URL con base: $_baseUrl', name: 'insect_service');
-      final uri = Uri.parse(_baseUrl).replace(
+      // IMPORTANTE: Usar directamente la URL correcta sin variables intermedias
+      print('SOLICITUD: Usando URL hardcodeada para evitar reemplazo por Coolify');
+      final uri = Uri.parse('https://api.insectlab.app').replace(
         path: '/api/insects/search',
         queryParameters: {
           'query': query,
@@ -75,7 +75,8 @@ class InsectService {
   Future<Map<String, dynamic>> getInsectDetails(int id,
       {String locale = 'es'}) async {
     try {
-      final uri = Uri.parse(_baseUrl).replace(
+      // IMPORTANTE: Usar directamente la URL correcta
+      final uri = Uri.parse('https://api.insectlab.app').replace(
         path: '/api/insects/$id',
         queryParameters: {
           'locale': locale,
@@ -107,7 +108,8 @@ class InsectService {
     String locale = 'es',
   }) async {
     try {
-      final uri = Uri.parse(_baseUrl).replace(
+      // IMPORTANTE: Usar directamente la URL correcta
+      final uri = Uri.parse('https://api.insectlab.app').replace(
         path: '/api/insects/nearby',
         queryParameters: {
           'lat': latitude.toString(),

@@ -1,8 +1,8 @@
 # Etapa 1: Construir la aplicación Flutter
 FROM debian:bullseye-slim AS build
 
-# Definir argumento para la URL de la API - usando URL relativa para el proxy
-ARG BACKEND_API_BASE_URL=https://api.insectlab.app
+# Ya no usamos argumentos para la URL de la API porque ahora está hardcodeada en el código
+# Esto evita que Coolify pueda manipular la URL durante la construcción
 
 # Evitar interacciones durante la instalación de paquetes
 ENV DEBIAN_FRONTEND=noninteractive
@@ -32,10 +32,11 @@ WORKDIR /app
 # Copiar archivos del proyecto
 COPY . .
 
-# Obtener dependencias y construir para web usando la variable de entorno
+# Obtener dependencias y construir para web sin usar variables de entorno
+# Esto asegura que se usen las URLs hardcodeadas en el código
 RUN flutter clean && \
     flutter pub get && \
-    flutter build web --release --dart-define=BACKEND_API_BASE_URL=https://api.insectlab.app
+    flutter build web --release
 
 # Etapa 2: Servir la aplicación con Nginx
 FROM nginx:alpine

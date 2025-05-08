@@ -7,7 +7,7 @@ import '../config/api_config.dart';
 import '../models/identification_result.dart';
 
 class IdentificationService {
-  // URL directa sin ofuscación
+  // URL directa sin ofuscación - no usar esta propiedad
   final String _baseUrl = 'https://api.insectlab.app';
 
   IdentificationService() {
@@ -25,12 +25,9 @@ class IdentificationService {
     String locale = 'es',
   }) async {
     try {
-      // Crear una solicitud multipart y registrar la URL
-      final uriString = '$_baseUrl/api/identification/identify';
-      developer.log(
-          'SOLICITUD: Construyendo URL para identificación: $uriString',
-          name: 'identification_service');
-      final uri = Uri.parse(uriString);
+      // IMPORTANTE: Usar directamente la URL correcta sin variables intermedias
+      print('SOLICITUD: Usando URL hardcodeada para evitar reemplazo por Coolify');
+      final uri = Uri.parse('https://api.insectlab.app/api/identification/identify');
 
       // Preparar la solicitud multipart
       var request = http.MultipartRequest('POST', uri);
@@ -74,9 +71,7 @@ class IdentificationService {
       });
 
       // Enviar la solicitud
-      developer.log('SOLICITUD: Enviando solicitud de identificación a: $uri',
-          name: 'identification_service');
-      print('Usando URL: $_baseUrl');
+      print('SOLICITUD: Enviando solicitud de identificación a URL hardcodeada');
       print('Enviando solicitud de identificación a: $uri');
       final streamedResponse = await request.send();
       final response = await http.Response.fromStream(streamedResponse);

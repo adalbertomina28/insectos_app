@@ -52,9 +52,10 @@ class IdentificationMatch {
         json['taxon']['default_photo']['medium_url'] != null) {
       final originalUrl =
           json['taxon']['default_photo']['medium_url'] as String;
-      // Usar la URL directamente sin ofuscación
-      photoUrl =
-          'https://api.insectlab.app/api/proxy/image?url=${Uri.encodeComponent(originalUrl)}';
+      // IMPORTANTE: Usar directamente la URL correcta sin variables intermedias
+      // Hardcodear la URL para evitar que Coolify la reemplace
+      photoUrl = 'https://api.insectlab.app/api/proxy/image?url=${Uri.encodeComponent(originalUrl)}';
+      print('URL de imagen proxy construida: $photoUrl');
     }
 
     return IdentificationMatch(
