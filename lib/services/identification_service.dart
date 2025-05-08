@@ -6,6 +6,7 @@ import '../config/api_config.dart';
 import '../models/identification_result.dart';
 
 class IdentificationService {
+  final String _baseUrl = API_BASE_URL;
   final Map<String, String> _headers = ApiConfig.headers;
 
   Future<IdentificationResult> identifyInsect({
@@ -16,8 +17,7 @@ class IdentificationService {
   }) async {
     try {
       // Crear una solicitud multipart
-      final uri =
-          Uri.parse('https://api.insectlab.app/api/identification/identify');
+      final uri = Uri.parse('$_baseUrl/api/identification/identify');
 
       // Preparar la solicitud multipart
       var request = http.MultipartRequest('POST', uri);
@@ -61,8 +61,8 @@ class IdentificationService {
       });
 
       // Enviar la solicitud
-      print('API_BASE_URL configurada como: https://api.insectlab.app');
-      print('_baseUrl en el servicio: https://api.insectlab.app');
+      print('API_BASE_URL configurada como: $API_BASE_URL');
+      print('_baseUrl en el servicio: $_baseUrl');
       print('Enviando solicitud de identificación a: $uri');
       final streamedResponse = await request.send();
       final response = await http.Response.fromStream(streamedResponse);

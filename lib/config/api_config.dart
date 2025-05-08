@@ -1,7 +1,8 @@
 // Definir una constante global para la URL de la API
-const String API_BASE_URL = 'https://api.insectlab.app';
+const String API_BASE_URL = String.fromEnvironment('API_BASE_URL',
+    defaultValue: 'https://api.insectlab.app');
 // URL forzada para todos los entornos
-const String FORCED_API_URL = 'https://api.insectlab.app';
+const String FORCED_API_URL = API_BASE_URL;
 
 class ApiConfig {
   // Retornar la URL base de la API

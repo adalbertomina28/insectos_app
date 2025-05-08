@@ -1,6 +1,9 @@
 # Etapa 1: Construir la aplicación Flutter
 FROM debian:bullseye-slim AS build
 
+# Definir argumento para la URL de la API
+ARG API_BASE_URL=https://api.insectlab.app
+
 # Evitar interacciones durante la instalación de paquetes
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -29,9 +32,9 @@ WORKDIR /app
 # Copiar archivos del proyecto
 COPY . .
 
-# Obtener dependencias y construir para web
+# Obtener dependencias y construir para web usando la variable de entorno
 RUN flutter pub get && \
-    flutter build web --release
+    flutter build web --release --dart-define=API_BASE_URL=$API_BASE_URL
 
 # Etapa 2: Servir la aplicación con Nginx
 FROM nginx:alpine

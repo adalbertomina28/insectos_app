@@ -4,6 +4,7 @@ import '../config/api_config.dart';
 import '../models/insect_model.dart';
 
 class InsectService {
+  final String _baseUrl = API_BASE_URL;
   final Map<String, String> _headers = ApiConfig.headers;
 
   Future<Map<String, dynamic>> searchInsects({
@@ -14,7 +15,7 @@ class InsectService {
   }) async {
     try {
       // No codificar la consulta aquí, Uri.parse ya lo hará automáticamente
-      final uri = Uri.parse("https://api.insectlab.app").replace(
+      final uri = Uri.parse(_baseUrl).replace(
         path: '/api/insects/search',
         queryParameters: {
           'query': query,
@@ -66,7 +67,7 @@ class InsectService {
   Future<Map<String, dynamic>> getInsectDetails(int id,
       {String locale = 'es'}) async {
     try {
-      final uri = Uri.parse("https://api.insectlab.app").replace(
+      final uri = Uri.parse(_baseUrl).replace(
         path: '/api/insects/$id',
         queryParameters: {
           'locale': locale,
@@ -98,7 +99,7 @@ class InsectService {
     String locale = 'es',
   }) async {
     try {
-      final uri = Uri.parse("https://api.insectlab.app").replace(
+      final uri = Uri.parse(_baseUrl).replace(
         path: '/api/insects/nearby',
         queryParameters: {
           'lat': latitude.toString(),
