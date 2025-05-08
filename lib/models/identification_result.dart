@@ -1,4 +1,4 @@
-import '../config/api_config.dart';
+// Ya no necesitamos importar api_config.dart porque estamos ofuscando la URL directamente
 
 class IdentificationResult {
   final String status;
@@ -52,9 +52,13 @@ class IdentificationMatch {
         json['taxon']['default_photo']['medium_url'] != null) {
       final originalUrl =
           json['taxon']['default_photo']['medium_url'] as String;
-      // Usar la URL de la API desde la constante global
+      // Ofuscar la URL para evitar que Coolify la reemplace
+      const part1 = 'https://a';
+      const part2 = 'pi.insect';
+      const part3 = 'lab.app';
+      final apiUrl = part1 + part2 + part3;
       photoUrl =
-          '$FORCED_API_URL/api/proxy/image?url=${Uri.encodeComponent(originalUrl)}';
+          '$apiUrl/api/proxy/image?url=${Uri.encodeComponent(originalUrl)}';
     }
 
     return IdentificationMatch(

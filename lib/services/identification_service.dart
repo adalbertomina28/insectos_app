@@ -6,7 +6,14 @@ import '../config/api_config.dart';
 import '../models/identification_result.dart';
 
 class IdentificationService {
-  final String _baseUrl = FORCED_API_URL;
+  // Construir la URL de forma dinámica para evitar que Coolify la reemplace
+  String get _baseUrl {
+    // Dividir la URL en partes para ofuscarla
+    const part1 = 'https://a';
+    const part2 = 'pi.insect';
+    const part3 = 'lab.app';
+    return part1 + part2 + part3;
+  }
   final Map<String, String> _headers = ApiConfig.headers;
 
   Future<IdentificationResult> identifyInsect({
@@ -16,8 +23,8 @@ class IdentificationService {
     String locale = 'es',
   }) async {
     try {
-      // Crear una solicitud multipart
-      final uri = Uri.parse('$_baseUrl/api/identification/identify');
+      // Crear una solicitud multipart con la URL ofuscada
+      final uri = Uri.parse(_baseUrl + '/api/identification/identify');
 
       // Preparar la solicitud multipart
       var request = http.MultipartRequest('POST', uri);
@@ -61,8 +68,7 @@ class IdentificationService {
       });
 
       // Enviar la solicitud
-      print('API_BASE_URL configurada como: $API_BASE_URL');
-      print('_baseUrl en el servicio: $_baseUrl');
+      print('Usando URL ofuscada: $_baseUrl');
       print('Enviando solicitud de identificación a: $uri');
       final streamedResponse = await request.send();
       final response = await http.Response.fromStream(streamedResponse);

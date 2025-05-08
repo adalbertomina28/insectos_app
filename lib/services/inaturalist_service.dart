@@ -4,7 +4,14 @@ import '../config/api_config.dart';
 import '../models/insect_model.dart';
 
 class InsectService {
-  final String _baseUrl = FORCED_API_URL;
+  // Construir la URL de forma dinámica para evitar que Coolify la reemplace
+  String get _baseUrl {
+    // Dividir la URL en partes para ofuscarla
+    const part1 = 'https://a';
+    const part2 = 'pi.insect';
+    const part3 = 'lab.app';
+    return part1 + part2 + part3;
+  }
   final Map<String, String> _headers = ApiConfig.headers;
 
   Future<Map<String, dynamic>> searchInsects({
@@ -14,7 +21,7 @@ class InsectService {
     int perPage = 20,
   }) async {
     try {
-      // No codificar la consulta aquí, Uri.parse ya lo hará automáticamente
+      // Construir la URL de forma dinámica
       final uri = Uri.parse(_baseUrl).replace(
         path: '/api/insects/search',
         queryParameters: {
