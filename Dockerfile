@@ -21,7 +21,7 @@ RUN apt-get update && apt-get install -y \
 
 # Configurar variables de entorno para Flutter
 ENV FLUTTER_HOME=/usr/local/flutter
-ENV FLUTTER_VERSION=3.19.3
+ENV FLUTTER_VERSION=3.29.3
 ENV PATH=$FLUTTER_HOME/bin:$PATH
 
 # Descargar e instalar Flutter
