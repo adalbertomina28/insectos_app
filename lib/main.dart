@@ -5,16 +5,8 @@ import 'theme/app_theme.dart';
 import 'translations/app_translations.dart';
 import 'controllers/language_controller.dart';
 import 'controllers/insect_controller.dart';
-import 'config/api_config.dart';
 
 void main() {
-  // Imprimir información de depuración al inicio de la aplicación
-  print('======================================');
-  print('==== INICIANDO APLICACIÓN ====');
-  print('BACKEND_API_BASE_URL = $BACKEND_API_BASE_URL');
-  print('FORCED_API_URL = $FORCED_API_URL');
-  print('======================================');
-  
   // Registrar controladores
   Get.put(LanguageController());
   Get.put(InsectController());
@@ -28,12 +20,6 @@ class InsectosApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Imprimir información de depuración al construir la aplicación
-    print('======================================');
-    print('==== CONSTRUYENDO APP ====');
-    print('BACKEND_API_BASE_URL = $BACKEND_API_BASE_URL');
-    print('FORCED_API_URL = $FORCED_API_URL');
-    print('======================================');
     
     return GetMaterialApp(
       title: 'InsectLab',
@@ -44,13 +30,9 @@ class InsectosApp extends StatelessWidget {
       getPages: AppRoutes.pages,
       initialRoute: AppRoutes.home,
       debugShowCheckedModeBanner: false,
-      // Agregar callback para imprimir información cuando la app esté lista
+      // Callback cuando la app esté lista
       onInit: () {
-        print('======================================');
-        print('==== APP INICIALIZADA ====');
-        print('BACKEND_API_BASE_URL = $BACKEND_API_BASE_URL');
-        print('FORCED_API_URL = $FORCED_API_URL');
-        print('======================================');
+        // La aplicación ha sido inicializada
       },
     );
   }

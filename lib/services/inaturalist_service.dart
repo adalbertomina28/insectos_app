@@ -1,17 +1,10 @@
 import 'dart:convert';
-import 'dart:developer' as developer;
 import 'package:http/http.dart' as http;
 import '../config/api_config.dart';
 import '../models/insect_model.dart';
 
 class InsectService {
-  // URL directa sin ofuscación - no usar esta propiedad
-  final String _baseUrl = 'https://api.insectlab.app';
-  
-  InsectService() {
-    // Log al crear la instancia del servicio
-    developer.log('SERVICIO: InsectService creado con URL base: $_baseUrl', name: 'insect_service');
-  }
+  InsectService() {}
   final Map<String, String> _headers = ApiConfig.headers;
 
   Future<Map<String, dynamic>> searchInsects({
@@ -21,11 +14,10 @@ class InsectService {
     int perPage = 20,
   }) async {
     try {
-      // IMPORTANTE: Usar directamente la URL completa sin métodos que puedan ser alterados
-      print('SOLICITUD: Usando URL hardcodeada completa para evitar reemplazo por Coolify');
-      // Construir la URL completa directamente
-      final String baseUrl = 'https://api.insectlab.app/api/insects/search';
-      final uri = Uri.parse(baseUrl).replace(
+      // Usar la URL de la API desde ApiConfig
+      final String apiBase = ApiConfig.baseUrl;
+      final String endpoint = '$apiBase/api/insects/search';
+      final uri = Uri.parse(endpoint).replace(
         queryParameters: {
           'query': query,
           'locale': locale,
@@ -33,31 +25,19 @@ class InsectService {
           'per_page': perPage.toString(),
         },
       );
-      print('URL base utilizada: $baseUrl');
 
       final response = await http.get(
         uri,
         headers: _headers,
       );
 
-      print('Realizando petición a: ${uri.toString()}');
-      print('Headers: $_headers');
-
       if (response.statusCode == 200) {
-        print('Respuesta exitosa (200)');
         final decodedResponse = json.decode(utf8.decode(response.bodyBytes));
-        print(
-            'Contenido de la respuesta: ${response.body.substring(0, response.body.length > 100 ? 100 : response.body.length)}...');
-
+        
+        // Verificar si hay resultados
         if (decodedResponse['results'] != null &&
             decodedResponse['results'].isNotEmpty) {
-          final firstResult = decodedResponse['results'][0];
-          print(
-              'Primer resultado: ${firstResult.toString().substring(0, firstResult.toString().length > 100 ? 100 : firstResult.toString().length)}...');
-        } else {
-          print(
-              'No se encontraron resultados o la estructura es diferente a la esperada');
-          print('Estructura de respuesta: ${decodedResponse.keys.toString()}');
+          // Procesar resultados
         }
         return decodedResponse;
       } else if (response.statusCode == 429) {
@@ -77,14 +57,14 @@ class InsectService {
   Future<Map<String, dynamic>> getInsectDetails(int id,
       {String locale = 'es'}) async {
     try {
-      // IMPORTANTE: Usar directamente la URL completa sin métodos que puedan ser alterados
-      final String baseUrl = 'https://api.insectlab.app/api/insects/$id';
-      final uri = Uri.parse(baseUrl).replace(
+      // Usar la URL de la API desde ApiConfig
+      final String apiBase = ApiConfig.baseUrl;
+      final String endpoint = '$apiBase/api/insects/$id';
+      final uri = Uri.parse(endpoint).replace(
         queryParameters: {
           'locale': locale,
         },
       );
-      print('URL base utilizada para detalles: $baseUrl');
 
       final response = await http.get(
         uri,
@@ -111,9 +91,10 @@ class InsectService {
     String locale = 'es',
   }) async {
     try {
-      // IMPORTANTE: Usar directamente la URL completa sin métodos que puedan ser alterados
-      final String baseUrl = 'https://api.insectlab.app/api/insects/nearby';
-      final uri = Uri.parse(baseUrl).replace(
+      // Usar la URL de la API desde ApiConfig
+      final String apiBase = ApiConfig.baseUrl;
+      final String endpoint = '$apiBase/api/insects/nearby';
+      final uri = Uri.parse(endpoint).replace(
         queryParameters: {
           'lat': latitude.toString(),
           'lng': longitude.toString(),
@@ -121,7 +102,6 @@ class InsectService {
           'locale': locale,
         },
       );
-      print('URL base utilizada para insectos cercanos: $baseUrl');
 
       final response = await http.get(
         uri,

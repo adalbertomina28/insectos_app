@@ -32,111 +32,25 @@
   <title>InsectLab</title>
   <link rel="manifest" href="manifest.json">
   
-  <!-- Configuración explícita de la URL de la API con logs detallados -->
+  <!-- Configuración de la URL de la API -->
   <script>
-    // Configurar sistema de logs
-    function logApiUrl(message, type = 'info') {
-      const timestamp = new Date().toISOString();
-      const logPrefix = `[API_URL_TRACKER][${timestamp}]`;
-      console[type](`${logPrefix} ${message}`);
-      
-      // Guardar en localStorage para poder revisarlo después
-      const logs = JSON.parse(localStorage.getItem('api_url_logs') || '[]');
-      logs.push({ timestamp, message, type });
-      localStorage.setItem('api_url_logs', JSON.stringify(logs));
-    }
-    
-    // Log inicial
-    logApiUrl('Iniciando rastreo de URL API');
-    
-    // Registrar la URL original del documento
-    logApiUrl(`URL del documento: ${window.location.href}`);
-    
-    // Usar la variable de entorno que será reemplazada por envsubst
+    // Establecer la URL de la API que será reemplazada por envsubst
     window.BACKEND_API_BASE_URL = "$API_BASE_URL";
-    logApiUrl(`URL API inicial establecida: ${window.BACKEND_API_BASE_URL}`);
     
-    // Monitorear cambios en la URL
-    const originalDefineProperty = Object.defineProperty;
-    Object.defineProperty = function(obj, prop, descriptor) {
-      if (prop === 'BACKEND_API_BASE_URL' || prop === 'API_BASE_URL') {
-        logApiUrl(`Intento de redefinir ${prop} con valor: ${descriptor.value || '[getter/setter]'}`, 'warn');
-      }
-      return originalDefineProperty.apply(this, arguments);
-    };
-    
-    // Sobrescribir cualquier intento de cambiar la URL
+    // Proteger la URL contra cambios
     Object.defineProperty(window, 'BACKEND_API_BASE_URL', {
-      value: "https://api.insectlab.app",
+      value: "$API_BASE_URL",
       writable: false,
       configurable: false
     });
-    logApiUrl('Protección contra cambios aplicada');
     
-    // Monitorear el objeto window para detectar cambios
-    window.addEventListener('storage', function(e) {
-      logApiUrl(`Evento de almacenamiento detectado: ${e.key} = ${e.newValue}`);
-    });
-    
-    // Inyectar la URL directamente en el objeto global de Dart
+    // Inyectar la URL en el DOM para que Dart pueda acceder a ella
     document.addEventListener('DOMContentLoaded', function() {
-      logApiUrl('DOM cargado, preparando inyección en Dart...');
-      
       // Crear un elemento meta para comunicarse con Dart
       const metaElement = document.createElement('meta');
       metaElement.setAttribute('name', 'backend-api-url');
-      metaElement.setAttribute('content', 'https://api.insectlab.app');
+      metaElement.setAttribute('content', "$API_BASE_URL");
       document.head.appendChild(metaElement);
-      logApiUrl('Meta tag para API URL creado');
-      
-      // Monitorear carga de scripts
-      const originalCreateElement = document.createElement;
-      document.createElement = function(tagName) {
-        const element = originalCreateElement.call(document, tagName);
-        if (tagName.toLowerCase() === 'script') {
-          element.addEventListener('load', function() {
-            logApiUrl(`Script cargado: ${element.src || 'inline script'}`);
-          });
-        }
-        return element;
-      };
-      
-      // Verificación inicial
-      setTimeout(function() {
-        try {
-          // Intentar acceder al objeto global de Dart
-          if (window.dartDeferredLibraries) {
-            logApiUrl('Dart detectado, verificando URL...');
-            logApiUrl(`URL actual: ${window.BACKEND_API_BASE_URL}`);
-          }
-        } catch(e) {
-          logApiUrl(`Error al interactuar con Dart: ${e}`, 'error');
-        }
-      }, 1000);
-      
-      // Configurar verificación periódica de la URL
-      setInterval(function() {
-        try {
-          // Verificar si la URL ha cambiado
-          logApiUrl(`Verificación periódica - URL actual: ${window.BACKEND_API_BASE_URL}`);
-          
-          // Intentar acceder a variables globales de Dart
-          if (window.dart_library) {
-            logApiUrl('Biblioteca Dart detectada');
-          }
-          
-          // Verificar si hay elementos en el DOM que puedan contener la URL
-          const allElements = document.querySelectorAll('*');
-          for (let i = 0; i < allElements.length; i++) {
-            const el = allElements[i];
-            if (el.textContent && el.textContent.includes('api.insectlab.app')) {
-              logApiUrl(`Encontrada referencia a la URL en elemento: ${el.tagName}`, 'warn');
-            }
-          }
-        } catch(e) {
-          logApiUrl(`Error en verificación periódica: ${e}`, 'error');
-        }
-      }, 5000);
     });
   </script>
 </head>

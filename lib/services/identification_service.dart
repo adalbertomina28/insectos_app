@@ -25,24 +25,16 @@ class IdentificationService {
     String locale = 'es',
   }) async {
     try {
-      // IMPORTANTE: Usar directamente la URL completa sin variables intermedias
-      final String apiUrl = 'https://api.insectlab.app/api/identification/identify';
-      print('SOLICITUD: Usando URL hardcodeada para evitar reemplazo por Coolify');
-      print('URL de identificación utilizada: $apiUrl');
+      // Usar la URL de la API desde ApiConfig
+      final String baseUrl = ApiConfig.baseUrl;
+      final String apiUrl = '$baseUrl/api/identification/identify';
       final uri = Uri.parse(apiUrl);
-      
-      // Verificar que la URL no ha sido alterada
-      if (!uri.toString().startsWith('https://api.insectlab.app')) {
-        print('ADVERTENCIA: La URL ha sido alterada: ${uri.toString()}');
-      }
 
       // Preparar la solicitud multipart
       var request = http.MultipartRequest('POST', uri);
 
       // Añadir la imagen como archivo con tipo MIME explícito
       final bytes = await imageFile.readAsBytes();
-      print('Tamaño de la imagen: ${bytes.length} bytes');
-      print('Ruta de la imagen: ${imageFile.path}');
 
       // Determinar el tipo MIME basado en la extensión del archivo
       String mimeType = 'image/jpeg';
@@ -52,7 +44,6 @@ class IdentificationService {
           imageFile.path.toLowerCase().endsWith('.jpeg')) {
         mimeType = 'image/jpeg';
       }
-      print('Tipo MIME detectado: $mimeType');
 
       request.files.add(http.MultipartFile.fromBytes(
         'image',
@@ -78,22 +69,13 @@ class IdentificationService {
       });
 
       // Enviar la solicitud
-      print('SOLICITUD: Enviando solicitud de identificación a URL hardcodeada');
-      print('Enviando solicitud de identificación a: $uri');
       final streamedResponse = await request.send();
       final response = await http.Response.fromStream(streamedResponse);
 
       if (response.statusCode == 200) {
-        print('Respuesta exitosa (200)');
         final decodedResponse = json.decode(utf8.decode(response.bodyBytes));
-
-        // Mostrar un fragmento de la respuesta para depuración
-        print(
-            'Contenido de la respuesta: ${response.body.substring(0, response.body.length > 100 ? 100 : response.body.length)}...');
-
         return IdentificationResult.fromJson(decodedResponse);
       } else {
-        print('Error ${response.statusCode}: ${response.body}');
         throw Exception(
             'Error al identificar la imagen: ${response.statusCode}. Respuesta: ${response.body}');
       }

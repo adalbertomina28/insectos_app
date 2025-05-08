@@ -46,8 +46,9 @@ RUN flutter pub get
 # Configurar para compilación web
 RUN flutter config --enable-web
 
-# Construir la aplicación web
-RUN flutter build web --release
+# Construir la aplicación web con la variable de entorno API_URL
+ARG API_URL=https://api.insectlab.app
+RUN flutter build web --release --dart-define=API_URL=$API_URL
 
 # Etapa 2: Servir la aplicación con Nginx
 FROM nginx:alpine
