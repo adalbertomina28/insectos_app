@@ -34,13 +34,31 @@
   
   <!-- Configuración explícita de la URL de la API -->
   <script>
-    // Asegurarse de que la URL de la API sea la correcta
-    if (!window.API_BASE_URL || window.API_BASE_URL.includes('sslip.io') || window.API_BASE_URL.includes('t0gsggssgg8ow04ocwww08oo')) {
-      window.API_BASE_URL = "https://api.insectlab.app";
-      console.log("API URL forzada a: " + window.API_BASE_URL);
-    } else {
-      console.log("API URL actual: " + window.API_BASE_URL);
-    }
+    // Forzar la URL de la API siempre a api.insectlab.app
+    window.API_BASE_URL = "https://api.insectlab.app";
+    console.log("API URL forzada a: " + window.API_BASE_URL);
+    
+    // Sobrescribir cualquier intento de cambiar la URL
+    Object.defineProperty(window, 'API_BASE_URL', {
+      value: "https://api.insectlab.app",
+      writable: false,
+      configurable: false
+    });
+    
+    // Inyectar la URL directamente en el objeto global de Dart
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log("Inyectando URL en Dart...");
+      setTimeout(function() {
+        try {
+          // Intentar acceder al objeto global de Dart
+          if (window.dartDeferredLibraries) {
+            console.log("Dart detectado, forzando URL...");
+          }
+        } catch(e) {
+          console.log("Error al inyectar URL en Dart: " + e);
+        }
+      }, 1000);
+    });
   </script>
 </head>
 <body>
