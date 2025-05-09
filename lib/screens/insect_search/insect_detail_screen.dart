@@ -28,6 +28,41 @@ class InsectDetailScreen extends GetView<InsectController> {
     }
   }
 
+  // Método para lanzar una URL alternativa cuando no hay enlace directo a Wikipedia
+  Future<void> _launchAlternativeUrl(Insect insect) async {
+    // Si hay un enlace directo a Wikipedia, usarlo
+    if (insect.wikipediaUrl != null) {
+      await _launchUrl(insect.wikipediaUrl);
+      return;
+    }
+
+    // Determinar el mejor término de búsqueda
+    String searchTerm;
+
+    // Preferir el nombre científico si está disponible
+    if (insect.scientificName != null && insect.scientificName!.isNotEmpty) {
+      searchTerm = insect.scientificName!;
+    }
+    // Si no, usar el nombre común preferido
+    else if (insect.preferredCommonName != null &&
+        insect.preferredCommonName!.isNotEmpty) {
+      searchTerm = insect.preferredCommonName!;
+    }
+    // Como última opción, usar el nombre básico
+    else {
+      searchTerm = insect.name;
+    }
+
+    // Añadir "insecto" al término de búsqueda para mejorar los resultados
+    searchTerm = Uri.encodeComponent('insecto $searchTerm');
+
+    // Crear URL para búsqueda en Google
+    final googleUrl = 'https://www.google.com/search?q=$searchTerm';
+
+    // Redirigir directamente a Google
+    await _launchUrl(googleUrl);
+  }
+
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -144,16 +179,15 @@ class InsectDetailScreen extends GetView<InsectController> {
                       ),
                       const SizedBox(height: 16),
                     ],
-                    if (selectedInsect.wikipediaUrl != null)
-                      ElevatedButton.icon(
-                        onPressed: () =>
-                            _launchUrl(selectedInsect.wikipediaUrl),
-                        icon: const Icon(Icons.open_in_new),
-                        label: const Text('Aprende más'),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppTheme.backgroundColor,
-                        ),
+                    // Botón "Aprende más" - funciona con o sin enlace directo a Wikipedia
+                    ElevatedButton.icon(
+                      onPressed: () => _launchAlternativeUrl(selectedInsect),
+                      icon: const Icon(Icons.open_in_new),
+                      label: const Text('Aprende más'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppTheme.backgroundColor,
                       ),
+                    ),
                   ],
                 ),
               ),
