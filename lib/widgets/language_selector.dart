@@ -8,7 +8,7 @@ class LanguageSelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton<String>(
-      icon: const Icon(Icons.language, color: Colors.white),
+      icon: const Icon(Icons.language, color: Colors.green),
       onSelected: (String langCode) {
         LanguageController.to.changeLanguage(langCode);
       },

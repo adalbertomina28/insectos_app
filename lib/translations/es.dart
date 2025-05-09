@@ -42,6 +42,7 @@ const Map<String, String> es = {
   'description': 'Descripción',
   'classification': 'Clasificación',
   'view_on_wikipedia': 'Ver en Wikipedia',
+  'learn_more': 'Aprende más',
   'no_details': 'No se encontraron detalles del insecto',
   'error_loading_details': 'Error al cargar los detalles',
   'error_opening_link': 'No se pudo abrir el enlace',
@@ -293,4 +294,13 @@ const Map<String, String> es = {
   'ant_fact': 'Vive en colonias organizadas',
   'beetle': 'Escarabajo',
   'beetle_fact': 'Tiene élitros protectores',
+
+  // Mapa de insectos
+  'mapa_insectos': 'Mapa de Insectos',
+  'radio_busqueda': 'Radio de búsqueda',
+  'buscar_insectos': 'Buscar insectos',
+  'insectos_encontrados': 'Insectos encontrados',
+  'no_insectos_encontrados': 'No se encontraron insectos en esta área',
+  'selecciona_ubicacion': 'Selecciona una ubicación en el mapa',
+  'tap_mapa': 'Toca el mapa para seleccionar una ubicación'
 };

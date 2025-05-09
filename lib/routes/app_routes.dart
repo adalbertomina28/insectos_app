@@ -4,11 +4,13 @@ import '../bindings/insect_binding.dart';
 import '../screens/encyclopedia/encyclopedia_screen.dart';
 import '../screens/rna/rna_screen.dart';
 import '../screens/insect_search/insect_search_screen.dart';
+import '../screens/insect_search/insect_detail_screen.dart';
 import '../screens/key_insects/key_insects_screen.dart';
 import '../screens/resources/resources_screen.dart';
 import '../screens/about/about_screen.dart';
 import '../screens/home/home_screen.dart';
 import '../screens/identification/identification_screen.dart';
+import '../screens/map/insect_map_screen.dart';
 
 class AppRoutes {
   static const String home = '/';
@@ -19,6 +21,8 @@ class AppRoutes {
   static const String resources = '/resources';
   static const String about = '/about';
   static const String identification = '/identification';
+  static const String insectMap = '/insect-map';
+  static const String insectDetails = '/insect-details';
 
   static List<GetPage> pages = [
     GetPage(
@@ -53,6 +57,16 @@ class AppRoutes {
     GetPage(
       name: identification,
       page: () => IdentificationScreen(),
+    ),
+    GetPage(
+      name: insectMap,
+      page: () => const InsectMapScreen(),
+      binding: InsectBinding(),
+    ),
+    GetPage(
+      name: insectDetails,
+      page: () => InsectDetailScreen(insect: Get.arguments),
+      binding: InsectBinding(),
     ),
   ];
 }

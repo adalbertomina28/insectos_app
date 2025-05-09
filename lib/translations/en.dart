@@ -40,6 +40,7 @@ const Map<String, String> en = {
   'description': 'Description',
   'classification': 'Classification',
   'view_on_wikipedia': 'View on Wikipedia',
+  'learn_more': 'Learn more',
   'no_details': 'No insect details found',
   'error_loading_details': 'Error loading details',
   'error_opening_link': 'Could not open link',
@@ -296,4 +297,13 @@ const Map<String, String> en = {
   'false': 'False',
   'correct': 'Correct! 🎉',
   'incorrect': 'Incorrect! 😢',
+
+  // Insect Map
+  'mapa_insectos': 'Insect Map',
+  'radio_busqueda': 'Search radius',
+  'buscar_insectos': 'Search insects',
+  'insectos_encontrados': 'Insects found',
+  'no_insectos_encontrados': 'No insects found in this area',
+  'selecciona_ubicacion': 'Select a location on the map',
+  'tap_mapa': 'Tap on the map to select a location'
 };

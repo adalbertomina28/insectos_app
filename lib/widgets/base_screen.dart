@@ -148,6 +148,15 @@ class BaseScreen extends StatelessWidget {
               },
             ),
             ListTile(
+              leading: const Icon(Icons.map),
+              title: Text('mapa_insectos'.tr),
+              subtitle: Text('buscar_insectos'.tr),
+              onTap: () {
+                Get.back();
+                Get.toNamed('/insect-map');
+              },
+            ),
+            ListTile(
               leading: const Icon(Icons.info),
               title: Text('about'.tr),
               subtitle: Text('about_app'.tr),

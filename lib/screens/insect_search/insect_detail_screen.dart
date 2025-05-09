@@ -4,15 +4,16 @@ import 'package:flutter_html/flutter_html.dart';
 import '../../controllers/insect_controller.dart';
 import '../../models/insect_model.dart';
 import '../../theme/app_theme.dart';
+import '../../widgets/language_selector.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class InsectDetailScreen extends GetView<InsectController> {
-  final Insect insect;
+  final Insect? insect;
 
   const InsectDetailScreen({
     super.key,
-    required this.insect,
+    this.insect,
   });
 
   Future<void> _launchUrl(String? url) async {
@@ -29,7 +30,9 @@ class InsectDetailScreen extends GetView<InsectController> {
   }
 
   // Método para lanzar una URL alternativa cuando no hay enlace directo a Wikipedia
-  Future<void> _launchAlternativeUrl(Insect insect) async {
+  Future<void> _launchAlternativeUrl(Insect? insect) async {
+    // Si el insecto es nulo, no hacer nada
+    if (insect == null) return;
     // Si hay un enlace directo a Wikipedia, usarlo
     if (insect.wikipediaUrl != null) {
       await _launchUrl(insect.wikipediaUrl);
@@ -65,14 +68,30 @@ class InsectDetailScreen extends GetView<InsectController> {
 
   @override
   Widget build(BuildContext context) {
+    // Si el insecto es nulo, redirigir a la pantalla de búsqueda
+    if (insect == null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Get.offNamed('/insect-search');
+      });
+      return const Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+    
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      controller.getInsectDetails(insect.id);
+      controller.getInsectDetails(insect!.id);
     });
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(insect.preferredCommonName ?? insect.name),
+        title: Text(insect!.preferredCommonName ?? insect!.name),
         elevation: 0,
+        actions: const [
+          LanguageSelector(),
+          SizedBox(width: 8),
+        ],
       ),
       body: Obx(() {
         if (controller.isLoading.value) {
@@ -140,9 +159,9 @@ class InsectDetailScreen extends GetView<InsectController> {
                       ),
                     const SizedBox(height: 16),
                     if (selectedInsect.wikipediaSummary != null) ...[
-                      const Text(
-                        'Descripción',
-                        style: TextStyle(
+                      Text(
+                        'description'.tr,
+                        style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                         ),
@@ -165,9 +184,9 @@ class InsectDetailScreen extends GetView<InsectController> {
                       const SizedBox(height: 16),
                     ],
                     if (selectedInsect.ancestorTaxa != null) ...[
-                      const Text(
-                        'Clasificación',
-                        style: TextStyle(
+                      Text(
+                        'classification'.tr,
+                        style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                         ),
@@ -183,7 +202,7 @@ class InsectDetailScreen extends GetView<InsectController> {
                     ElevatedButton.icon(
                       onPressed: () => _launchAlternativeUrl(selectedInsect),
                       icon: const Icon(Icons.open_in_new),
-                      label: const Text('Aprende más'),
+                      label: Text('learn_more'.tr),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppTheme.backgroundColor,
                       ),
