@@ -302,5 +302,8 @@ const Map<String, String> es = {
   'insectos_encontrados': 'Insectos encontrados',
   'no_insectos_encontrados': 'No se encontraron insectos en esta área',
   'selecciona_ubicacion': 'Selecciona una ubicación en el mapa',
-  'tap_mapa': 'Toca el mapa para seleccionar una ubicación'
+  'tap_mapa': 'Toca el mapa para seleccionar una ubicación',
+  'expandir_panel': 'Expandir panel',
+  'minimizar_panel': 'Minimizar panel',
+  'desliza_ver_mas': 'Desliza para ver más'
 };
