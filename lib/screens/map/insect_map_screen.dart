@@ -382,52 +382,16 @@ class _InsectMapScreenState extends State<InsectMapScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        // Título con contador de insectos
-                        Expanded(
-                          child: Obx(() => Text(
-                                'insectos_encontrados'.tr +
-                                    ': ${_insectController.nearbyInsects.length}',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: isCompactMode ? 14 : 16, // Texto más pequeño en modo compacto
-                                  overflow: TextOverflow.ellipsis, // Evitar desbordamiento de texto
-                                ),
-                              )),
-                        ),
-                        // Botones de control
-                        Row(
-                          mainAxisSize: MainAxisSize.min, // Ocupar solo el espacio necesario
-                          children: [
-                            // Botón para expandir el panel
-                            IconButton(
-                              icon: const Icon(Icons.keyboard_arrow_up),
-                              padding: EdgeInsets.all(isCompactMode ? 4.0 : 8.0), // Reducir padding en modo compacto
-                              constraints: const BoxConstraints(), // Eliminar restricciones mínimas
-                              onPressed: () {
-                                _dragController.animateTo(
-                                  0.5, // Expandir al 50%
-                                  duration: const Duration(milliseconds: 300),
-                                  curve: Curves.easeInOut,
-                                );
-                              },
-                              tooltip: 'expandir_panel'.tr,
-                            ),
-                            // Botón para minimizar el panel
-                            IconButton(
-                              icon: const Icon(Icons.keyboard_arrow_down),
-                              padding: EdgeInsets.all(isCompactMode ? 4.0 : 8.0), // Reducir padding en modo compacto
-                              constraints: const BoxConstraints(), // Eliminar restricciones mínimas
-                              onPressed: () {
-                                _dragController.animateTo(
-                                  0.15, // Minimizar al 15%
-                                  duration: const Duration(milliseconds: 300),
-                                  curve: Curves.easeInOut,
-                                );
-                              },
-                              tooltip: 'minimizar_panel'.tr,
-                            ),
-                          ],
-                        ),
+                        // Título con contador de insectos centrado
+                        Obx(() => Text(
+                              'insectos_encontrados'.tr +
+                                  ': ${_insectController.nearbyInsects.length}',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: isCompactMode ? 14 : 16, // Texto más pequeño en modo compacto
+                                overflow: TextOverflow.ellipsis, // Evitar desbordamiento de texto
+                              ),
+                            )),
                       ],
                     ),
                   ),
