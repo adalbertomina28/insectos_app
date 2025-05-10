@@ -10,6 +10,7 @@ class BaseScreen extends StatelessWidget {
   final Widget? floatingActionButton;
   final Color? backgroundColor;
   final bool extendBody;
+  final bool showLanguageSelector; // Nueva propiedad para controlar la visibilidad del selector de idioma
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   BaseScreen({
@@ -21,6 +22,7 @@ class BaseScreen extends StatelessWidget {
     this.floatingActionButton,
     this.backgroundColor,
     this.extendBody = false,
+    this.showLanguageSelector = true, // Por defecto, mostrar el selector de idioma
   });
 
   @override
@@ -38,7 +40,8 @@ class BaseScreen extends StatelessWidget {
             : null,
         title: title != null ? Text(title!.tr) : null,
         actions: [
-          const LanguageSelector(),
+          // Solo mostrar el selector de idioma si showLanguageSelector es true
+          if (showLanguageSelector) const LanguageSelector(),
           if (actions != null) ...actions!,
         ],
       ),

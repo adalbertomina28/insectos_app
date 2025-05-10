@@ -48,8 +48,9 @@ class _InsectMapScreenState extends State<InsectMapScreen> {
     // Usar el BaseScreen para mantener la consistencia con el resto de la aplicación
     return BaseScreen(
       title: 'mapa_insectos',
+      // Ocultar el selector de idioma en esta pantalla para evitar problemas
+      showLanguageSelector: false,
       // Añadir solo el botón de actualizar a las acciones
-      // El selector de idiomas se añade automáticamente por el BaseScreen
       actions: [
         IconButton(
           icon: const Icon(Icons.refresh, color: Colors.green),
