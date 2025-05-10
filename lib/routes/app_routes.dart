@@ -11,6 +11,7 @@ import '../screens/about/about_screen.dart';
 import '../screens/home/home_screen.dart';
 import '../screens/identification/identification_screen.dart';
 import '../screens/map/insect_map_screen.dart';
+import '../screens/chatbot/chatbot_screen.dart';
 
 class AppRoutes {
   static const String home = '/';
@@ -23,6 +24,7 @@ class AppRoutes {
   static const String identification = '/identification';
   static const String insectMap = '/insect-map';
   static const String insectDetails = '/insect-details';
+  static const String chatbot = '/chatbot';
 
   static List<GetPage> pages = [
     GetPage(
@@ -67,6 +69,10 @@ class AppRoutes {
       name: insectDetails,
       page: () => InsectDetailScreen(insect: Get.arguments),
       binding: InsectBinding(),
+    ),
+    GetPage(
+      name: chatbot,
+      page: () => const ChatbotScreen(),
     ),
   ];
 }

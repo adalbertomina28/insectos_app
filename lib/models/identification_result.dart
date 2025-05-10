@@ -1,5 +1,7 @@
 // No se requieren importaciones adicionales
 
+import 'package:insectos_app/config/api_config.dart';
+
 class IdentificationResult {
   final String status;
   final String? message;
@@ -54,7 +56,8 @@ class IdentificationMatch {
           json['taxon']['default_photo']['medium_url'] as String;
       // IMPORTANTE: Usar directamente la URL correcta sin variables intermedias
       // Hardcodear la URL para evitar que Coolify la reemplace
-      photoUrl = 'https://api.insectlab.app/api/proxy/image?url=${Uri.encodeComponent(originalUrl)}';
+      photoUrl =
+          '${ApiConfig.baseUrl}/api/proxy/image?url=${Uri.encodeComponent(originalUrl)}';
       print('URL de imagen proxy construida: $photoUrl');
     }
 

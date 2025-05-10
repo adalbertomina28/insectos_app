@@ -305,5 +305,13 @@ const Map<String, String> es = {
   'tap_mapa': 'Toca el mapa para seleccionar una ubicación',
   'expandir_panel': 'Expandir panel',
   'minimizar_panel': 'Minimizar panel',
-  'desliza_ver_mas': 'Desliza para ver más'
+  'desliza_ver_mas': 'Desliza para ver más',
+  
+  // Asistente Virtual Entomólogo
+  'asistente_virtual': 'Asistente Virtual',
+  'entomologia_chat': 'Consulta Entomológica',
+  'escribe_pregunta': '¿Qué quieres saber sobre insectos?',
+  'reiniciar_chat': 'Reiniciar conversación',
+  'enviando': 'Enviando...',
+  'error_conexion': 'Error de conexión. Inténtalo de nuevo.'
 };

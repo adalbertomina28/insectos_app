@@ -35,7 +35,7 @@ class Insect {
       final Uri originalUri = Uri.parse(photoUrl);
       // Usar la URL de la API desde la constante global
       photoUrl =
-          '$BACKEND_API_BASE_URL/api/proxy/image?url=${Uri.encodeComponent(photoUrl)}';
+          '${ApiConfig.baseUrl}/api/proxy/image?url=${Uri.encodeComponent(photoUrl)}';
     }
 
     return Insect(

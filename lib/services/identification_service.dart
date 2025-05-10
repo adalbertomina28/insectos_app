@@ -7,13 +7,10 @@ import '../config/api_config.dart';
 import '../models/identification_result.dart';
 
 class IdentificationService {
-  // URL directa sin ofuscación - no usar esta propiedad
-  final String _baseUrl = 'https://api.insectlab.app';
-
   IdentificationService() {
     // Log al crear la instancia del servicio
     developer.log(
-        'SERVICIO: IdentificationService creado con URL base: $_baseUrl',
+        'SERVICIO: IdentificationService creado con URL base: ${ApiConfig.baseUrl}',
         name: 'identification_service');
   }
   final Map<String, String> _headers = ApiConfig.headers;

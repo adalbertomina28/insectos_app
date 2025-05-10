@@ -157,6 +157,15 @@ class BaseScreen extends StatelessWidget {
               },
             ),
             ListTile(
+              leading: const Icon(Icons.chat),
+              title: Text('asistente_virtual'.tr),
+              subtitle: Text('entomologia_chat'.tr),
+              onTap: () {
+                Get.back();
+                Get.toNamed('/chatbot');
+              },
+            ),
+            ListTile(
               leading: const Icon(Icons.info),
               title: Text('about'.tr),
               subtitle: Text('about_app'.tr),
