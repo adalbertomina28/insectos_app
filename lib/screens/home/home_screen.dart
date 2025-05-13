@@ -46,12 +46,6 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [
           // Selector de idioma
           const LanguageSelector(),
-          // Botón de cierre de sesión
-          IconButton(
-            icon: const Icon(Icons.logout, color: Colors.white),
-            onPressed: () => _showLogoutDialog(),
-            tooltip: 'logout'.tr,
-          ),
         ],
       ),
       body: CustomScrollView(

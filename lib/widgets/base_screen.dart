@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'language_selector.dart';
+import '../controllers/auth_controller.dart';
 
 class BaseScreen extends StatelessWidget {
   final Widget child;
@@ -12,6 +13,32 @@ class BaseScreen extends StatelessWidget {
   final bool extendBody;
   final bool showLanguageSelector; // Nueva propiedad para controlar la visibilidad del selector de idioma
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  
+  // Método estático para mostrar el diálogo de confirmación de cierre de sesión
+  static void _showLogoutDialog(BuildContext context, AuthController authController) {
+    Get.dialog(
+      AlertDialog(
+        title: Text('logout_confirmation'.tr),
+        content: Text('logout_message'.tr),
+        actions: [
+          TextButton(
+            onPressed: () => Get.back(),
+            child: Text('cancel'.tr),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Get.back();
+              authController.signOut();
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.red,
+            ),
+            child: Text('logout'.tr),
+          ),
+        ],
+      ),
+    );
+  }
 
   BaseScreen({
     super.key,
@@ -52,6 +79,9 @@ class BaseScreen extends StatelessWidget {
   }
 
   static Widget buildDrawer(BuildContext context) {
+    // Obtener el controlador de autenticación
+    final AuthController authController = Get.find<AuthController>();
+    
     return Drawer(
       child: Container(
         color: Theme.of(context).scaffoldBackgroundColor,
@@ -177,6 +207,20 @@ class BaseScreen extends StatelessWidget {
                 Get.toNamed('/about');
               },
             ),
+            
+            // Divisor antes del botón de cerrar sesión
+            const Divider(),
+            
+            // Botón de cerrar sesión
+            ListTile(
+              leading: const Icon(Icons.logout, color: Colors.red),
+              title: Text('logout'.tr, style: const TextStyle(color: Colors.red)),
+              onTap: () {
+                Get.back(); // Cerrar el drawer
+                _showLogoutDialog(context, authController); // Mostrar diálogo de confirmación
+              },
+            ),
+            
             // Comentado para el próximo release
           // ListTile(
           //   leading: const Icon(Icons.games),
