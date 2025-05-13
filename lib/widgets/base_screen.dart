@@ -207,7 +207,15 @@ class BaseScreen extends StatelessWidget {
                 Get.toNamed('/about');
               },
             ),
-            
+            ListTile(
+              leading: const Icon(Icons.settings),
+              title: Text('account_settings'.tr),
+              subtitle: Text('manage_account'.tr),
+              onTap: () {
+                Get.back();
+                Get.toNamed('/account-settings');
+              },
+            ),
             // Divisor antes del botón de cerrar sesión
             const Divider(),
             

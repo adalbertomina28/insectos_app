@@ -14,6 +14,9 @@ class AuthController extends GetxController {
   final isAuthenticated = false.obs;
   final user = Rxn<User>();
   
+  // Getter para acceder al usuario actual
+  Rxn<User> get currentUser => user;
+  
   @override
   void onInit() {
     super.onInit();
@@ -185,7 +188,33 @@ class AuthController extends GetxController {
       }
     } catch (e) {
       print('Error al establecer la sesión: $e');
-      errorMessage.value = 'Error al establecer la sesión: $e';
+    }
+  }
+  
+  // Actualizar metadatos del usuario
+  Future<void> updateUserMetadata(Map<String, dynamic> metadata) async {
+    try {
+      isLoading.value = true;
+      errorMessage.value = '';
+      
+      await _supabase.auth.updateUser(
+        UserAttributes(
+          data: metadata,
+        ),
+      );
+      
+      // Actualizar el usuario local
+      final currentSession = _supabase.auth.currentSession;
+      if (currentSession != null) {
+        user.value = currentSession.user;
+      }
+      
+      return Future.value();
+    } catch (e) {
+      errorMessage.value = 'Error al actualizar perfil: $e';
+      throw e;
+    } finally {
+      isLoading.value = false;
     }
   }
   

@@ -341,5 +341,32 @@ const Map<String, String> es = {
   'logout': 'Cerrar sesión',
   'logout_confirmation': 'Confirmar cierre de sesión',
   'logout_message': '¿Estás seguro de que deseas cerrar sesión?',
-  'cancel': 'Cancelar'
+  'cancel': 'Cancelar',
+  
+  // Configuración de cuenta
+  'account_settings': 'Configuración de cuenta',
+  'manage_account': 'Gestionar perfil y seguridad',
+  'profile_info': 'Información de perfil',
+  'name': 'Nombre',
+  'name_required': 'El nombre es requerido',
+  'security': 'Seguridad',
+  'change_password': 'Cambiar contraseña',
+  'save_changes': 'Guardar cambios',
+  'success': 'Éxito',
+  'profile_updated': 'Perfil actualizado correctamente',
+  'error': 'Error',
+  'not_logged_in': 'No has iniciado sesión',
+  'email_cannot_be_changed': 'El correo electrónico no se puede modificar',
+  
+  // Cambio de contraseña
+  'current_password': 'Contraseña actual',
+  'new_password': 'Nueva contraseña',
+  'change_confirm_password': 'Confirmar contraseña',
+  'current_password_required': 'La contraseña actual es requerida',
+  'new_password_required': 'La nueva contraseña es requerida',
+  'change_confirm_password_required': 'Confirma tu nueva contraseña',
+  'change_password_too_short': 'La contraseña debe tener al menos 6 caracteres',
+  'passwords_do_not_match': 'Las contraseñas no coinciden',
+  'password_changed': 'Contraseña actualizada correctamente',
+  'password_change_instructions': 'Introduce tu contraseña actual y la nueva contraseña para actualizar tus credenciales.'
 };

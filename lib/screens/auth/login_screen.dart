@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import '../../controllers/auth_controller.dart';
 import '../../routes/app_routes.dart';
 import '../../widgets/loading_indicator.dart';
+import '../../theme/app_theme.dart';
+import '../../widgets/language_selector.dart';
 
 class LoginScreen extends StatelessWidget {
   final AuthController _authController = Get.find<AuthController>();
@@ -14,177 +16,224 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: Center(
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  // Logo e imagen
-                  Image.asset(
-                    'assets/images/home/insectlab_logo.png',
-                    height: 120,
-                  ),
-                  const SizedBox(height: 32),
-                  
-                  // Título
-                  Text(
-                    'bienvenido_insectlab'.tr,
-                    style: const TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 8),
-                  
-                  // Subtítulo
-                  Text(
-                    'login_subtitle'.tr,
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.grey[600],
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 32),
-                  
-                  // Campo de email
-                  TextField(
-                    controller: _emailController,
-                    decoration: InputDecoration(
-                      labelText: 'email'.tr,
-                      prefixIcon: const Icon(Icons.email),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
+      backgroundColor: Colors.white,
+      body: Column(
+        children: [
+          // Contenido principal
+          Expanded(
+            child: Container(
+              color: Colors.white,
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(24.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    // Logo
+                    Center(
+                      child: Image.asset(
+                        'assets/images/home/insectlab_logo.png',
+                        height: 80,
                       ),
                     ),
-                    keyboardType: TextInputType.emailAddress,
-                  ),
-                  const SizedBox(height: 16),
-                  
-                  // Campo de contraseña
-                  TextField(
-                    controller: _passwordController,
-                    decoration: InputDecoration(
-                      labelText: 'password'.tr,
-                      prefixIcon: const Icon(Icons.lock),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
+                    const SizedBox(height: 24),
+                    
+                    // Subtítulo
+                    Text(
+                      'login_subtitle'.tr,
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.grey[600],
                       ),
+                      textAlign: TextAlign.center,
                     ),
-                    obscureText: true,
-                  ),
-                  
-                  // Mensaje de error
-                  Obx(() => _authController.errorMessage.value.isNotEmpty
-                      ? Padding(
-                          padding: const EdgeInsets.only(top: 8.0),
-                          child: Text(
-                            _authController.errorMessage.value,
-                            style: const TextStyle(
-                              color: Colors.red,
-                              fontSize: 14,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        )
-                      : const SizedBox.shrink()),
-                  
-                  // Olvidé mi contraseña
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: TextButton(
-                      onPressed: () => Get.toNamed(AppRoutes.forgotPassword),
-                      child: Text('forgot_password'.tr),
-                    ),
-                  ),
-                  
-                  const SizedBox(height: 16),
-                  
-                  // Botón de login
-                  Obx(() => ElevatedButton(
-                        onPressed: _authController.isLoading.value
-                            ? null
-                            : () => _login(),
-                        style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                        ),
-                        child: _authController.isLoading.value
-                            ? const LoadingIndicator(size: 24)
-                            : Text(
-                                'login'.tr,
-                                style: const TextStyle(fontSize: 16),
-                              ),
-                      )),
-                  
-                  const SizedBox(height: 16),
-                  
-                  // Separador
-                  Row(
-                    children: [
-                      Expanded(child: Divider(color: Colors.grey[400])),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: Text(
-                          'o'.tr,
-                          style: TextStyle(color: Colors.grey[600]),
-                        ),
-                      ),
-                      Expanded(child: Divider(color: Colors.grey[400])),
-                    ],
-                  ),
-                  
-                  const SizedBox(height: 16),
-                  
-                  // Botón de Google
-                  OutlinedButton(
-                    onPressed: () => _authController.signInWithGoogle(),
-                    style: OutlinedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                    const SizedBox(height: 32),
+                    
+                    // Formulario de login
+                    Card(
+                      elevation: 2,
+                      color: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        // Logo de Google
-                        Image.asset(
-                          'assets/images/login/google_logo.png',
-                          height: 24,
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // Campo de email
+                            TextFormField(
+                              controller: _emailController,
+                              style: TextStyle(color: Colors.grey[800]),
+                              decoration: InputDecoration(
+                                labelText: 'email'.tr,
+                                labelStyle: TextStyle(color: Colors.grey[600]),
+                                border: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.grey[400]!),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(color: Colors.grey[400]!),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(color: AppTheme.calPolyGreen),
+                                ),
+                                prefixIcon: Icon(Icons.email, color: Colors.grey[600]),
+                              ),
+                              keyboardType: TextInputType.emailAddress,
+                            ),
+                            const SizedBox(height: 16),
+                            
+                            // Campo de contraseña
+                            TextFormField(
+                              controller: _passwordController,
+                              style: TextStyle(color: Colors.grey[800]),
+                              decoration: InputDecoration(
+                                labelText: 'password'.tr,
+                                labelStyle: TextStyle(color: Colors.grey[600]),
+                                border: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.grey[400]!),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(color: Colors.grey[400]!),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(color: AppTheme.calPolyGreen),
+                                ),
+                                prefixIcon: Icon(Icons.lock, color: Colors.grey[600]),
+                              ),
+                              obscureText: true,
+                            ),
+                            
+                            // Mensaje de error
+                            Obx(() => _authController.errorMessage.value.isNotEmpty
+                                ? Padding(
+                                    padding: const EdgeInsets.only(top: 16.0),
+                                    child: Text(
+                                      _authController.errorMessage.value,
+                                      style: const TextStyle(
+                                        color: Colors.red,
+                                        fontSize: 14,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  )
+                                : const SizedBox.shrink()),
+                            
+                            // Olvidé mi contraseña
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: TextButton(
+                                onPressed: () => Get.toNamed(AppRoutes.forgotPassword),
+                                style: TextButton.styleFrom(
+                                  foregroundColor: AppTheme.calPolyGreen,
+                                ),
+                                child: Text('forgot_password'.tr),
+                              ),
+                            ),
+                          ],
                         ),
-                        const SizedBox(width: 12),
-                        // Texto
-                        Text('login_with_google'.tr),
+                      ),
+                    ),
+                    
+                    const SizedBox(height: 24),
+                    
+                    // Botón de login
+                    Obx(() => ElevatedButton(
+                          onPressed: _authController.isLoading.value
+                              ? null
+                              : () => _login(),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppTheme.emerald,
+                            foregroundColor: AppTheme.calPolyGreen,
+                            padding: const EdgeInsets.symmetric(vertical: 16),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          child: _authController.isLoading.value
+                              ? const LoadingIndicator(size: 24)
+                              : Text(
+                                  'login'.tr,
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                        )),
+                    
+                    const SizedBox(height: 24),
+                    
+                    // Separador
+                    Row(
+                      children: [
+                        Expanded(child: Divider(color: Colors.grey[400])),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: Text(
+                            'o'.tr,
+                            style: TextStyle(color: Colors.grey[600]),
+                          ),
+                        ),
+                        Expanded(child: Divider(color: Colors.grey[400])),
                       ],
                     ),
-                  ),
-                  
-                  const SizedBox(height: 24),
-                  
-                  // Registro
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text('no_account'.tr),
-                      TextButton(
-                        onPressed: () => Get.toNamed(AppRoutes.register),
-                        child: Text('register'.tr),
+                    
+                    const SizedBox(height: 24),
+                    
+                    // Botón de Google (solo logo)
+                    Center(
+                      child: Container(
+                        height: 48,
+                        width: 48,
+                        child: OutlinedButton(
+                          onPressed: () => _authController.signInWithGoogle(),
+                          style: OutlinedButton.styleFrom(
+                            foregroundColor: AppTheme.calPolyGreen,
+                            padding: EdgeInsets.zero,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            side: BorderSide(color: AppTheme.calPolyGreen),
+                          ),
+                          child: Center(
+                            child: Image.asset(
+                              'assets/images/login/google_logo.png',
+                              height: 24,
+                              width: 24,
+                            ),
+                          ),
+                        ),
                       ),
-                    ],
-                  ),
-                ],
+                    ),
+                    
+                    const SizedBox(height: 24),
+                    
+                    // Registro
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'no_account'.tr,
+                          style: TextStyle(color: Colors.grey[600]),
+                        ),
+                        TextButton(
+                          onPressed: () => Get.toNamed(AppRoutes.register),
+                          style: TextButton.styleFrom(
+                            foregroundColor: AppTheme.calPolyGreen,
+                          ),
+                          child: Text('register'.tr),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }

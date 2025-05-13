@@ -344,5 +344,32 @@ const Map<String, String> en = {
   'logout': 'Logout',
   'logout_confirmation': 'Confirm Logout',
   'logout_message': 'Are you sure you want to logout?',
-  'cancel': 'Cancel'
+  'cancel': 'Cancel',
+  
+  // Account Settings
+  'account_settings': 'Account Settings',
+  'manage_account': 'Manage profile and security',
+  'profile_info': 'Profile Information',
+  'name': 'Name',
+  'name_required': 'Name is required',
+  'security': 'Security',
+  'change_password': 'Change Password',
+  'save_changes': 'Save Changes',
+  'success': 'Success',
+  'profile_updated': 'Profile updated successfully',
+  'error': 'Error',
+  'not_logged_in': 'You are not logged in',
+  'email_cannot_be_changed': 'Email address cannot be modified',
+  
+  // Password Change
+  'current_password': 'Current Password',
+  'new_password': 'New Password',
+  'change_confirm_password': 'Confirm Password',
+  'current_password_required': 'Current password is required',
+  'new_password_required': 'New password is required',
+  'change_confirm_password_required': 'Please confirm your new password',
+  'change_password_too_short': 'Password must be at least 6 characters long',
+  'passwords_do_not_match': 'Passwords do not match',
+  'password_changed': 'Password updated successfully',
+  'password_change_instructions': 'Enter your current password and new password to update your credentials.'
 };

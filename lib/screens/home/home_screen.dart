@@ -40,14 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       key: _scaffoldKey,
       drawer: BaseScreen.buildDrawer(context),
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        actions: [
-          // Selector de idioma
-          const LanguageSelector(),
-        ],
-      ),
+      // Eliminamos el AppBar estándar para evitar la duplicación de headers
       body: CustomScrollView(
         controller: _scrollController,
         slivers: [

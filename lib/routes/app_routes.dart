@@ -18,6 +18,8 @@ import '../screens/chatbot/chatbot_screen.dart';
 import '../screens/auth/login_screen.dart';
 import '../screens/auth/register_screen.dart';
 import '../screens/auth/forgot_password_screen.dart';
+import '../screens/settings/account_settings_screen.dart';
+import '../screens/settings/change_password_screen.dart';
 
 class AppRoutes {
   // Rutas de autenticación
@@ -37,6 +39,8 @@ class AppRoutes {
   static const String insectMap = '/insect-map';
   static const String insectDetails = '/insect-details';
   static const String chatbot = '/chatbot';
+  static const String accountSettings = '/account-settings';
+  static const String changePassword = '/change-password';
 
   static List<GetPage> pages = [
     // Rutas de autenticación
@@ -113,6 +117,17 @@ class AppRoutes {
     GetPage(
       name: chatbot,
       page: () => const ChatbotScreen(),
+      middlewares: [AuthMiddleware()],
+    ),
+    GetPage(
+      name: accountSettings,
+      page: () => const AccountSettingsScreen(),
+      middlewares: [AuthMiddleware()],
+    ),
+    GetPage(
+      name: changePassword,
+      page: () => const ChangePasswordScreen(),
+      binding: AuthBinding(),
       middlewares: [AuthMiddleware()],
     ),
   ];
