@@ -25,7 +25,7 @@ class LoginScreen extends StatelessWidget {
                 children: [
                   // Logo e imagen
                   Image.asset(
-                    'assets/images/home/logo.png',
+                    'assets/images/home/insectlab_logo.png',
                     height: 120,
                   ),
                   const SizedBox(height: 32),
@@ -144,26 +144,26 @@ class LoginScreen extends StatelessWidget {
                   const SizedBox(height: 16),
                   
                   // Botón de Google
-                  OutlinedButton.icon(
+                  OutlinedButton(
                     onPressed: () => _authController.signInWithGoogle(),
-                    icon: Container(
-                      padding: const EdgeInsets.all(4),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                      child: const Icon(
-                        Icons.g_mobiledata,
-                        color: Colors.red,
-                        size: 24,
-                      ),
-                    ),
-                    label: Text('login_with_google'.tr),
                     style: OutlinedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        // Logo de Google
+                        Image.asset(
+                          'assets/images/login/google_logo.png',
+                          height: 24,
+                        ),
+                        const SizedBox(width: 12),
+                        // Texto
+                        Text('login_with_google'.tr),
+                      ],
                     ),
                   ),
                   
