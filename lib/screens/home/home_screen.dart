@@ -171,9 +171,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     feature['title'] as String,
                     feature['description'] as String,
                     feature['icon'] as IconData,
-                    onTap: index == 0
-                        ? () => Get.toNamed('/identification')
-                        : null,
+                    onTap: null,
                   );
                 },
                 childCount: 16,
