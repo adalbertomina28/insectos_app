@@ -5,6 +5,7 @@ import '../../theme/app_theme.dart';
 import '../../models/entomology_topic.dart';
 import '../../widgets/language_selector.dart';
 import '../../widgets/base_screen.dart';
+import '../../controllers/auth_controller.dart';
 
 class HomeScreen extends StatefulWidget {
   final Key? key;
@@ -16,6 +17,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final ScrollController _scrollController = ScrollController();
+  final AuthController _authController = Get.find<AuthController>();
 
   void _scrollToFeatures() {
     _scrollController.animateTo(
@@ -38,6 +40,20 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       key: _scaffoldKey,
       drawer: BaseScreen.buildDrawer(context),
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        actions: [
+          // Selector de idioma
+          const LanguageSelector(),
+          // Botón de cierre de sesión
+          IconButton(
+            icon: const Icon(Icons.logout, color: Colors.white),
+            onPressed: () => _showLogoutDialog(),
+            tooltip: 'logout'.tr,
+          ),
+        ],
+      ),
       body: CustomScrollView(
         controller: _scrollController,
         slivers: [
@@ -390,6 +406,32 @@ class _HomeScreenState extends State<HomeScreen> {
     ];
 
     return topics.map((topic) => _buildTopicCard(context, topic)).toList();
+  }
+
+  // Diálogo de confirmación de cierre de sesión
+  void _showLogoutDialog() {
+    Get.dialog(
+      AlertDialog(
+        title: Text('logout_confirmation'.tr),
+        content: Text('logout_message'.tr),
+        actions: [
+          TextButton(
+            onPressed: () => Get.back(),
+            child: Text('cancel'.tr),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Get.back();
+              _authController.signOut();
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.red,
+            ),
+            child: Text('logout'.tr),
+          ),
+        ],
+      ),
+    );
   }
 
   Widget _buildTopicCard(BuildContext context, EntomologyTopic topic) {

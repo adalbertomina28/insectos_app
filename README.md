@@ -74,6 +74,7 @@ lib/
 3. Ejecuta `flutter pub get` para instalar las dependencias
 4. Conecta un dispositivo o inicia un emulador
 5. Ejecuta `flutter run` para iniciar la aplicación
+flutter run -d web-server -d chrome --web-port=3000
 
 ## Contribuciones
 
