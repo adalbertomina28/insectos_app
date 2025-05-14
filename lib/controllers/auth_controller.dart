@@ -176,13 +176,39 @@ class AuthController extends GetxController {
       
       await _supabase.auth.resetPasswordForEmail(email);
       
+      // Mostrar un mensaje de éxito con estilo mejorado
       Get.snackbar(
-        'Recuperación de contraseña',
-        'Se ha enviado un correo a $email con instrucciones para recuperar tu contraseña',
+        'Correo enviado',
+        'Hemos enviado un enlace a $email con instrucciones para restablecer tu contraseña',
         snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.green[100],
+        colorText: Colors.green[800],
+        margin: const EdgeInsets.all(16),
+        borderRadius: 10,
+        duration: const Duration(seconds: 5),
+        icon: const Icon(Icons.check_circle, color: Colors.green),
       );
+      
+      // Regresar a la pantalla de login después de mostrar el mensaje
+      Future.delayed(const Duration(seconds: 2), () {
+        Get.back();
+      });
+    } on AuthException catch (e) {
+      // Manejar errores específicos de autenticación
+      if (e.message.contains('rate limit')) {
+        errorMessage.value = 'Has solicitado demasiados enlaces recientemente. Por favor, espera unos minutos e intenta nuevamente.';
+      } else if (e.message.contains('user not found')) {
+        errorMessage.value = 'No encontramos una cuenta con este correo electrónico. Verifica que sea correcto.';
+      } else {
+        errorMessage.value = 'Error al enviar el correo: ${e.message}';
+      }
     } catch (e) {
-      errorMessage.value = 'Error al recuperar contraseña: $e';
+      // Manejar errores generales
+      if (e.toString().contains('network')) {
+        errorMessage.value = 'Error de conexión. Verifica tu conexión a internet e intenta nuevamente.';
+      } else {
+        errorMessage.value = 'No pudimos procesar tu solicitud. Por favor, intenta más tarde.';
+      }
     } finally {
       isLoading.value = false;
     }

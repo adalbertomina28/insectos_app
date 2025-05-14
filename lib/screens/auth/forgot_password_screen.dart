@@ -2,20 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../controllers/auth_controller.dart';
 import '../../widgets/loading_indicator.dart';
+import '../../theme/app_theme.dart';
 
-class ForgotPasswordScreen extends StatelessWidget {
+class ForgotPasswordScreen extends StatefulWidget {
+  ForgotPasswordScreen({super.key});
+
+  @override
+  State<ForgotPasswordScreen> createState() => _ForgotPasswordScreenState();
+}
+
+class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   final AuthController _authController = Get.find<AuthController>();
   final TextEditingController _emailController = TextEditingController();
-
-  ForgotPasswordScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('forgot_password'.tr),
-        elevation: 0,
-      ),
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(24.0),
@@ -25,44 +28,62 @@ class ForgotPasswordScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  // Icono
-                  const Icon(
-                    Icons.lock_reset,
-                    size: 80,
-                    color: Colors.green,
+                  // Cabecera con flecha de regreso
+                  Row(
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.arrow_back, color: Colors.black),
+                        onPressed: () => Get.back(),
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 24),
                   
-                  // Título
-                  Text(
-                    'reset_password'.tr,
-                    style: const TextStyle(
-                      fontSize: 24,
+                  const SizedBox(height: 20),
+                  
+                  // Título principal
+                  const Text(
+                    'Recupera tu contraseña',
+                    style: TextStyle(
+                      fontSize: 32,
                       fontWeight: FontWeight.bold,
+                      color: Colors.black,
                     ),
-                    textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: 16),
                   
-                  // Instrucciones
+                  const SizedBox(height: 12),
+                  
+                  // Subtítulo
                   Text(
-                    'reset_password_instructions'.tr,
+                    'Ingresa tu correo electrónico y te enviaremos un enlace para restablecer tu contraseña',
                     style: TextStyle(
                       fontSize: 16,
                       color: Colors.grey[600],
                     ),
-                    textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: 32),
+                  
+                  const SizedBox(height: 40),
                   
                   // Campo de email
-                  TextField(
+                  TextFormField(
                     controller: _emailController,
+                    style: const TextStyle(color: Colors.black87),
                     decoration: InputDecoration(
-                      labelText: 'email'.tr,
-                      prefixIcon: const Icon(Icons.email),
+                      hintText: 'Ingresa tu email',
+                      hintStyle: TextStyle(color: Colors.grey[400]),
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                      filled: true,
+                      fillColor: Colors.transparent,
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(24),
+                        borderSide: BorderSide(color: Colors.grey[300]!),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(24),
+                        borderSide: BorderSide(color: Colors.grey[300]!),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(24),
+                        borderSide: BorderSide(color: Colors.grey[300]!),
                       ),
                     ),
                     keyboardType: TextInputType.emailAddress,
@@ -72,13 +93,28 @@ class ForgotPasswordScreen extends StatelessWidget {
                   Obx(() => _authController.errorMessage.value.isNotEmpty
                       ? Padding(
                           padding: const EdgeInsets.only(top: 16.0),
-                          child: Text(
-                            _authController.errorMessage.value,
-                            style: const TextStyle(
-                              color: Colors.red,
-                              fontSize: 14,
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                            decoration: BoxDecoration(
+                              color: Colors.red.shade50,
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(color: Colors.red.shade200),
                             ),
-                            textAlign: TextAlign.center,
+                            child: Row(
+                              children: [
+                                Icon(Icons.error_outline, color: Colors.red.shade700, size: 20),
+                                const SizedBox(width: 12),
+                                Expanded(
+                                  child: Text(
+                                    _authController.errorMessage.value,
+                                    style: TextStyle(
+                                      color: Colors.red.shade700,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         )
                       : const SizedBox.shrink()),
@@ -91,25 +127,34 @@ class ForgotPasswordScreen extends StatelessWidget {
                             ? null
                             : () => _resetPassword(),
                         style: ElevatedButton.styleFrom(
+                          backgroundColor: AppTheme.primaryColor,
+                          foregroundColor: Colors.white,
                           padding: const EdgeInsets.symmetric(vertical: 16),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(24),
                           ),
+                          elevation: 0,
                         ),
                         child: _authController.isLoading.value
                             ? const LoadingIndicator(size: 24)
-                            : Text(
-                                'send'.tr,
-                                style: const TextStyle(fontSize: 16),
+                            : const Text(
+                                'Enviar enlace',
+                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                               ),
                       )),
                   
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 24),
                   
                   // Volver al login
-                  TextButton(
-                    onPressed: () => Get.back(),
-                    child: Text('back_to_login'.tr),
+                  Center(
+                    child: TextButton(
+                      onPressed: () => Get.back(),
+                      style: TextButton.styleFrom(
+                        foregroundColor: const Color(0xFF5D5FEF), // Color morado
+                        padding: EdgeInsets.zero,
+                      ),
+                      child: const Text('Volver al inicio de sesión'),
+                    ),
                   ),
                 ],
               ),
@@ -124,13 +169,13 @@ class ForgotPasswordScreen extends StatelessWidget {
     final email = _emailController.text.trim();
     
     if (email.isEmpty) {
-      _authController.errorMessage.value = 'enter_email'.tr;
+      _authController.errorMessage.value = 'Por favor, ingresa tu dirección de correo electrónico';
       return;
     }
     
     // Validar formato de email
     if (!GetUtils.isEmail(email)) {
-      _authController.errorMessage.value = 'invalid_email'.tr;
+      _authController.errorMessage.value = 'Por favor, ingresa una dirección de correo electrónico válida';
       return;
     }
     
