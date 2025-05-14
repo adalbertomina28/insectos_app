@@ -61,9 +61,30 @@ class AuthController extends GetxController {
       // Redirigir al home si la autenticación es exitosa
       Get.offAllNamed(AppRoutes.home);
     } on AuthException catch (e) {
-      errorMessage.value = e.message;
+      // Manejar códigos de error específicos para mejorar la experiencia del usuario
+      switch (e.message) {
+        case 'Invalid login credentials':
+          errorMessage.value = 'Correo o contraseña incorrectos. Por favor, verifica tus datos.';
+          break;
+        case 'Email not confirmed':
+          errorMessage.value = 'Tu correo electrónico no ha sido confirmado. Por favor, revisa tu bandeja de entrada.';
+          break;
+        case 'User not found':
+          errorMessage.value = 'No existe una cuenta con este correo electrónico. ¿Quieres registrarte?';
+          break;
+        case 'Too many requests':
+          errorMessage.value = 'Demasiados intentos fallidos. Por favor, intenta más tarde.';
+          break;
+        default:
+          errorMessage.value = 'Error al iniciar sesión: ${e.message}';
+      }
     } catch (e) {
-      errorMessage.value = 'Error al iniciar sesión: $e';
+      // Manejar errores generales
+      if (e.toString().contains('network')) {
+        errorMessage.value = 'Error de conexión. Verifica tu conexión a internet.';
+      } else {
+        errorMessage.value = 'Error al iniciar sesión. Por favor, intenta nuevamente.';
+      }
     } finally {
       isLoading.value = false;
     }
