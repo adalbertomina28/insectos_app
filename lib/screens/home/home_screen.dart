@@ -39,47 +39,58 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
+      backgroundColor: Colors.white,
       drawer: BaseScreen.buildDrawer(context),
-      // Eliminamos el AppBar estándar para evitar la duplicación de headers
       body: CustomScrollView(
         controller: _scrollController,
         slivers: [
+          // Header con la imagen del insecto
           SliverToBoxAdapter(
             child: _buildHeader(),
           ),
+          
+          // Sección de características principales
           SliverToBoxAdapter(
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(48, 64, 48, 32),
-              child: Text(
-                'main_features'.tr,
-                style: TextStyle(
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
-                  color: AppTheme.calPolyGreen,
-                  letterSpacing: -0.5,
-                ),
+              padding: const EdgeInsets.fromLTRB(24, 48, 24, 24),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'main_features'.tr,
+                    style: TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                      color: AppTheme.calPolyGreen,
+                      letterSpacing: -0.5,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'Descubre las características más importantes de los insectos',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.black87.withOpacity(0.7),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
+          
+          // Grid de características
           SliverPadding(
-            padding: const EdgeInsets.fromLTRB(
-                24, 0, 24, 64), // Reducido el padding horizontal
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 48),
             sliver: SliverGrid(
-              gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                maxCrossAxisExtent: 350, // Reducido de 400 a 350
-                mainAxisSpacing: 16, // Reducido de 24 a 16
-                crossAxisSpacing: 16, // Reducido de 24 a 16
-                childAspectRatio:
-                    1.5, // Aumentado de 1.2 a 1.5 para dar más espacio horizontal
+              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                maxCrossAxisExtent: 350,
+                mainAxisSpacing: 16,
+                crossAxisSpacing: 16,
+                childAspectRatio: 1.2,
               ),
               delegate: SliverChildBuilderDelegate(
                 (context, index) {
                   final features = [
-                    /** {
-                      'title': 'prediction'.tr,
-                      'description': 'identify_insects'.tr,
-                      'icon': Icons.camera_alt,
-                    }, */
                     {
                       'title': 'diverse_habitats'.tr,
                       'description': 'diverse_habitats_desc'.tr,
@@ -109,68 +120,73 @@ class _HomeScreenState extends State<HomeScreen> {
                       'title': 'specialized_limbs'.tr,
                       'description': 'specialized_limbs_desc'.tr,
                       'icon': Icons.directions_walk,
-                    },
-                    {
-                      'title': 'varied_diet'.tr,
-                      'description': 'varied_diet_desc'.tr,
-                      'icon': Icons.restaurant_menu,
-                    },
-                    {
-                      'title': 'metamorphosis'.tr,
-                      'description': 'metamorphosis_desc'.tr,
-                      'icon': Icons.change_circle,
-                    },
-                    {
-                      'title': 'wings'.tr,
-                      'description': 'wings_desc'.tr,
-                      'icon': Icons.flight,
-                    },
-                    {
-                      'title': 'social_behavior'.tr,
-                      'description': 'social_behavior_desc'.tr,
-                      'icon': Icons.groups,
-                    },
-                    {
-                      'title': 'communication'.tr,
-                      'description': 'communication_desc'.tr,
-                      'icon': Icons.chat,
-                    },
-                    {
-                      'title': 'ecological_impact'.tr,
-                      'description': 'ecological_impact_desc'.tr,
-                      'icon': Icons.eco,
-                    },
-                    {
-                      'title': 'incredible_diversity'.tr,
-                      'description': 'incredible_diversity_desc'.tr,
-                      'icon': Icons.diversity_3,
-                    },
-                    {
-                      'title': 'defensive_adaptations'.tr,
-                      'description': 'defensive_adaptations_desc'.tr,
-                      'icon': Icons.security,
-                    },
-                    {
-                      'title': 'effective_reproduction'.tr,
-                      'description': 'effective_reproduction_desc'.tr,
-                      'icon': Icons.egg_alt,
-                    },
+                    }
                   ];
 
                   if (index >= features.length) return null;
 
                   final feature = features[index];
                   return _buildFeatureCard(
-                    feature['title'] as String,
-                    feature['description'] as String,
+                    feature['title'].toString(),
+                    feature['description'].toString(),
                     feature['icon'] as IconData,
-                    onTap: null,
                   );
                 },
-                childCount: 16,
+                childCount: 6,
               ),
             ),
           ),
+          
+          // Separador
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: Container(
+                height: 1,
+                color: Colors.grey[200],
+              ),
+            ),
+          ),
+          
+          // Sección de temas de entomología
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(24, 48, 24, 24),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'entomology_topics'.tr,
+                    style: TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                      color: AppTheme.calPolyGreen,
+                      letterSpacing: -0.5,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'Explora los temas más relevantes en el estudio de los insectos',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.black87.withOpacity(0.7),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          
+          // Lista de temas de entomología
+          SliverPadding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 48),
+            sliver: SliverList(
+              delegate: SliverChildListDelegate(
+                _buildEntomologyContent(context),
+              ),
+            ),
+          ),
+          
           SliverToBoxAdapter(
             child: Container(
               margin: const EdgeInsets.only(top: 80),
@@ -206,22 +222,28 @@ class _HomeScreenState extends State<HomeScreen> {
     return Container(
       height: 600,
       decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage('images/home/home_bg.jpg'),
-          fit: BoxFit.cover,
-          colorFilter: ColorFilter.mode(
-            AppTheme.calPolyGreen.withOpacity(0.7),
-            BlendMode.overlay,
-          ),
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            Colors.white,
+            Colors.white,
+            AppTheme.calPolyGreen.withOpacity(0.05),
+          ],
         ),
       ),
       child: Stack(
         children: [
+          // Patrón de hexágonos sutiles en el fondo
           Positioned.fill(
-            child: CustomPaint(
-              painter: HexagonPattern(),
+            child: Opacity(
+              opacity: 0.3,
+              child: CustomPaint(
+                painter: HexagonPattern(),
+              ),
             ),
           ),
+          
           // Barra superior con menú y selector de idioma
           Positioned(
             top: 0,
@@ -234,9 +256,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     IconButton(
-                      icon: const Icon(
+                      icon: Icon(
                         Icons.menu,
-                        color: Colors.white,
+                        color: AppTheme.calPolyGreen,
                         size: 28,
                       ),
                       onPressed: () {
@@ -249,49 +271,76 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
-          // Contenido central
-          Center(
+          
+          // Contenido principal
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center, // Centrar todos los elementos
               children: [
+                // Espacio para la barra superior
+                const SizedBox(height: 100),
+                
+                // Imagen del insecto
+                Image.asset(
+                  'images/vectors/insecto_home.png',
+                  height: 200,
+                  fit: BoxFit.contain,
+                ),
+                
+                const SizedBox(height: 32),
+                
+                // Título principal
                 Text(
                   'Insect Lab',
                   style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 48,
+                    color: AppTheme.calPolyGreen,
+                    fontSize: 42,
                     fontWeight: FontWeight.bold,
+                    letterSpacing: -0.5,
                   ),
+                  textAlign: TextAlign.center, // Centrar el texto
                 ),
-                SizedBox(height: 16),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                  child: Text(
-                    'main_text'.tr,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 22, // Reducido de 24 a 22
-                    ),
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
+                
+                const SizedBox(height: 16),
+                
+                // Texto descriptivo
+                Text(
+                  'main_text'.tr,
+                  style: TextStyle(
+                    color: Colors.black87,
+                    fontSize: 18,
+                    height: 1.4,
                   ),
+                  textAlign: TextAlign.center, // Centrar el texto
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
                 ),
-                SizedBox(height: 32),
-                ElevatedButton(
-                  onPressed: _scrollToFeatures,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 32,
-                      vertical: 16,
+                
+                const SizedBox(height: 32),
+                
+                // Botón de explorar
+                Center( // Centrar el botón
+                  child: ElevatedButton(
+                    onPressed: _scrollToFeatures,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppTheme.primaryColor,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 32,
+                        vertical: 16,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(24),
+                      ),
+                      elevation: 0,
                     ),
-                  ),
-                  child: Text(
-                    'explore'.tr,
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: AppTheme.calPolyGreen,
+                    child: Text(
+                      'explore'.tr,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
@@ -306,48 +355,56 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildFeatureCard(String title, String description, IconData icon,
       {VoidCallback? onTap}) {
     return Card(
-      elevation: 4,
-      color: AppTheme.calPolyGreen,
+      elevation: 0,
+      color: Colors.white,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(24),
+        side: BorderSide(color: AppTheme.calPolyGreen, width: 1.5),
       ),
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(24),
         child: Padding(
-          padding: const EdgeInsets.all(16), // Reducido de 24 a 16
+          padding: const EdgeInsets.all(16.0), // Reducido el padding
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize:
-                MainAxisSize.min, // Ajusta el tamaño al mínimo necesario
+            mainAxisSize: MainAxisSize.min, // Asegurar que la columna use el mínimo espacio necesario
             children: [
-              Icon(
-                icon,
-                size: 28, // Reducido de 32 a 28
-                color: Colors.white,
+              // Icono con fondo circular y color primario
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: AppTheme.primaryColor.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(50),
+                ),
+                child: Icon(
+                  icon,
+                  size: 28,
+                  color: AppTheme.primaryColor,
+                ),
               ),
-              const SizedBox(height: 12), // Reducido de 16 a 12
+              const SizedBox(height: 12), // Reducido de 20 a 12
+              // Título con estilo moderno
               Text(
                 title,
                 style: const TextStyle(
-                  fontSize: 18, // Reducido de 20 a 18
+                  fontSize: 16, // Reducido de 18 a 16
                   fontWeight: FontWeight.bold,
-                  color: Colors.white,
+                  letterSpacing: -0.5,
+                  color: Colors.black87,
                 ),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
               ),
-              const SizedBox(height: 6), // Reducido de 8 a 6
-              Flexible(
-                child: Text(
-                  description,
-                  style: const TextStyle(
-                    fontSize: 13, // Reducido de 14 a 13
-                    color: Colors.white,
-                  ),
-                  maxLines: 3,
-                  overflow: TextOverflow.ellipsis,
+              const SizedBox(height: 8), // Reducido de 12 a 8
+              // Descripción con estilo mejorado
+              Text(
+                description,
+                style: TextStyle(
+                  fontSize: 13, // Reducido de 14 a 13
+                  color: Colors.black54,
+                  height: 1.4, // Reducido de 1.5 a 1.4
                 ),
+                maxLines: 2, // Reducido de 3 a 2 líneas
+                overflow: TextOverflow.ellipsis,
               ),
             ],
           ),
@@ -422,42 +479,82 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildTopicCard(BuildContext context, EntomologyTopic topic) {
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 8),
+      elevation: 0,
+      color: Colors.white,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(24),
+        side: BorderSide(color: AppTheme.calPolyGreen, width: 1.5),
       ),
-      child: ExpansionTile(
-        title: Text(
-          topic.title,
-          style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
+      child: Theme(
+        data: Theme.of(context).copyWith(
+          dividerColor: Colors.transparent,
+          colorScheme: ColorScheme.light(
+            primary: AppTheme.primaryColor,
           ),
         ),
-        subtitle: Padding(
-          padding: const EdgeInsets.only(top: 8),
-          child: Text(
-            topic.description,
-            style: TextStyle(
-              color: Colors.black.withOpacity(0.6),
+        child: ExpansionTile(
+          tilePadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+          expandedCrossAxisAlignment: CrossAxisAlignment.start,
+          childrenPadding: const EdgeInsets.only(left: 24, right: 24, bottom: 24),
+          iconColor: AppTheme.primaryColor,
+          collapsedIconColor: AppTheme.primaryColor,
+          backgroundColor: Colors.transparent,
+          // Icono personalizado en el lado izquierdo
+          leading: Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: AppTheme.primaryColor.withOpacity(0.1),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(
+              Icons.bug_report,
+              color: AppTheme.primaryColor,
+              size: 20,
             ),
           ),
-        ),
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
+          title: Text(
+            topic.title,
+            style: const TextStyle(
+              fontSize: 17,
+              fontWeight: FontWeight.bold,
+              letterSpacing: -0.5,
+              color: Colors.black87,
+            ),
+          ),
+          subtitle: Padding(
+            padding: const EdgeInsets.only(top: 8),
+            child: Text(
+              topic.description,
+              style: TextStyle(
+                color: Colors.black54,
+                fontSize: 14,
+                height: 1.4,
+              ),
+            ),
+          ),
+          children: [
+            Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: topic.content.map((item) {
                 return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 4),
+                  padding: const EdgeInsets.symmetric(vertical: 8),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text('• ', style: TextStyle(fontSize: 16)),
+                      Icon(
+                        Icons.check_circle_outline,
+                        size: 18,
+                        color: AppTheme.primaryColor,
+                      ),
+                      const SizedBox(width: 12),
                       Expanded(
                         child: Text(
                           item,
-                          style: const TextStyle(fontSize: 14),
+                          style: const TextStyle(
+                            fontSize: 14,
+                            height: 1.4,
+                            color: Colors.black87,
+                          ),
                         ),
                       ),
                     ],
@@ -465,8 +562,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 );
               }).toList(),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
