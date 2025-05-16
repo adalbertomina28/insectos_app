@@ -53,6 +53,10 @@ ARG SUPABASE_URL
 ARG SUPABASE_ANON_KEY
 ARG WEB_REDIRECT_URL
 
+# Imprimir variables para depuración (solo durante la construcción)
+RUN echo "Building with: API_URL=$API_URL, SUPABASE_URL=$SUPABASE_URL, WEB_REDIRECT_URL=$WEB_REDIRECT_URL"
+
+# Construir la aplicación con variables de entorno
 RUN flutter build web --release \
     --dart-define=API_URL=$API_URL \
     --dart-define=PROD_MODE=true \

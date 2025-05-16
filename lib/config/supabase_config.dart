@@ -29,8 +29,9 @@ class SupabaseConfig {
     // Verificar si estamos en modo de producción
     final isProd = const bool.fromEnvironment('PROD_MODE', defaultValue: false);
     if (isProd) {
-      print('Modo producción detectado, pero no se proporcionó SUPABASE_URL');
-      print('ADVERTENCIA: Usando URL de desarrollo en modo producción. Esto no es recomendado.');
+      print('ADVERTENCIA: Modo producción detectado, pero no se proporcionó SUPABASE_URL');
+      print('Usando valor predeterminado para producción: https://szbysmxkohlfqypitvyw.supabase.co');
+      return 'https://szbysmxkohlfqypitvyw.supabase.co';
     }
     
     // Valor por defecto para desarrollo
@@ -49,8 +50,9 @@ class SupabaseConfig {
     // Verificar si estamos en modo de producción
     final isProd = const bool.fromEnvironment('PROD_MODE', defaultValue: false);
     if (isProd) {
-      print('Modo producción detectado, pero no se proporcionó SUPABASE_ANON_KEY');
-      print('ADVERTENCIA: Usando clave de desarrollo en modo producción. Esto no es recomendado.');
+      print('ADVERTENCIA: Modo producción detectado, pero no se proporcionó SUPABASE_ANON_KEY');
+      print('Usando valor predeterminado para producción');
+      return 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN6YnlzbXhrb2hsZnF5cGl0dnl3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDc0MzA0OTgsImV4cCI6MjA2MzAwNjQ5OH0.0RmS9Tz8ZC5bJx26QWhRouSigwHq_ZfU7YDKoc5mjx4';
     }
     
     // Valor por defecto para desarrollo
@@ -74,10 +76,10 @@ class SupabaseConfig {
     // Verificar si estamos en modo de producción
     final isProd = const bool.fromEnvironment('PROD_MODE', defaultValue: false);
     if (isProd) {
-      print('ERROR: Modo producción detectado, pero no se proporcionó WEB_REDIRECT_URL');
-      print('Es necesario proporcionar WEB_REDIRECT_URL para el modo producción');
-      // En producción, es obligatorio proporcionar una URL de redirección
-      throw Exception('WEB_REDIRECT_URL no está configurada para producción. Por favor, configura esta variable de entorno.');
+      print('ADVERTENCIA: Modo producción detectado, pero no se proporcionó WEB_REDIRECT_URL');
+      print('Usando valor predeterminado para producción: https://insectlab.app');
+      // SOLUCIÓN TEMPORAL: Usar un valor predeterminado para producción
+      return 'https://insectlab.app';
     }
     
     // Valor por defecto para desarrollo web local
