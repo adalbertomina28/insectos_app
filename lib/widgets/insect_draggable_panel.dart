@@ -3,12 +3,20 @@ import 'package:get/get.dart';
 import '../controllers/insect_controller.dart';
 import '../models/insect_model.dart';
 
+// Interfaz pública para controlar el panel
+abstract class InsectPanelController {
+  void expandPanel();
+  void collapsePanel();
+}
+
 // Widget personalizado para el panel deslizable de insectos
 class InsectDraggablePanel extends StatefulWidget {
   final InsectController insectController;
   final Function(Insect) buildCompactInsectListItem;
   final Function(Insect) buildInsectListItem;
   final Function(Insect) showInsectDetails;
+  final bool autoExpandOnResults; // Propiedad para controlar la expansión automática
+  final void Function(InsectPanelController controller)? onControllerReady; // Callback para obtener el controlador
 
   const InsectDraggablePanel({
     Key? key,
@@ -16,20 +24,28 @@ class InsectDraggablePanel extends StatefulWidget {
     required this.buildCompactInsectListItem,
     required this.buildInsectListItem,
     required this.showInsectDetails,
+    this.autoExpandOnResults = false, // Por defecto, no se expande automáticamente
+    this.onControllerReady, // Callback opcional para obtener el controlador
   }) : super(key: key);
 
   @override
   State<InsectDraggablePanel> createState() => _InsectDraggablePanelState();
 }
 
-class _InsectDraggablePanelState extends State<InsectDraggablePanel> {
+class _InsectDraggablePanelState extends State<InsectDraggablePanel> implements InsectPanelController {
   // Controlador para el panel deslizable
   late DraggableScrollableController _dragController;
+  int _previousInsectCount = 0; // Para rastrear cambios en la cantidad de insectos
   
   @override
   void initState() {
     super.initState();
     _dragController = DraggableScrollableController();
+    
+    // Proporcionar el controlador a través del callback si está definido
+    if (widget.onControllerReady != null) {
+      widget.onControllerReady!(this);
+    }
   }
   
   @override
@@ -40,6 +56,21 @@ class _InsectDraggablePanelState extends State<InsectDraggablePanel> {
   
   @override
   Widget build(BuildContext context) {
+    // Verificar si hay cambios en la cantidad de insectos
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final currentCount = widget.insectController.nearbyInsects.length;
+      
+      // Si hay insectos y es más que antes, y la opción autoExpandOnResults está activada
+      if (widget.autoExpandOnResults && 
+          currentCount > 0 && 
+          currentCount != _previousInsectCount) {
+        expandPanel(); // Expandir el panel automáticamente
+      }
+      
+      // Actualizar el contador para la próxima verificación
+      _previousInsectCount = currentCount;
+    });
+    
     return DraggableScrollableSheet(
       initialChildSize: 0.25, // Inicialmente ocupa 25% de la pantalla
       minChildSize: 0.15, // Mínimo 15% de la pantalla
@@ -225,5 +256,15 @@ class _InsectDraggablePanelState extends State<InsectDraggablePanel> {
     } catch (e) {
       print('Error al animar el panel: $e');
     }
+  }
+  
+  // Método público para expandir el panel - puede ser llamado desde fuera
+  void expandPanel() {
+    _animatePanel(0.5); // Expandir al 50% de la pantalla
+  }
+  
+  // Método para contraer el panel
+  void collapsePanel() {
+    _animatePanel(0.15); // Contraer al tamaño mínimo
   }
 }

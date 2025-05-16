@@ -91,8 +91,20 @@ class InsectController extends GetxController {
               ?.map((item) => Insect.fromJson(item))
               ?.toList() ??
           [];
-
-      nearbyInsects.value = fetchedResults;
+      
+      // Filtrar insectos duplicados usando un Set para rastrear IDs únicos
+      final Set<int> uniqueIds = {};
+      final List<Insect> uniqueInsects = [];
+      
+      for (final insect in fetchedResults) {
+        // Si el ID no está en el conjunto, agregar el insecto a la lista filtrada
+        if (!uniqueIds.contains(insect.id)) {
+          uniqueIds.add(insect.id);
+          uniqueInsects.add(insect);
+        }
+      }
+      
+      nearbyInsects.value = uniqueInsects;
     } catch (e) {
       error.value = e.toString();
     } finally {

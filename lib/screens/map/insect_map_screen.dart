@@ -21,6 +21,9 @@ class _InsectMapScreenState extends State<InsectMapScreen> {
   final InsectController _insectController = Get.find<InsectController>();
   final MapController _mapController = MapController();
   
+  // Controlador para el panel de insectos
+  InsectPanelController? _panelController;
+  
   // Ubicación seleccionada (inicialmente Panamá)
   final RxDouble _latitude = 8.9824.obs;
   final RxDouble _longitude = (-79.5199).obs;
@@ -30,6 +33,9 @@ class _InsectMapScreenState extends State<InsectMapScreen> {
   
   // Marcador para la ubicación seleccionada
   final RxBool _markerPlaced = false.obs;
+  
+  // Controlar si el panel debe expandirse automáticamente
+  final RxBool _autoExpandPanel = true.obs;
   
 
 
@@ -236,6 +242,11 @@ class _InsectMapScreenState extends State<InsectMapScreen> {
     _latitude.value = point.latitude;
     _longitude.value = point.longitude;
     _markerPlaced.value = true;
+    
+    // Asegurarse de que la expansión automática esté activada antes de buscar insectos
+    _autoExpandPanel.value = true;
+    
+    // Buscar insectos en la ubicación seleccionada
     _searchInsectsAtLocation();
   }
 
@@ -246,17 +257,33 @@ class _InsectMapScreenState extends State<InsectMapScreen> {
         longitude: _longitude.value,
         radius: _searchRadius.value,
       );
+      
+      // Si se encontraron insectos y la expansión automática está activada, expandir el panel
+      if (_autoExpandPanel.value && _insectController.nearbyInsects.isNotEmpty) {
+        // Dar tiempo para que la UI se actualice antes de expandir el panel
+        Future.delayed(const Duration(milliseconds: 300), () {
+          if (_panelController != null) {
+            _panelController!.expandPanel();
+          }
+        });
+      }
     }
   }
 
   Widget _buildInsectsList() {
-    // Usamos un widget independiente para el panel deslizable
-    return InsectDraggablePanel(
+    // Usamos un widget independiente para el panel deslizable con expansión automática
+    return Obx(() => InsectDraggablePanel(
+      key: ValueKey('insect_panel_${_insectController.nearbyInsects.length}'),
       insectController: _insectController,
       buildCompactInsectListItem: _buildCompactInsectListItem,
       buildInsectListItem: _buildInsectListItem,
       showInsectDetails: _showInsectDetails,
-    );
+      autoExpandOnResults: _autoExpandPanel.value, // Usar la variable reactiva para controlar la expansión automática
+      onControllerReady: (controller) {
+        // Guardar el controlador cuando esté listo
+        _panelController = controller;
+      },
+    ));
   }
   
   // Versión compacta del elemento de la lista para cuando el panel está minimizado
