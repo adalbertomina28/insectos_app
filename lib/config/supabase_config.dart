@@ -5,9 +5,7 @@ class SupabaseConfig {
   static const String _devSupabaseUrl = 'https://iftsroiviuwuxgcaodoq.supabase.co';
   static const String _devSupabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlmdHNyb2l2aXV3dXhnY2FvZG9xIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDcxNjM5MTEsImV4cCI6MjA2MjczOTkxMX0.aFHUf_8ui8pUTmLvdl3PV_2-L6bmosxkuQtqAh0Y9S8';
   
-  // Valores para producción (se usarán si están definidos como variables de entorno)
-  static const String _prodSupabaseUrl = 'https://szbysmxkohlfqypitvyw.supabase.co';
-  static const String _prodSupabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN6YnlzbXhrb2hsZnF5cGl0dnl3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDc0MzA0OTgsImV4cCI6MjA2MzAwNjQ5OH0.0RmS9Tz8ZC5bJx26QWhRouSigwHq_ZfU7YDKoc5mjx4';
+  // No hardcodeamos valores de producción - se deben proporcionar mediante variables de entorno
   
   // URLs de redirección para autenticación OAuth
   // Para dispositivos móviles (mismo esquema para ambos entornos)
@@ -17,7 +15,7 @@ class SupabaseConfig {
   static const String _devWebRedirectUrl = 'http://localhost:3000';
   
   // URL de redirección para navegadores web en producción
-  static const String _prodWebRedirectUrl = 'https://szbysmxkohlfqypitvyw.supabase.co/auth/v1/callback';
+  // No hardcodeamos valores de producción - se deben proporcionar mediante variables de entorno
   
   // Obtener URL de Supabase (con fallback a desarrollo)
   static String get supabaseUrl {
@@ -31,8 +29,8 @@ class SupabaseConfig {
     // Verificar si estamos en modo de producción
     final isProd = const bool.fromEnvironment('PROD_MODE', defaultValue: false);
     if (isProd) {
-      print('Modo producción detectado, usando URL de producción');
-      return _prodSupabaseUrl;
+      print('Modo producción detectado, pero no se proporcionó SUPABASE_URL');
+      print('ADVERTENCIA: Usando URL de desarrollo en modo producción. Esto no es recomendado.');
     }
     
     // Valor por defecto para desarrollo
@@ -51,8 +49,8 @@ class SupabaseConfig {
     // Verificar si estamos en modo de producción
     final isProd = const bool.fromEnvironment('PROD_MODE', defaultValue: false);
     if (isProd) {
-      print('Modo producción detectado, usando clave de producción');
-      return _prodSupabaseAnonKey;
+      print('Modo producción detectado, pero no se proporcionó SUPABASE_ANON_KEY');
+      print('ADVERTENCIA: Usando clave de desarrollo en modo producción. Esto no es recomendado.');
     }
     
     // Valor por defecto para desarrollo
@@ -76,8 +74,10 @@ class SupabaseConfig {
     // Verificar si estamos en modo de producción
     final isProd = const bool.fromEnvironment('PROD_MODE', defaultValue: false);
     if (isProd) {
-      print('Modo producción detectado, usando URL de redirección de producción');
-      return _prodWebRedirectUrl;
+      print('ERROR: Modo producción detectado, pero no se proporcionó WEB_REDIRECT_URL');
+      print('Es necesario proporcionar WEB_REDIRECT_URL para el modo producción');
+      // En producción, es obligatorio proporcionar una URL de redirección
+      throw Exception('WEB_REDIRECT_URL no está configurada para producción. Por favor, configura esta variable de entorno.');
     }
     
     // Valor por defecto para desarrollo web local
