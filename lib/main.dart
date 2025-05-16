@@ -19,6 +19,9 @@ final _appLinks = AppLinks();
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   
+  // Imprimir la configuración actual de Supabase (para depuración)
+  SupabaseConfig.printConfig();
+  
   // Inicializar Supabase con configuración de Deep Links
   await Supabase.initialize(
     url: SupabaseConfig.supabaseUrl,

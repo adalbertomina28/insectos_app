@@ -46,9 +46,19 @@ RUN flutter pub get
 # Configurar para compilación web
 RUN flutter config --enable-web
 
-# Construir la aplicación web con la variable de entorno API_URL
-ARG API_URL=https://api.insectlab.app
-RUN flutter build web --release --dart-define=API_URL=$API_URL
+# Construir la aplicación web con las variables de entorno
+# Estas variables se deben proporcionar durante la construcción en Coolify
+ARG API_URL
+ARG SUPABASE_URL
+ARG SUPABASE_ANON_KEY
+ARG WEB_REDIRECT_URL
+
+RUN flutter build web --release \
+    --dart-define=API_URL=$API_URL \
+    --dart-define=PROD_MODE=true \
+    --dart-define=SUPABASE_URL=$SUPABASE_URL \
+    --dart-define=SUPABASE_ANON_KEY=$SUPABASE_ANON_KEY \
+    --dart-define=WEB_REDIRECT_URL=$WEB_REDIRECT_URL
 
 # Etapa 2: Servir la aplicación con Nginx
 FROM nginx:alpine
@@ -69,8 +79,13 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-# Definir variable de entorno para la URL de la API
-ENV API_URL=https://api.insectlab.app
+# Definir variables de entorno para la aplicación
+# Estas variables se deben proporcionar en Coolify
+ENV API_URL=${API_URL}
+ENV PROD_MODE=true
+ENV SUPABASE_URL=${SUPABASE_URL}
+ENV SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY}
+ENV WEB_REDIRECT_URL=${WEB_REDIRECT_URL}
 
 # Exponer puerto
 EXPOSE 80
