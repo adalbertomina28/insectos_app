@@ -98,57 +98,76 @@ class KeyInsectsScreen extends StatelessWidget {
       drawer: BaseScreen.buildDrawer(context),
       body: Column(
         children: [
-          // Header con imagen de fondo
+          // Header con diseño moderno
           Container(
-            height: 200,
             width: double.infinity,
-            child: Stack(
-              fit: StackFit.expand,
-              children: [
-                // Imagen de fondo
-                Image.asset(
-                  'images/home/key_insect.jpg',
-                  fit: BoxFit.cover,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.05),
+                  offset: const Offset(0, 2),
+                  blurRadius: 8,
                 ),
-                // Contenido del header
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Barra superior con menú y selector de idioma
-                      SafeArea(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            IconButton(
-                              icon: const Icon(
-                                Icons.menu,
-                                color: Colors.white,
-                                size: 28,
-                              ),
-                              onPressed: () {
-                                _scaffoldKey.currentState?.openDrawer();
-                              },
+              ],
+            ),
+            child: Column(
+              children: [
+                // Barra superior con menú y selector de idioma
+                SafeArea(
+                  bottom: false,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Builder(
+                          builder: (context) => IconButton(
+                            icon: Icon(
+                              Icons.menu,
+                              color: AppTheme.calPolyGreen,
+                              size: 28,
                             ),
-                            const LanguageSelector(),
-                          ],
-                        ),
-                      ),
-                      const Spacer(),
-                      // Título centrado
-                      Center(
-                        child: Text(
-                          'Insectos Clave en Panamá',
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 28,
-                            fontWeight: FontWeight.bold,
+                            onPressed: () {
+                              Scaffold.of(context).openDrawer();
+                            },
                           ),
                         ),
+                        const LanguageSelector(),
+                      ],
+                    ),
+                  ),
+                ),
+                // Imagen de insectos clave
+                Image.asset(
+                  'images/vectors/key_insect.png',
+                  height: 180,
+                  fit: BoxFit.contain,
+                  errorBuilder: (context, error, stackTrace) {
+                    print('Error al cargar la imagen: $error');
+                    return Container(
+                      height: 180,
+                      width: 180,
+                      color: Colors.grey[100],
+                      child: Icon(
+                        Icons.bug_report,
+                        size: 64,
+                        color: AppTheme.calPolyGreen.withOpacity(0.5),
                       ),
-                      const SizedBox(height: 20),
-                    ],
+                    );
+                  },
+                ),
+                // Título centrado
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 16.0),
+                  child: Text(
+                    'Insectos Clave en Panamá',
+                    style: TextStyle(
+                      color: Colors.grey[800],
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: -0.5,
+                    ),
                   ),
                 ),
               ],
@@ -157,33 +176,49 @@ class KeyInsectsScreen extends StatelessWidget {
           // Contenido principal
           Expanded(
             child: Container(
-              color: AppTheme.backgroundColor,
+              color: Colors.grey[50],
               child: ListView.builder(
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.all(20),
                 itemCount: keyInsects.length,
                 itemBuilder: (context, index) {
                   final insect = keyInsects[index];
-                  return Card(
-                    margin: const EdgeInsets.only(bottom: 16),
-                    elevation: 2,
-                    color: cardBackground,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+                  return Container(
+                    margin: const EdgeInsets.only(bottom: 20),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.05),
+                          blurRadius: 10,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+                      border: Border.all(
+                        color: AppTheme.calPolyGreen.withOpacity(0.1),
+                        width: 1,
+                      ),
                     ),
                     child: Theme(
                       data: Theme.of(context).copyWith(
                         dividerColor: Colors.transparent,
-                        colorScheme: ColorScheme.dark(
-                          primary: Colors.white,
-                        ),
                       ),
                       child: ExpansionTile(
+                        collapsedBackgroundColor: Colors.white,
+                        backgroundColor: Colors.white,
                         leading: Container(
                           width: 48,
                           height: 48,
                           decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.15),
-                            borderRadius: BorderRadius.circular(8),
+                            color: AppTheme.calPolyGreen.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(12),
+                            boxShadow: [
+                              BoxShadow(
+                                color: AppTheme.calPolyGreen.withOpacity(0.1),
+                                blurRadius: 5,
+                                offset: const Offset(0, 2),
+                              ),
+                            ],
                           ),
                           child: Center(
                             child: Text(
@@ -194,10 +229,11 @@ class KeyInsectsScreen extends StatelessWidget {
                         ),
                         title: Text(
                           insect['name'] as String,
-                          style: const TextStyle(
-                            fontSize: 18,
+                          style: TextStyle(
+                            fontSize: 17,
                             fontWeight: FontWeight.w600,
-                            color: Colors.white,
+                            color: Colors.grey[800],
+                            letterSpacing: -0.5,
                           ),
                         ),
                         subtitle: Text(
@@ -205,43 +241,177 @@ class KeyInsectsScreen extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 14,
                             fontStyle: FontStyle.italic,
-                            color: Colors.white.withOpacity(0.7),
+                            color: Colors.grey[600],
                           ),
                         ),
                         children: [
                           Container(
-                            padding: const EdgeInsets.all(16),
+                            padding: const EdgeInsets.all(20),
                             decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.05),
+                              color: Colors.grey[50],
                               borderRadius: const BorderRadius.vertical(
-                                bottom: Radius.circular(12),
+                                bottom: Radius.circular(19),
                               ),
                             ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                _buildInfoSection(
-                                  'Cultivos Afectados',
-                                  (insect['crops'] as List<String>).join(', '),
-                                  Icons.agriculture,
-                                  Colors.white,
-                                  cardBackground,
+                                // Cultivos afectados
+                                Container(
+                                  margin: const EdgeInsets.only(bottom: 16),
+                                  padding: const EdgeInsets.all(16),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(12),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(0.03),
+                                        blurRadius: 6,
+                                        offset: const Offset(0, 2),
+                                      ),
+                                    ],
+                                    border: Border.all(
+                                      color: Colors.grey[200]!,
+                                      width: 1,
+                                    ),
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Icon(
+                                            Icons.agriculture,
+                                            size: 18,
+                                            color: AppTheme.calPolyGreen,
+                                          ),
+                                          const SizedBox(width: 8),
+                                          Text(
+                                            'Cultivos Afectados',
+                                            style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.grey[800],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(height: 8),
+                                      Text(
+                                        (insect['crops'] as List<String>).join(', '),
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: Colors.grey[700],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                                const SizedBox(height: 16),
-                                _buildInfoSection(
-                                  'Importancia',
-                                  insect['importance'] as String,
-                                  Icons.warning_amber,
-                                  Colors.white,
-                                  cardBackground,
+                                
+                                // Importancia
+                                Container(
+                                  margin: const EdgeInsets.only(bottom: 16),
+                                  padding: const EdgeInsets.all(16),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(12),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(0.03),
+                                        blurRadius: 6,
+                                        offset: const Offset(0, 2),
+                                      ),
+                                    ],
+                                    border: Border.all(
+                                      color: Colors.grey[200]!,
+                                      width: 1,
+                                    ),
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Icon(
+                                            Icons.warning_amber,
+                                            size: 18,
+                                            color: Colors.amber[700],
+                                          ),
+                                          const SizedBox(width: 8),
+                                          Text(
+                                            'Importancia',
+                                            style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.grey[800],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(height: 8),
+                                      Text(
+                                        insect['importance'] as String,
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: Colors.grey[700],
+                                          height: 1.5,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                                const SizedBox(height: 16),
-                                _buildInfoSection(
-                                  'Métodos de Control',
-                                  insect['control'] as String,
-                                  Icons.security,
-                                  Colors.white,
-                                  cardBackground,
+                                
+                                // Métodos de control
+                                Container(
+                                  margin: const EdgeInsets.only(bottom: 8),
+                                  padding: const EdgeInsets.all(16),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(12),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(0.03),
+                                        blurRadius: 6,
+                                        offset: const Offset(0, 2),
+                                      ),
+                                    ],
+                                    border: Border.all(
+                                      color: Colors.grey[200]!,
+                                      width: 1,
+                                    ),
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Icon(
+                                            Icons.security,
+                                            size: 18,
+                                            color: AppTheme.calPolyGreen,
+                                          ),
+                                          const SizedBox(width: 8),
+                                          Text(
+                                            'Métodos de Control',
+                                            style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.grey[800],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(height: 8),
+                                      Text(
+                                        insect['control'] as String,
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: Colors.grey[700],
+                                          height: 1.5,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ],
                             ),

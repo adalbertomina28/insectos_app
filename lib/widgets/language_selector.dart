@@ -2,55 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/language_controller.dart';
 
+/// Widget que normalmente permitiría seleccionar el idioma de la aplicación.
+/// Para el MVP, se ha modificado para que no muestre nada y la aplicación
+/// se mantenga siempre en español.
 class LanguageSelector extends StatelessWidget {
   const LanguageSelector({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return PopupMenuButton<String>(
-      icon: const Icon(Icons.language, color: Colors.green),
-      onSelected: (String langCode) {
-        LanguageController.to.changeLanguage(langCode);
-      },
-      itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-        PopupMenuItem<String>(
-          value: 'es',
-          child: Row(
-            children: [
-              Obx(() => Radio<String>(
-                    value: 'es',
-                    groupValue: LanguageController.to.currentLanguage.value,
-                    onChanged: (_) =>
-                        LanguageController.to.changeLanguage('es'),
-                    fillColor: WidgetStateProperty.all(Colors.white),
-                  )),
-              Text(
-                'spanish'.tr,
-                style: const TextStyle(color: Colors.white),
-              ),
-            ],
-          ),
-        ),
-        PopupMenuItem<String>(
-          value: 'en',
-          child: Row(
-            children: [
-              Obx(() => Radio<String>(
-                    value: 'en',
-                    groupValue: LanguageController.to.currentLanguage.value,
-                    onChanged: (_) =>
-                        LanguageController.to.changeLanguage('en'),
-                    fillColor: WidgetStateProperty.all(Colors.white),
-                  )),
-              Text(
-                'english'.tr,
-                style: const TextStyle(color: Colors.white),
-              ),
-            ],
-          ),
-        ),
-      ],
-      color: Theme.of(context).primaryColor, // Color de fondo del menú
-    );
+    // Asegurarse de que el idioma esté configurado en español
+    // al inicializar el widget
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (LanguageController.to.currentLanguage.value != 'es') {
+        LanguageController.to.changeLanguage('es');
+      }
+    });
+    
+    // No mostrar ningún widget visible
+    return const SizedBox.shrink();
   }
 }
