@@ -13,52 +13,89 @@ class RNAScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      extendBody: true,
       drawer: BaseScreen.buildDrawer(context),
       body: CustomScrollView(
         slivers: [
-          SliverAppBar(
-            expandedHeight: 300.0,
-            floating: false,
-            pinned: true,
-            backgroundColor: AppTheme.calPolyGreen,
-            leading: Builder(
-              builder: (context) => IconButton(
-                icon: const Icon(
-                  Icons.menu,
-                  color: Colors.white,
-                ),
-                onPressed: () {
-                  Scaffold.of(context).openDrawer();
-                },
-              ),
-            ),
-            actions: const [
-              LanguageSelector(),
-            ],
-            flexibleSpace: FlexibleSpaceBar(
-              title: Text(
-                'rna_title'.tr,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 24,
-                ),
-              ),
-              background: Stack(
-                fit: StackFit.expand,
-                children: [
-                  Image.asset(
-                    'images/insects/control-biologico.jpeg',
-                    fit: BoxFit.cover,
+          // Encabezado moderno con diseño similar al de la pantalla de inicio
+          SliverToBoxAdapter(
+            child: Container(
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.05),
+                    offset: const Offset(0, 2),
+                    blurRadius: 8,
                   ),
-                  Opacity(
-                    opacity: 0.1,
-                    child: CustomPaint(
-                      painter: HexagonPattern(),
-                      size: Size.infinite,
+                ],
+              ),
+              child: Column(
+                children: [
+                  // Barra superior con menú y selector de idioma
+                  SafeArea(
+                    bottom: false,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Builder(
+                            builder: (context) => IconButton(
+                              icon: Icon(
+                                Icons.menu,
+                                color: AppTheme.calPolyGreen,
+                                size: 28,
+                              ),
+                              onPressed: () {
+                                Scaffold.of(context).openDrawer();
+                              },
+                            ),
+                          ),
+                          const LanguageSelector(),
+                        ],
+                      ),
                     ),
                   ),
+                  
+                  // Espacio para la barra superior
+                  const SizedBox(height: 16),
+                  
+                  // Imagen de ARN
+                  Image.asset(
+                    'images/vectors/arn.png',
+                    height: 180,
+                    fit: BoxFit.contain,
+                    errorBuilder: (context, error, stackTrace) {
+                      print('Error al cargar la imagen: $error');
+                      return Container(
+                        height: 180,
+                        width: 180,
+                        color: Colors.grey[100],
+                        child: Icon(
+                          Icons.science,
+                          size: 64,
+                          color: AppTheme.calPolyGreen.withOpacity(0.5),
+                        ),
+                      );
+                    },
+                  ),
+                  
+                  const SizedBox(height: 24),
+                  
+                  // Título principal
+                  Text(
+                    'rna_title'.tr,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: AppTheme.calPolyGreen,
+                      fontSize: 32,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: -0.5,
+                    ),
+                  ),
+                  
+                  const SizedBox(height: 24),
                 ],
               ),
             ),
@@ -87,73 +124,118 @@ class RNAScreen extends StatelessWidget {
   Widget _buildIntroSection() {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(24.0),
       decoration: BoxDecoration(
-        color: AppTheme.celadon.withOpacity(0.3),
-        borderRadius: BorderRadius.circular(16),
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
         border: Border.all(
-          color: AppTheme.calPolyGreen.withOpacity(0.1),
+          color: AppTheme.calPolyGreen.withOpacity(0.2),
           width: 1,
         ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: AppTheme.calPolyGreen.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Icon(
-                  Icons.science,
-                  color: AppTheme.calPolyGreen,
-                  size: 24,
-                ),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Text(
-                  'rna_intro_title'.tr,
-                  style: const TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
+          // Encabezado de la sección
+          Container(
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: AppTheme.calPolyGreen.withOpacity(0.05),
+              borderRadius: const BorderRadius.vertical(top: Radius.circular(19)),
+            ),
+            child: Row(
+              children: [
+                // Icono con fondo circular
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppTheme.calPolyGreen.withOpacity(0.1),
+                        blurRadius: 5,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: Icon(
+                    Icons.science,
                     color: AppTheme.calPolyGreen,
-                    letterSpacing: -0.5,
+                    size: 24,
                   ),
                 ),
-              ),
-            ],
+                const SizedBox(width: 16),
+                // Título de la sección
+                Expanded(
+                  child: Text(
+                    'rna_intro_title'.tr,
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey[800],
+                      letterSpacing: -0.5,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
-          const SizedBox(height: 24),
-          Text(
-            'rna_intro_description'.tr,
-            style: TextStyle(
-              fontSize: 16,
-              color: AppTheme.officeGreen.withOpacity(0.8),
-              height: 1.6,
+          // Contenido de la sección
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: Text(
+              'rna_intro_description'.tr,
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.grey[700],
+                height: 1.6,
+              ),
             ),
           ),
         ],
       ),
     );
   }
-
+  
   Widget _buildBasicsSection() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        // Encabezado de la sección
         Padding(
-          padding: const EdgeInsets.only(bottom: 16.0),
-          child: Text(
-            'rna_basics_title'.tr,
-            style: const TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              color: AppTheme.calPolyGreen,
-            ),
+          padding: const EdgeInsets.only(left: 4, bottom: 20),
+          child: Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: AppTheme.calPolyGreen.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Icon(
+                  Icons.lightbulb_outline,
+                  color: AppTheme.calPolyGreen,
+                  size: 22,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Text(
+                'rna_basics_title'.tr,
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.grey[800],
+                  letterSpacing: -0.5,
+                ),
+              ),
+            ],
           ),
         ),
         ...rnaBasics.map((content) => _buildContentCard(content)).toList(),
@@ -166,73 +248,94 @@ class RNAScreen extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 24),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: AppTheme.calPolyGreen.withOpacity(0.08),
-            blurRadius: 15,
-            offset: const Offset(0, 5),
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
           ),
         ],
+        border: Border.all(
+          color: AppTheme.calPolyGreen.withOpacity(0.2),
+          width: 1,
+        ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Encabezado de la tarjeta
           Container(
-            padding: const EdgeInsets.all(24),
+            padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-              color: AppTheme.calPolyGreen.withOpacity(0.1),
-              borderRadius:
-                  const BorderRadius.vertical(top: Radius.circular(16)),
+              color: AppTheme.calPolyGreen.withOpacity(0.05),
+              borderRadius: const BorderRadius.vertical(top: Radius.circular(19)),
             ),
             child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // Icono con fondo circular
                 Container(
-                  padding: const EdgeInsets.all(12),
+                  width: 50,
+                  height: 50,
                   decoration: BoxDecoration(
-                    color: AppTheme.calPolyGreen.withOpacity(0.1),
+                    color: Colors.white,
                     borderRadius: BorderRadius.circular(12),
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppTheme.calPolyGreen.withOpacity(0.1),
+                        blurRadius: 5,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
                   ),
-                  child: Icon(
-                    content.iconData,
-                    color: AppTheme.calPolyGreen,
-                    size: 24,
+                  child: Center(
+                    child: Icon(
+                      content.iconData,
+                      color: AppTheme.calPolyGreen,
+                      size: 28,
+                    ),
                   ),
                 ),
                 const SizedBox(width: 16),
+                // Título
                 Expanded(
                   child: Text(
                     content.title.tr,
-                    style: const TextStyle(
-                      fontSize: 20,
+                    style: TextStyle(
+                      fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: AppTheme.calPolyGreen,
+                      color: Colors.grey[800],
+                      letterSpacing: -0.5,
                     ),
                   ),
                 ),
               ],
             ),
           ),
+          // Contenido de la tarjeta
           Padding(
-            padding: const EdgeInsets.all(24),
+            padding: const EdgeInsets.all(20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   content.description.tr,
                   style: TextStyle(
-                    fontSize: 16,
-                    color: AppTheme.officeGreen.withOpacity(0.8),
+                    fontSize: 15,
+                    color: Colors.grey[700],
                     height: 1.6,
                   ),
                 ),
                 const SizedBox(height: 24),
+                // Puntos destacados
                 ...content.bulletPoints.map(
                   (point) => Padding(
                     padding: const EdgeInsets.only(bottom: 12),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        // Punto decorativo
                         Container(
                           margin: const EdgeInsets.only(top: 6),
                           height: 8,
@@ -243,12 +346,13 @@ class RNAScreen extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(width: 12),
+                        // Texto del punto
                         Expanded(
                           child: Text(
                             point.tr,
                             style: TextStyle(
-                              fontSize: 16,
-                              color: AppTheme.officeGreen.withOpacity(0.8),
+                              fontSize: 15,
+                              color: Colors.grey[700],
                               height: 1.5,
                             ),
                           ),
@@ -256,7 +360,7 @@ class RNAScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                ),
+                ).toList(),
               ],
             ),
           ),
@@ -269,13 +373,13 @@ class RNAScreen extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          width: double.infinity,
-          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+        // Encabezado de la sección
+        Padding(
+          padding: const EdgeInsets.only(left: 4, bottom: 20),
           child: Row(
             children: [
               Container(
-                padding: const EdgeInsets.all(12),
+                padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   color: AppTheme.calPolyGreen.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(12),
@@ -283,23 +387,23 @@ class RNAScreen extends StatelessWidget {
                 child: Icon(
                   Icons.eco,
                   color: AppTheme.calPolyGreen,
-                  size: 24,
+                  size: 22,
                 ),
               ),
-              const SizedBox(width: 16),
+              const SizedBox(width: 12),
               Text(
                 'rna_crop_examples_title'.tr,
-                style: const TextStyle(
-                  fontSize: 24,
+                style: TextStyle(
+                  fontSize: 22,
                   fontWeight: FontWeight.bold,
-                  color: AppTheme.calPolyGreen,
+                  color: Colors.grey[800],
                   letterSpacing: -0.5,
                 ),
               ),
             ],
           ),
         ),
-        const SizedBox(height: 16),
+        // Lista de ejemplos de cultivos
         ...cropExamples.map((example) => _buildCropCard(example)),
       ],
     );
@@ -307,92 +411,134 @@ class RNAScreen extends StatelessWidget {
 
   Widget _buildCropCard(RNACropExample example) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 24, left: 24, right: 24),
+      margin: const EdgeInsets.only(bottom: 24),
       width: double.infinity,
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: AppTheme.calPolyGreen.withOpacity(0.05),
+            color: Colors.black.withOpacity(0.05),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
         ],
+        border: Border.all(
+          color: AppTheme.calPolyGreen.withOpacity(0.1),
+          width: 1,
+        ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ClipRRect(
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
-            child: Container(
-              height: 200,
-              width: double.infinity,
-              color: AppTheme.celadon.withOpacity(0.3),
-              child: Image.asset(
-                example.imageUrl,
-                fit: BoxFit.cover,
-                width: double.infinity,
-                height: 200,
-                errorBuilder: (context, error, stackTrace) {
-                  // Mostrar un icono como fallback si la imagen no se puede cargar
-                  return Center(
-                    child: Icon(
-                      Icons.grass,
-                      size: 64,
-                      color: AppTheme.calPolyGreen,
-                    ),
-                  );
-                },
-              ),
-            ),
-          ),
-          Container(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius:
-                  const BorderRadius.vertical(bottom: Radius.circular(16)),
-              boxShadow: [
-                BoxShadow(
-                  color: AppTheme.calPolyGreen.withOpacity(0.05),
-                  blurRadius: 10,
-                  offset: const Offset(0, 4),
+          // Imagen del cultivo
+          Stack(
+            children: [
+              // Imagen con esquinas redondeadas
+              ClipRRect(
+                borderRadius: const BorderRadius.vertical(top: Radius.circular(19)),
+                child: Container(
+                  height: 180,
+                  width: double.infinity,
+                  color: Colors.grey[100],
+                  child: Image.asset(
+                    example.imageUrl,
+                    fit: BoxFit.cover,
+                    width: double.infinity,
+                    height: 180,
+                    errorBuilder: (context, error, stackTrace) {
+                      print('Error al cargar la imagen: $error');
+                      return Center(
+                        child: Icon(
+                          Icons.grass,
+                          size: 64,
+                          color: AppTheme.calPolyGreen.withOpacity(0.5),
+                        ),
+                      );
+                    },
+                  ),
                 ),
-              ],
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
+              ),
+              // Gradiente sutil en la parte inferior de la imagen
+              Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: Container(
+                  height: 60,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Colors.transparent,
+                        Colors.black.withOpacity(0.5),
+                      ],
+                    ),
+                    borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.circular(19),
+                      bottomRight: Radius.circular(19),
+                    ),
+                  ),
+                ),
+              ),
+              // Nombre del cultivo sobre el gradiente
+              Positioned(
+                bottom: 16,
+                left: 16,
+                child: Text(
                   example.cropName.tr,
                   style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
-                    color: AppTheme.calPolyGreen,
+                    color: Colors.white,
                     letterSpacing: -0.5,
+                    shadows: [
+                      Shadow(
+                        color: Colors.black38,
+                        offset: Offset(0, 1),
+                        blurRadius: 3,
+                      ),
+                    ],
                   ),
                 ),
-                const SizedBox(height: 8),
-                Text(
-                  'rna_crop_pest'.tr + ': ${example.targetPest.tr}',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                    color: AppTheme.officeGreen.withOpacity(0.8),
+              ),
+            ],
+          ),
+          // Contenido de la tarjeta
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Plaga objetivo
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  decoration: BoxDecoration(
+                    color: AppTheme.calPolyGreen.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Text(
+                    'rna_crop_pest'.tr + ': ${example.targetPest.tr}',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: AppTheme.calPolyGreen,
+                    ),
                   ),
                 ),
                 const SizedBox(height: 16),
+                // Descripción
                 Text(
                   example.description.tr,
                   style: TextStyle(
-                    fontSize: 16,
-                    color: AppTheme.officeGreen.withOpacity(0.8),
+                    fontSize: 15,
+                    color: Colors.grey[700],
                     height: 1.6,
                   ),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 20),
+                // Información adicional
                 _buildInfoRow('rna_effectiveness'.tr, example.effectiveness.tr),
                 _buildInfoRow('rna_implementation_process'.tr,
                     example.implementationProcess.tr),
@@ -405,25 +551,46 @@ class RNAScreen extends StatelessWidget {
   }
 
   Widget _buildInfoRow(String label, String value) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
+    return Container(
+      margin: const EdgeInsets.only(bottom: 16),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.grey[50],
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: Colors.grey[200]!,
+          width: 1,
+        ),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            label,
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: AppTheme.calPolyGreen,
-            ),
+          // Etiqueta con icono
+          Row(
+            children: [
+              Icon(
+                label.contains('effectiveness') ? Icons.trending_up : Icons.settings,
+                size: 18,
+                color: AppTheme.calPolyGreen,
+              ),
+              const SizedBox(width: 8),
+              Text(
+                label,
+                style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.grey[800],
+                ),
+              ),
+            ],
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: 8),
+          // Valor
           Text(
             value,
             style: TextStyle(
-              fontSize: 16,
-              color: AppTheme.officeGreen.withOpacity(0.8),
+              fontSize: 14,
+              color: Colors.grey[700],
               height: 1.5,
             ),
           ),
