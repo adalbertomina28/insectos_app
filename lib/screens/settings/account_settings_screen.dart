@@ -87,61 +87,76 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
       drawer: BaseScreen.buildDrawer(context),
       body: Column(
         children: [
-          // Header con imagen de fondo
+          // Header con diseño moderno
           Container(
-            height: 200,
             width: double.infinity,
-            child: Stack(
-              fit: StackFit.expand,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.05),
+                  offset: const Offset(0, 2),
+                  blurRadius: 8,
+                ),
+              ],
+            ),
+            child: Column(
               children: [
-                // Imagen de fondo
-                Image.asset(
-                  'assets/images/home/insect_search.jpg',
-                  fit: BoxFit.cover,
-                ),
-                // Overlay para mejorar la legibilidad del texto
-                Container(
-                  color: AppTheme.calPolyGreen.withOpacity(0.5),
-                ),
-                // Contenido del header
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Barra superior con menú y selector de idioma
-                      SafeArea(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            IconButton(
-                              icon: const Icon(
-                                Icons.menu,
-                                color: Colors.white,
-                                size: 28,
-                              ),
-                              onPressed: () {
-                                _scaffoldKey.currentState?.openDrawer();
-                              },
+                // Barra superior con menú y selector de idioma
+                SafeArea(
+                  bottom: false,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Builder(
+                          builder: (context) => IconButton(
+                            icon: Icon(
+                              Icons.menu,
+                              color: AppTheme.calPolyGreen,
+                              size: 28,
                             ),
-                            const LanguageSelector(),
-                          ],
-                        ),
-                      ),
-                      const Spacer(),
-                      // Título centrado
-                      Center(
-                        child: Text(
-                          'account_settings'.tr,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 28,
-                            fontWeight: FontWeight.bold,
+                            onPressed: () {
+                              Scaffold.of(context).openDrawer();
+                            },
                           ),
                         ),
+                        const LanguageSelector(),
+                      ],
+                    ),
+                  ),
+                ),
+                // Imagen de configuración
+                Image.asset(
+                  'images/vectors/configuration.png',
+                  height: 180,
+                  fit: BoxFit.contain,
+                  errorBuilder: (context, error, stackTrace) {
+                    print('Error al cargar la imagen: $error');
+                    return Container(
+                      height: 180,
+                      width: 180,
+                      color: Colors.grey[100],
+                      child: Icon(
+                        Icons.settings,
+                        size: 64,
+                        color: AppTheme.calPolyGreen.withOpacity(0.5),
                       ),
-                      const SizedBox(height: 20),
-                    ],
+                    );
+                  },
+                ),
+                // Título centrado
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 16.0),
+                  child: Text(
+                    'account_settings'.tr,
+                    style: TextStyle(
+                      color: Colors.grey[800],
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: -0.5,
+                    ),
                   ),
                 ),
               ],
@@ -150,7 +165,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
           // Contenido principal
           Expanded(
             child: Container(
-              color: AppTheme.backgroundColor,
+              color: Colors.grey[50],
               child: Obx(() {
                 final user = _authController.currentUser.value;
                 
@@ -158,58 +173,93 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                   return Center(
                     child: Text(
                       'not_logged_in'.tr,
-                      style: const TextStyle(color: Colors.white),
+                      style: TextStyle(color: Colors.grey[800]),
                     ),
                   );
                 }
                 
                 return SingleChildScrollView(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.all(24.0),
                   child: Form(
                     key: _formKey,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         // Sección de perfil
-                        Card(
-                          elevation: 2,
-                          color: AppTheme.cardColor,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.05),
+                                blurRadius: 10,
+                                offset: const Offset(0, 4),
+                              ),
+                            ],
+                            border: Border.all(
+                              color: AppTheme.calPolyGreen.withOpacity(0.1),
+                              width: 1,
+                            ),
                           ),
                           child: Padding(
-                            padding: const EdgeInsets.all(16.0),
+                            padding: const EdgeInsets.all(24.0),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  'profile_info'.tr,
-                                  style: const TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
-                                  ),
+                                // Título de la sección
+                                Row(
+                                  children: [
+                                    Container(
+                                      padding: const EdgeInsets.all(10),
+                                      decoration: BoxDecoration(
+                                        color: AppTheme.calPolyGreen.withOpacity(0.1),
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                      child: Icon(
+                                        Icons.person,
+                                        color: AppTheme.calPolyGreen,
+                                        size: 22,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 12),
+                                    Text(
+                                      'profile_info'.tr,
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.grey[800],
+                                        letterSpacing: -0.5,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                const SizedBox(height: 16),
+                                const SizedBox(height: 24),
+                                // Campo de nombre
                                 TextFormField(
                                   controller: _nameController,
-                                  style: const TextStyle(color: Colors.white),
                                   decoration: InputDecoration(
                                     labelText: 'name'.tr,
-                                    labelStyle: const TextStyle(color: Colors.white70),
+                                    labelStyle: TextStyle(color: Colors.grey[700]),
+                                    filled: true,
+                                    fillColor: Colors.grey[50],
                                     border: OutlineInputBorder(
-                                      borderSide: const BorderSide(color: Colors.white),
+                                      borderRadius: BorderRadius.circular(12),
+                                      borderSide: BorderSide.none,
                                     ),
                                     enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                      borderSide: const BorderSide(color: Colors.white),
+                                      borderRadius: BorderRadius.circular(12),
+                                      borderSide: BorderSide.none,
                                     ),
                                     focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                      borderSide: BorderSide(color: AppTheme.calPolyGreen),
+                                      borderRadius: BorderRadius.circular(12),
+                                      borderSide: BorderSide(color: AppTheme.calPolyGreen.withOpacity(0.3)),
                                     ),
-                                    prefixIcon: const Icon(Icons.person, color: Colors.white),
+                                    prefixIcon: Icon(Icons.person, color: Colors.grey[600]),
+                                    hintText: 'enter_name'.tr,
+                                    contentPadding: const EdgeInsets.symmetric(vertical: 16),
                                   ),
+                                  style: TextStyle(color: Colors.grey[800]),
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
                                       return 'name_required'.tr;
@@ -217,100 +267,168 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                                     return null;
                                   },
                                 ),
-                                const SizedBox(height: 16),
+                                const SizedBox(height: 20),
+                                // Campo de email (solo lectura)
                                 TextFormField(
                                   controller: _emailController,
-                                  style: const TextStyle(color: Colors.white70), // Color más claro para indicar que es de solo lectura
+                                  readOnly: true,
                                   decoration: InputDecoration(
                                     labelText: 'email'.tr,
-                                    labelStyle: const TextStyle(color: Colors.white70),
-                                    helperText: 'email_cannot_be_changed'.tr,
-                                    helperStyle: const TextStyle(color: Colors.white60, fontSize: 12),
+                                    labelStyle: TextStyle(color: Colors.grey[700]),
+                                    filled: true,
+                                    fillColor: Colors.grey[100],
                                     border: OutlineInputBorder(
-                                      borderSide: const BorderSide(color: Colors.white60),
+                                      borderRadius: BorderRadius.circular(12),
+                                      borderSide: BorderSide.none,
                                     ),
                                     enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                      borderSide: const BorderSide(color: Colors.white60),
+                                      borderRadius: BorderRadius.circular(12),
+                                      borderSide: BorderSide.none,
                                     ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                      borderSide: const BorderSide(color: Colors.white60),
+                                    disabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                      borderSide: BorderSide.none,
                                     ),
-                                    prefixIcon: const Icon(Icons.email, color: Colors.white60),
-                                    suffixIcon: const Icon(Icons.lock, color: Colors.white60, size: 16), // Icono de candado para indicar que está bloqueado
+                                    prefixIcon: Icon(Icons.email, color: Colors.grey[600]),
+                                    contentPadding: const EdgeInsets.symmetric(vertical: 16),
                                   ),
-                                  readOnly: true,
-                                  enabled: false, // Deshabilitado completamente
+                                  style: TextStyle(color: Colors.grey[800]),
                                 ),
                               ],
                             ),
                           ),
                         ),
                         
-                        const SizedBox(height: 24),
+                        const SizedBox(height: 32),
                         
                         // Sección de seguridad
-                        Card(
-                          elevation: 2,
-                          color: AppTheme.cardColor,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.05),
+                                blurRadius: 10,
+                                offset: const Offset(0, 4),
+                              ),
+                            ],
+                            border: Border.all(
+                              color: AppTheme.calPolyGreen.withOpacity(0.1),
+                              width: 1,
+                            ),
                           ),
                           child: Padding(
-                            padding: const EdgeInsets.all(16.0),
+                            padding: const EdgeInsets.all(24.0),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  'security'.tr,
-                                  style: const TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
-                                  ),
+                                // Título de la sección
+                                Row(
+                                  children: [
+                                    Container(
+                                      padding: const EdgeInsets.all(10),
+                                      decoration: BoxDecoration(
+                                        color: AppTheme.calPolyGreen.withOpacity(0.1),
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                      child: Icon(
+                                        Icons.security,
+                                        color: AppTheme.calPolyGreen,
+                                        size: 22,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 12),
+                                    Text(
+                                      'security'.tr,
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.grey[800],
+                                        letterSpacing: -0.5,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                const SizedBox(height: 16),
-                                ListTile(
-                                  leading: const Icon(Icons.lock, color: Colors.white),
-                                  title: Text(
-                                    'change_password'.tr,
-                                    style: const TextStyle(color: Colors.white),
-                                  ),
-                                  trailing: const Icon(Icons.arrow_forward_ios, size: 16, color: Colors.white),
+                                const SizedBox(height: 20),
+                                // Opción de cambio de contraseña
+                                InkWell(
                                   onTap: () {
-                                    // Implementar cambio de contraseña
                                     Get.toNamed('/change-password');
                                   },
+                                  borderRadius: BorderRadius.circular(12),
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                                    decoration: BoxDecoration(
+                                      color: Colors.grey[50],
+                                      borderRadius: BorderRadius.circular(12),
+                                      border: Border.all(
+                                        color: Colors.grey[200]!,
+                                        width: 1,
+                                      ),
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Icon(
+                                          Icons.lock_outline,
+                                          color: Colors.grey[700],
+                                          size: 22,
+                                        ),
+                                        const SizedBox(width: 16),
+                                        Expanded(
+                                          child: Text(
+                                            'change_password'.tr,
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              color: Colors.grey[800],
+                                            ),
+                                          ),
+                                        ),
+                                        Icon(
+                                          Icons.arrow_forward_ios,
+                                          color: Colors.grey[400],
+                                          size: 16,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ),
                               ],
                             ),
                           ),
                         ),
                         
-                        const SizedBox(height: 24),
+                        const SizedBox(height: 32),
                         
                         // Botón de guardar cambios
                         SizedBox(
                           width: double.infinity,
+                          height: 56,
                           child: ElevatedButton(
                             onPressed: _isLoading ? null : _updateUserProfile,
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppTheme.calPolyGreen,
-                              padding: const EdgeInsets.symmetric(vertical: 16),
+                              foregroundColor: Colors.white,
+                              elevation: 0,
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
+                                borderRadius: BorderRadius.circular(16),
                               ),
-                              disabledBackgroundColor: Colors.grey,
+                              disabledBackgroundColor: Colors.grey[300],
                             ),
                             child: _isLoading
-                                ? const CircularProgressIndicator(color: Colors.white)
+                                ? SizedBox(
+                                    width: 24,
+                                    height: 24,
+                                    child: CircularProgressIndicator(
+                                      color: Colors.white,
+                                      strokeWidth: 2,
+                                    ),
+                                  )
                                 : Text(
                                     'save_changes'.tr,
                                     style: const TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold,
-                                      color: Colors.white,
                                     ),
                                   ),
                           ),
