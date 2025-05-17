@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:developer' as developer;
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import '../config/api_config.dart';
@@ -9,9 +8,7 @@ import '../models/identification_result.dart';
 class IdentificationService {
   IdentificationService() {
     // Log al crear la instancia del servicio
-    developer.log(
-        'SERVICIO: IdentificationService creado con URL base: ${ApiConfig.baseUrl}',
-        name: 'identification_service');
+
   }
   final Map<String, String> _headers = ApiConfig.headers;
 
@@ -77,7 +74,7 @@ class IdentificationService {
             'Error al identificar la imagen: ${response.statusCode}. Respuesta: ${response.body}');
       }
     } catch (e) {
-      print('Error de conexión: $e');
+
       throw Exception('Error de conexión: $e');
     }
   }

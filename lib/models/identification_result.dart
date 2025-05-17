@@ -58,7 +58,7 @@ class IdentificationMatch {
       // Hardcodear la URL para evitar que Coolify la reemplace
       photoUrl =
           '${ApiConfig.baseUrl}/api/proxy/image?url=${Uri.encodeComponent(originalUrl)}';
-      print('URL de imagen proxy construida: $photoUrl');
+
     }
 
     return IdentificationMatch(

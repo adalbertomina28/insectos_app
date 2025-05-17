@@ -33,8 +33,8 @@ class IdentificationController extends GetxController {
         // Verificar que el archivo existe y tiene tamaño
         if (await imageFile.exists()) {
           final fileSize = await imageFile.length();
-          print('Imagen capturada: ${image.path}');
-          print('Tamaño del archivo: $fileSize bytes');
+
+
           
           if (fileSize > 0) {
             selectedImage.value = imageFile;
@@ -50,7 +50,7 @@ class IdentificationController extends GetxController {
             );
           }
         } else {
-          print('El archivo de imagen no existe: ${image.path}');
+
           Get.snackbar(
             'Error',
             'No se encontró el archivo de imagen',
@@ -61,7 +61,7 @@ class IdentificationController extends GetxController {
         }
       }
     } catch (e) {
-      print('Error al capturar foto: $e');
+
       Get.snackbar(
         'Error',
         'Error al capturar la foto: $e',
@@ -87,8 +87,8 @@ class IdentificationController extends GetxController {
         // Verificar que el archivo existe y tiene tamaño
         if (await imageFile.exists()) {
           final fileSize = await imageFile.length();
-          print('Imagen seleccionada: ${image.path}');
-          print('Tamaño del archivo: $fileSize bytes');
+
+
           
           if (fileSize > 0) {
             selectedImage.value = imageFile;
@@ -104,7 +104,7 @@ class IdentificationController extends GetxController {
             );
           }
         } else {
-          print('El archivo de imagen no existe: ${image.path}');
+
           Get.snackbar(
             'Error',
             'No se encontró el archivo de imagen',
@@ -115,7 +115,7 @@ class IdentificationController extends GetxController {
         }
       }
     } catch (e) {
-      print('Error al seleccionar imagen: $e');
+
       Get.snackbar(
         'Error',
         'Error al seleccionar la imagen: $e',
@@ -184,8 +184,8 @@ class IdentificationController extends GetxController {
     errorMessage.value = '';
     
     try {
-      print('Enviando imagen para identificación: ${selectedImage.value!.path}');
-      print('Tamaño del archivo: $fileSize bytes');
+
+
       
       // Enviar la imagen para identificación
       final result = await _identificationService.identifyInsect(
@@ -198,7 +198,7 @@ class IdentificationController extends GetxController {
     } catch (e) {
       hasError.value = true;
       errorMessage.value = e.toString();
-      print('Error al identificar insecto: $e');
+
       Get.snackbar(
         'error'.tr,
         'error_identifying_insect'.tr,

@@ -41,17 +41,17 @@ Future<void> main() async {
     // Verificar si hay una sesión activa
     final session = Supabase.instance.client.auth.currentSession;
     if (session != null) {
-      debugPrint('Sesión activa detectada');
+
       authController.setSession(session);
     } else {
-      debugPrint('No hay sesión activa');
+
     }
     
     // Escuchar cambios en la autenticación
     Supabase.instance.client.auth.onAuthStateChange.listen((data) {
-      debugPrint('Cambio en el estado de autenticación: ${data.event}');
+
       if (data.session != null) {
-        debugPrint('Nueva sesión creada');
+
         authController.setSession(data.session!);
       }
     });
@@ -83,17 +83,17 @@ void _setupDeepLinkHandling(AuthController authController) {
 
 // Manejar el Deep Link recibido
 void _handleDeepLink(Uri uri, AuthController authController) {
-  debugPrint('Deep Link recibido: $uri');
+
   
   // Verificar si hay un código de autenticación en la URL
   if (uri.queryParameters.containsKey('code')) {
     final code = uri.queryParameters['code'];
-    debugPrint('Código de autenticación recibido: $code');
+
     
     // Procesar el código de autenticación
     authController.processAuthCode(code!);
   } else {
-    debugPrint('No se encontró código de autenticación en la URL: $uri');
+
   }
 }
 
@@ -119,10 +119,10 @@ class InsectosApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       // Callback cuando la app esté lista
       onInit: () {
-        debugPrint('La aplicación ha sido inicializada completamente');
+
         // Verificar si hay una sesión activa y redirigir si es necesario
         if (authController.isAuthenticated.value) {
-          debugPrint('Usuario autenticado, redirigiendo al home');
+
           // Usar un pequeño retraso para asegurar que la navegación funcione correctamente
           Future.delayed(Duration(milliseconds: 100), () {
             Get.offAllNamed(AppRoutes.home);

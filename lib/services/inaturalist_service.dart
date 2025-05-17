@@ -41,11 +41,11 @@ class InsectService {
         }
         return decodedResponse;
       } else if (response.statusCode == 429) {
-        print('Error 429: Límite de solicitudes excedido');
+
         throw Exception(
             'Se ha excedido el límite de solicitudes. Por favor, intenta más tarde.');
       } else {
-        print('Error ${response.statusCode}: ${response.body}');
+
         throw Exception(
             'Error al buscar insectos: ${response.statusCode}. Respuesta: ${response.body}');
       }

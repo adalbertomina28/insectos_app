@@ -48,7 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
           SliverToBoxAdapter(
             child: _buildHeader(),
           ),
-          
+
           // Sección de características principales
           SliverToBoxAdapter(
             child: Padding(
@@ -77,7 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
-          
+
           // Grid de características
           SliverPadding(
             padding: const EdgeInsets.fromLTRB(16, 0, 16, 48),
@@ -136,7 +136,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
-          
+
           // Separador
           SliverToBoxAdapter(
             child: Padding(
@@ -147,7 +147,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
-          
+
           // Sección de temas de entomología
           SliverToBoxAdapter(
             child: Padding(
@@ -156,7 +156,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'entomology_topics'.tr,
+                    'Temas de Entomología',
                     style: TextStyle(
                       fontSize: 28,
                       fontWeight: FontWeight.bold,
@@ -176,7 +176,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
-          
+
           // Lista de temas de entomología
           SliverPadding(
             padding: const EdgeInsets.fromLTRB(16, 0, 16, 48),
@@ -186,7 +186,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
-          
+
           SliverToBoxAdapter(
             child: Container(
               margin: const EdgeInsets.only(top: 80),
@@ -243,7 +243,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
-          
+
           // Barra superior con menú y selector de idioma
           Positioned(
             top: 0,
@@ -271,25 +271,26 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
-          
+
           // Contenido principal
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24.0),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center, // Centrar todos los elementos
+              crossAxisAlignment:
+                  CrossAxisAlignment.center, // Centrar todos los elementos
               children: [
                 // Espacio para la barra superior
                 const SizedBox(height: 100),
-                
+
                 // Imagen del insecto
                 Image.asset(
                   'images/vectors/insecto_home.png',
                   height: 200,
                   fit: BoxFit.contain,
                 ),
-                
+
                 const SizedBox(height: 32),
-                
+
                 // Título principal
                 Text(
                   'Insect Lab',
@@ -301,9 +302,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   textAlign: TextAlign.center, // Centrar el texto
                 ),
-                
+
                 const SizedBox(height: 16),
-                
+
                 // Texto descriptivo
                 Text(
                   'main_text'.tr,
@@ -316,11 +317,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   maxLines: 3,
                   overflow: TextOverflow.ellipsis,
                 ),
-                
+
                 const SizedBox(height: 32),
-                
+
                 // Botón de explorar
-                Center( // Centrar el botón
+                Center(
+                  // Centrar el botón
                   child: ElevatedButton(
                     onPressed: _scrollToFeatures,
                     style: ElevatedButton.styleFrom(
@@ -368,7 +370,8 @@ class _HomeScreenState extends State<HomeScreen> {
           padding: const EdgeInsets.all(16.0), // Reducido el padding
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min, // Asegurar que la columna use el mínimo espacio necesario
+            mainAxisSize: MainAxisSize
+                .min, // Asegurar que la columna use el mínimo espacio necesario
             children: [
               // Icono con fondo circular y color primario
               Container(
@@ -464,7 +467,8 @@ class _HomeScreenState extends State<HomeScreen> {
             maxWidth: 400, // Limitar el ancho máximo
           ),
           child: Container(
-            width: MediaQuery.of(context).size.width * 0.9, // 90% del ancho en móvil
+            width: MediaQuery.of(context).size.width *
+                0.9, // 90% del ancho en móvil
             padding: const EdgeInsets.all(24),
             decoration: BoxDecoration(
               color: Colors.white,
@@ -594,7 +598,8 @@ class _HomeScreenState extends State<HomeScreen> {
         child: ExpansionTile(
           tilePadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
           expandedCrossAxisAlignment: CrossAxisAlignment.start,
-          childrenPadding: const EdgeInsets.only(left: 24, right: 24, bottom: 24),
+          childrenPadding:
+              const EdgeInsets.only(left: 24, right: 24, bottom: 24),
           iconColor: AppTheme.primaryColor,
           collapsedIconColor: AppTheme.primaryColor,
           backgroundColor: Colors.transparent,

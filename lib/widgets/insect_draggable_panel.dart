@@ -114,7 +114,7 @@ class _InsectDraggablePanelState extends State<InsectDraggablePanel> implements 
                         final newSize = (currentSize - delta).clamp(0.15, 0.8);
                         _dragController.jumpTo(newSize);
                       } catch (e) {
-                        print('Error al mover el panel: $e');
+
                       }
                     },
                     // Al finalizar el arrastre, ajustar a la posición más cercana
@@ -254,7 +254,7 @@ class _InsectDraggablePanelState extends State<InsectDraggablePanel> implements 
         curve: Curves.easeOut,
       );
     } catch (e) {
-      print('Error al animar el panel: $e');
+
     }
   }
   

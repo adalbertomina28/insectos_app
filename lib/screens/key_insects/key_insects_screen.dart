@@ -144,7 +144,7 @@ class KeyInsectsScreen extends StatelessWidget {
                   height: 180,
                   fit: BoxFit.contain,
                   errorBuilder: (context, error, stackTrace) {
-                    print('Error al cargar la imagen: $error');
+
                     return Container(
                       height: 180,
                       width: 180,

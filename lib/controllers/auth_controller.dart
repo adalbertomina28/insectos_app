@@ -124,7 +124,7 @@ class AuthController extends GetxController {
       
       // Obtener la URL de redirección adecuada según la plataforma
       final redirectUrl = SupabaseConfig.getRedirectUrl();
-      print('Usando URL de redirección: $redirectUrl');
+
       
       // Usar el flujo PKCE para la autenticación con Google
       final res = await _supabase.auth.signInWithOAuth(
@@ -140,15 +140,15 @@ class AuthController extends GetxController {
       if (!res) {
         errorMessage.value = 'No se pudo iniciar el proceso de autenticación con Google';
       } else {
-        print('Proceso de autenticación con Google iniciado correctamente');
+
         if (kIsWeb) {
-          print('En modo web, la sesión se manejará automáticamente cuando se reciba la redirección');
+
         } else {
-          print('En modo móvil, espera a ser redirigido de vuelta a la aplicación...');
+
         }
       }
     } catch (e) {
-      print('Error detallado al iniciar sesión con Google: $e');
+
       errorMessage.value = 'Error al iniciar sesión con Google: $e';
     } finally {
       isLoading.value = false;
@@ -217,24 +217,24 @@ class AuthController extends GetxController {
   // Establecer la sesión del usuario
   void setSession(Session session) {
     try {
-      print('Estableciendo sesión para el usuario');
+
       user.value = session.user;
       isAuthenticated.value = true;
       
       // Usar un enfoque más seguro para la navegación
       // En lugar de navegar inmediatamente, dejamos que el callback onInit en GetMaterialApp
       // maneje la navegación cuando la aplicación esté completamente inicializada
-      print('Sesión establecida correctamente, la navegación se manejará automáticamente');
+
       
       // Si la aplicación ya está inicializada, podemos intentar navegar con un pequeño retraso
       if (Get.context != null) {
-        print('Contexto disponible, intentando navegación directa');
+
         Future.delayed(Duration(milliseconds: 300), () {
           Get.offAllNamed(AppRoutes.home);
         });
       }
     } catch (e) {
-      print('Error al establecer la sesión: $e');
+
     }
   }
   
@@ -272,21 +272,21 @@ class AuthController extends GetxController {
       errorMessage.value = '';
       
       // Registrar en la consola para depuración
-      print('Procesando código de autenticación: $code');
+
       
       // Intercambiar el código por una sesión
       final response = await _supabase.auth.exchangeCodeForSession(code);
       
       // Verificar si se obtuvo una sesión válida
       if (response.session != null) {
-        print('Sesión creada exitosamente');
+
         setSession(response.session!);
       } else {
-        print('No se pudo crear una sesión con el código proporcionado');
+
         errorMessage.value = 'Error de autenticación: No se pudo crear una sesión';
       }
     } catch (e) {
-      print('Error al procesar el código de autenticación: $e');
+
       errorMessage.value = 'Error al procesar la autenticación: $e';
     } finally {
       isLoading.value = false;

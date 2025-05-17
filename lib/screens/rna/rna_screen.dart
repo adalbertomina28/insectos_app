@@ -67,7 +67,7 @@ class RNAScreen extends StatelessWidget {
                     height: 180,
                     fit: BoxFit.contain,
                     errorBuilder: (context, error, stackTrace) {
-                      print('Error al cargar la imagen: $error');
+
                       return Container(
                         height: 180,
                         width: 180,
@@ -447,7 +447,7 @@ class RNAScreen extends StatelessWidget {
                     width: double.infinity,
                     height: 180,
                     errorBuilder: (context, error, stackTrace) {
-                      print('Error al cargar la imagen: $error');
+
                       return Center(
                         child: Icon(
                           Icons.grass,
