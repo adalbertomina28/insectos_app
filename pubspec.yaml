@@ -22,8 +22,9 @@ dependencies:
   search_page: ^2.0.0
   image_picker: ^0.8.9
   permission_handler: ^10.4.0
-  supabase_flutter: ^1.10.9
   app_links: ^3.5.0
+  flutter_secure_storage: ^8.0.0
+  supabase_flutter: ^1.10.25
   # Mapa OpenStreetMap
   flutter_map: ^6.1.0
   flutter_map_cancellable_tile_provider: ^1.0.0
