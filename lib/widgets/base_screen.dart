@@ -289,6 +289,15 @@ class BaseScreen extends StatelessWidget {
               },
             ),
             ListTile(
+              leading: const Icon(Icons.collections_bookmark),
+              title: Text('mis_observaciones'.tr),
+              subtitle: Text('gestionar_observaciones'.tr),
+              onTap: () {
+                Get.back();
+                Get.toNamed('/my-observations');
+              },
+            ),
+            ListTile(
               leading: const Icon(Icons.chat),
               title: Text('asistente_virtual'.tr),
               subtitle: Text('entomologia_chat'.tr),

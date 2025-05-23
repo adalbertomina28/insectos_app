@@ -371,5 +371,22 @@ const Map<String, String> en = {
   'change_password_too_short': 'Password must be at least 6 characters long',
   'passwords_do_not_match': 'Passwords do not match',
   'password_changed': 'Password updated successfully',
-  'password_change_instructions': 'Enter your current password and new password to update your credentials.'
+  'password_change_instructions': 'Enter your current password and new password to update your credentials.',
+  
+  // Insect Observations
+  'mis_observaciones': 'My Observations',
+  'gestionar_observaciones': 'Manage insect records',
+  'no_observations': 'You have no recorded observations',
+  'create_observation_prompt': 'Record your insect sightings to contribute to citizen science',
+  'view_details': 'View details',
+  'delete': 'Delete',
+  'confirm_delete': 'Confirm deletion',
+  'delete_observation_confirmation': 'Are you sure you want to delete this observation? This action cannot be undone.',
+  'observation_deleted': 'Observation successfully deleted',
+  'delete_error': 'Error deleting observation',
+  'retry': 'Retry',
+  'refresh': 'Refresh',
+  'close': 'Close',
+  'photos': 'Photos',
+  'observation_date': 'Observation date'
 };

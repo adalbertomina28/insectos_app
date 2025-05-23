@@ -20,6 +20,7 @@ import '../screens/auth/register_screen.dart';
 import '../screens/auth/forgot_password_screen.dart';
 import '../screens/settings/account_settings_screen.dart';
 import '../screens/settings/change_password_screen.dart';
+import '../screens/observations/my_observations_screen.dart';
 
 class AppRoutes {
   // Rutas de autenticación
@@ -41,6 +42,7 @@ class AppRoutes {
   static const String chatbot = '/chatbot';
   static const String accountSettings = '/account-settings';
   static const String changePassword = '/change-password';
+  static const String myObservations = '/my-observations';
 
   static List<GetPage> pages = [
     // Rutas de autenticación
@@ -128,6 +130,11 @@ class AppRoutes {
       name: changePassword,
       page: () => const ChangePasswordScreen(),
       binding: AuthBinding(),
+      middlewares: [AuthMiddleware()],
+    ),
+    GetPage(
+      name: myObservations,
+      page: () => MyObservationsScreen(),
       middlewares: [AuthMiddleware()],
     ),
   ];
