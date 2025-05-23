@@ -21,6 +21,8 @@ import '../screens/auth/forgot_password_screen.dart';
 import '../screens/settings/account_settings_screen.dart';
 import '../screens/settings/change_password_screen.dart';
 import '../screens/observations/my_observations_screen.dart';
+import 'package:insectos_app/screens/observations/create_observation_screen.dart';
+import 'package:insectos_app/screens/observations/observation_success_screen.dart';
 
 class AppRoutes {
   // Rutas de autenticación
@@ -43,6 +45,8 @@ class AppRoutes {
   static const String accountSettings = '/account-settings';
   static const String changePassword = '/change-password';
   static const String myObservations = '/my-observations';
+  static const String createObservation = '/create-observation';
+  static const String observationSuccess = '/observation-success';
 
   static List<GetPage> pages = [
     // Rutas de autenticación
@@ -135,6 +139,16 @@ class AppRoutes {
     GetPage(
       name: myObservations,
       page: () => MyObservationsScreen(),
+      middlewares: [AuthMiddleware()],
+    ),
+    GetPage(
+      name: createObservation,
+      page: () => const CreateObservationScreen(),
+      middlewares: [AuthMiddleware()],
+    ),
+    GetPage(
+      name: observationSuccess,
+      page: () => const ObservationSuccessScreen(),
       middlewares: [AuthMiddleware()],
     ),
   ];

@@ -30,6 +30,13 @@ class MyObservationsScreen extends StatelessWidget {
         ],
       ),
       drawer: BaseScreen.buildDrawer(context),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Get.toNamed('/create-observation');
+        },
+        child: const Icon(Icons.add),
+        tooltip: 'crear_observacion'.tr,
+      ),
       body: Obx(() {
         if (controller.isLoading.value) {
           return const Center(child: CircularProgressIndicator());
@@ -243,7 +250,7 @@ class MyObservationsScreen extends StatelessWidget {
     if (observation.photos.isEmpty) {
       // Imagen por defecto si no hay fotos
       return Image.asset(
-        'assets/images/placeholder_insect.png',
+        'images/vectors/no_image_attached.png',
         fit: BoxFit.cover,
       );
     }
@@ -256,7 +263,7 @@ class MyObservationsScreen extends StatelessWidget {
         child: CircularProgressIndicator(),
       ),
       errorWidget: (context, url, error) => Image.asset(
-        'assets/images/placeholder_insect.png',
+        'images/vectors/no_image_attached.png',
         fit: BoxFit.cover,
       ),
     );

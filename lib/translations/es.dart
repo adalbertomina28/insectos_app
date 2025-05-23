@@ -385,5 +385,43 @@ const Map<String, String> es = {
   'refresh': 'Actualizar',
   'close': 'Cerrar',
   'photos': 'Fotos',
-  'observation_date': 'Fecha de observación'
+  'observation_date': 'Fecha de observación',
+  
+  // Creación de observaciones
+  'crear_observacion': 'Crear Observación',
+  'guardar_observacion': 'Guardar Observación',
+  'guardar': 'Guardar',
+  'informacion_basica': 'Información Básica',
+  'nombre_cientifico': 'Nombre Científico',
+  'nombre_comun': 'Nombre Común',
+  'fecha_observacion': 'Fecha de Observación',
+  'ubicacion': 'Ubicación',
+  'mi_ubicacion': 'Mi Ubicación',
+  'caracteristicas': 'Características',
+  'condicion': 'Condición',
+  'estado': 'Estado',
+  'etapa': 'Etapa de Desarrollo',
+  'sexo': 'Sexo',
+  'descripcion': 'Descripción',
+  'descripcion_opcional': 'Descripción (opcional)',
+  'fotos': 'Fotos',
+  'galeria': 'Galería',
+  'camara': 'Cámara',
+  'campo_requerido': 'Este campo es requerido',
+  'observation_created': 'Observación creada correctamente',
+  'error_creating_observation': 'Error al crear la observación',
+  
+  // Nuevas traducciones para búsqueda de insectos
+  'escriba_para_buscar': 'Escribe para buscar insectos...',
+  'seleccionar_insecto': 'Selecciona un insecto de la lista',
+  'exito': 'Éxito',
+  'observacion_creada': 'Observación creada correctamente',
+  'error_crear_observacion': 'Error al crear la observación',
+  
+  // Pantalla de éxito de observación
+  'observation_success_title': 'Observación Creada',
+  'observation_success_message': '¡Observación creada con éxito!',
+  'observation_success_description': 'Tu observación ha sido guardada correctamente en nuestra base de datos.',
+  'create_another_observation': 'Crear otra observación',
+  'view_my_observations': 'Ver mis observaciones'
 };

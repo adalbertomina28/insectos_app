@@ -133,7 +133,7 @@ class Observation {
     if (photos.isNotEmpty) {
       return photos.first.photoUrl;
     }
-    return 'assets/images/placeholder_insect.png'; // Imagen por defecto
+    return 'images/vectors/no_image_attached.png'; // Imagen por defecto
   }
 
   // Método para obtener una representación formateada de la fecha

@@ -298,6 +298,20 @@ const Map<String, String> en = {
   'correct': 'Correct! 🎉',
   'incorrect': 'Incorrect! 😢',
 
+  // Insect search
+  'search_insects': 'Search insects',
+  'search_insects_placeholder': 'Type the common name of the insect',
+  'insect_search_results': 'Search results',
+  'select_insect': 'Select insect',
+  'no_insect_results': 'No results found for your search',
+
+  // Observation success screen
+  'observation_success_title': 'Observation Created',
+  'observation_success_message': 'Observation created successfully!',
+  'observation_success_description': 'Your observation has been successfully saved in our database.',
+  'create_another_observation': 'Create another observation',
+  'view_my_observations': 'View my observations',
+
   // Insect Map
   'mapa_insectos': 'Insect Map',
   'radio_busqueda': 'Search radius',
@@ -388,5 +402,36 @@ const Map<String, String> en = {
   'refresh': 'Refresh',
   'close': 'Close',
   'photos': 'Photos',
-  'observation_date': 'Observation date'
+  'observation_date': 'Observation date',
+  
+  // Create Observation
+  'crear_observacion': 'Create Observation',
+  'guardar_observacion': 'Save Observation',
+  'guardar': 'Save',
+  'informacion_basica': 'Basic Information',
+  'nombre_cientifico': 'Scientific Name',
+  'nombre_comun': 'Common Name',
+  'fecha_observacion': 'Observation Date',
+  'ubicacion': 'Location',
+  'mi_ubicacion': 'My Location',
+  'caracteristicas': 'Characteristics',
+  'condicion': 'Condition',
+  'estado': 'State',
+  'etapa': 'Development Stage',
+  'sexo': 'Sex',
+  'descripcion': 'Description',
+  'descripcion_opcional': 'Description (optional)',
+  'fotos': 'Photos',
+  'galeria': 'Gallery',
+  'camara': 'Camera',
+  'campo_requerido': 'This field is required',
+  'observation_created': 'Observation created successfully',
+  'error_creating_observation': 'Error creating observation',
+  
+  // New translations for insect search
+  'escriba_para_buscar': 'Type to search insects...',
+  'seleccionar_insecto': 'Select an insect from the list',
+  'exito': 'Success',
+  'observacion_creada': 'Observation created successfully',
+  'error_crear_observacion': 'Error creating observation'
 };
