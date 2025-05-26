@@ -24,6 +24,7 @@ dependencies:
   permission_handler: ^10.4.0
   supabase_flutter: ^1.10.9
   app_links: ^3.5.0
+  font_awesome_flutter: ^10.6.0
   # Mapa OpenStreetMap
   flutter_map: ^6.1.0
   flutter_map_cancellable_tile_provider: ^1.0.0

@@ -20,15 +20,19 @@ import '../screens/auth/register_screen.dart';
 import '../screens/auth/forgot_password_screen.dart';
 import '../screens/settings/account_settings_screen.dart';
 import '../screens/settings/change_password_screen.dart';
+import '../screens/landing/landing_screen.dart';
 
 class AppRoutes {
+  // Ruta de landing page (introducción)
+  static const String landing = '/';
+  
   // Rutas de autenticación
   static const String login = '/login';
   static const String register = '/register';
   static const String forgotPassword = '/forgot-password';
   
   // Rutas de la aplicación
-  static const String home = '/';
+  static const String home = '/home'; // Ahora el home es una ruta más, no la raíz
   static const String encyclopedia = '/encyclopedia';
   static const String rna = '/rna';
   static const String insectSearch = '/insect-search';
@@ -43,6 +47,12 @@ class AppRoutes {
   static const String changePassword = '/change-password';
 
   static List<GetPage> pages = [
+    // Ruta de landing page (introducción)
+    GetPage(
+      name: landing,
+      page: () => const LandingScreen(),
+    ),
+    
     // Rutas de autenticación
     GetPage(
       name: login,
@@ -141,7 +151,13 @@ class AuthMiddleware extends GetMiddleware {
     final authController = Get.find<AuthController>();
     
     // Si el usuario no está autenticado, redirigir al login
+    // Excepto si está intentando acceder a la landing page o rutas de autenticación
     if (!authController.isAuthenticated.value) {
+      // No redirigir si la ruta es la landing page o rutas de autenticación
+      if (route == AppRoutes.landing || route == AppRoutes.login || 
+          route == AppRoutes.register || route == AppRoutes.forgotPassword) {
+        return null;
+      }
       return const RouteSettings(name: AppRoutes.login);
     }
     
