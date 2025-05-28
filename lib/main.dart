@@ -115,19 +115,19 @@ class InsectosApp extends StatelessWidget {
       locale: const Locale('es'),
       fallbackLocale: const Locale('en'),
       getPages: AppRoutes.pages,
-      initialRoute: AppRoutes.login,
+      initialRoute: AppRoutes.landing,
       debugShowCheckedModeBanner: false,
       // Callback cuando la app esté lista
       onInit: () {
-
         // Verificar si hay una sesión activa y redirigir si es necesario
         if (authController.isAuthenticated.value) {
-
+          // Si el usuario ya está autenticado, llevarlo directamente al home
           // Usar un pequeño retraso para asegurar que la navegación funcione correctamente
           Future.delayed(Duration(milliseconds: 100), () {
             Get.offAllNamed(AppRoutes.home);
           });
         }
+        // Si no está autenticado, se quedará en la ruta inicial (landing)
       },
     );
   }

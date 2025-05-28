@@ -217,22 +217,20 @@ class AuthController extends GetxController {
   // Establecer la sesión del usuario
   void setSession(Session session) {
     try {
-
       user.value = session.user;
       isAuthenticated.value = true;
       
-      // Usar un enfoque más seguro para la navegación
-      // En lugar de navegar inmediatamente, dejamos que el callback onInit en GetMaterialApp
-      // maneje la navegación cuando la aplicación esté completamente inicializada
-
+      // Verificar la ruta actual antes de redirigir
+      String? currentRoute = Get.currentRoute;
       
-      // Si la aplicación ya está inicializada, podemos intentar navegar con un pequeño retraso
-      if (Get.context != null) {
-
+      // Solo redirigir si no estamos en la landing page
+      if (Get.context != null && currentRoute != AppRoutes.landing) {
         Future.delayed(Duration(milliseconds: 300), () {
           Get.offAllNamed(AppRoutes.home);
         });
       }
+      // Si estamos en la landing page, dejamos que el usuario navegue manualmente
+      // o que interactúe con los botones de la landing page
     } catch (e) {
 
     }

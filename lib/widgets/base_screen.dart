@@ -249,7 +249,7 @@ class BaseScreen extends StatelessWidget {
               subtitle: Text('main_page'.tr),
               onTap: () {
                 Get.back();
-                Get.offNamed('/');
+                Get.offNamed('/home');
               },
             ),
             ListTile(
