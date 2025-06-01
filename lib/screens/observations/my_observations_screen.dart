@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:insectos_app/controllers/observation_controller.dart';
 import 'package:insectos_app/models/observation_model.dart';
 import 'package:insectos_app/widgets/base_screen.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:insectos_app/widgets/signed_image.dart';
 
 class MyObservationsScreen extends StatelessWidget {
   final ObservationController controller = Get.put(ObservationController());
@@ -255,14 +255,14 @@ class MyObservationsScreen extends StatelessWidget {
       );
     }
 
-    // Usar la primera foto de la observación con URL proxificada
-    return CachedNetworkImage(
-      imageUrl: observation.photos.first.proxiedPhotoUrl,
+    // Usar la primera foto de la observación con URL firmada
+    return SignedImage(
+      imageUrl: observation.photos.first.photoUrl,
       fit: BoxFit.cover,
-      placeholder: (context, url) => const Center(
+      placeholder: const Center(
         child: CircularProgressIndicator(),
       ),
-      errorWidget: (context, url, error) => Image.asset(
+      errorWidget: Image.asset(
         'images/vectors/no_image_attached.png',
         fit: BoxFit.cover,
       ),
@@ -429,18 +429,18 @@ class MyObservationsScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                   child: GestureDetector(
                     onTap: () {
-                      // Mostrar la imagen a pantalla completa
-                      _showFullScreenImage(context, photo.proxiedPhotoUrl);
+                      // Mostrar la imagen a pantalla completa con la URL original
+                      _showFullScreenImage(context, photo.photoUrl);
                     },
-                    child: CachedNetworkImage(
-                      imageUrl: photo.proxiedPhotoUrl,
+                    child: SignedImage(
+                      imageUrl: photo.photoUrl,
                       width: 200,
                       height: 200,
                       fit: BoxFit.cover,
-                      placeholder: (context, url) => const Center(
+                      placeholder: const Center(
                         child: CircularProgressIndicator(),
                       ),
-                      errorWidget: (context, url, error) => Container(
+                      errorWidget: Container(
                         width: 200,
                         height: 200,
                         color: Colors.grey[300],
@@ -500,18 +500,18 @@ class MyObservationsScreen extends StatelessWidget {
           child: Stack(
             fit: StackFit.expand,
             children: [
-              // Imagen
+              // Imagen con URL firmada
               InteractiveViewer(
                 panEnabled: true,
                 minScale: 0.5,
                 maxScale: 4,
-                child: CachedNetworkImage(
+                child: SignedImage(
                   imageUrl: imageUrl,
                   fit: BoxFit.contain,
-                  placeholder: (context, url) => const Center(
+                  placeholder: const Center(
                     child: CircularProgressIndicator(),
                   ),
-                  errorWidget: (context, url, error) => const Center(
+                  errorWidget: const Center(
                     child: Icon(Icons.error, size: 48),
                   ),
                 ),
