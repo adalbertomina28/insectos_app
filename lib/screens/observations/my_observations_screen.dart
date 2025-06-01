@@ -255,9 +255,9 @@ class MyObservationsScreen extends StatelessWidget {
       );
     }
 
-    // Usar la primera foto de la observación
+    // Usar la primera foto de la observación con URL proxificada
     return CachedNetworkImage(
-      imageUrl: observation.photos.first.photoUrl,
+      imageUrl: observation.photos.first.proxiedPhotoUrl,
       fit: BoxFit.cover,
       placeholder: (context, url) => const Center(
         child: CircularProgressIndicator(),
@@ -430,10 +430,10 @@ class MyObservationsScreen extends StatelessWidget {
                   child: GestureDetector(
                     onTap: () {
                       // Mostrar la imagen a pantalla completa
-                      _showFullScreenImage(context, photo.photoUrl);
+                      _showFullScreenImage(context, photo.proxiedPhotoUrl);
                     },
                     child: CachedNetworkImage(
-                      imageUrl: photo.photoUrl,
+                      imageUrl: photo.proxiedPhotoUrl,
                       width: 200,
                       height: 200,
                       fit: BoxFit.cover,

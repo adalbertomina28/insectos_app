@@ -1,12 +1,16 @@
 import 'dart:io';
 import 'dart:async';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:insectos_app/controllers/observation_controller.dart';
+import 'package:insectos_app/services/file_upload_service.dart';
+import 'package:insectos_app/routes/app_routes.dart';
 
 class CreateObservationScreen extends StatefulWidget {
   const CreateObservationScreen({super.key});
@@ -23,7 +27,7 @@ class _CreateObservationScreenState extends State<CreateObservationScreen> {
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _dateController = TextEditingController();
   final ImagePicker _picker = ImagePicker();
-  final List<File> _selectedImages = [];
+  final List<dynamic> _selectedImages = []; // Puede contener File o XFile
   final MapController _mapController = MapController();
 
   // Para la búsqueda de insectos
@@ -91,24 +95,70 @@ class _CreateObservationScreenState extends State<CreateObservationScreen> {
   }
 
   Future<void> _pickImages() async {
-    final List<XFile>? images = await _picker.pickMultiImage();
+    try {
+      final List<XFile>? images = await _picker.pickMultiImage();
 
-    if (images != null && images.isNotEmpty) {
-      setState(() {
-        for (var image in images) {
-          _selectedImages.add(File(image.path));
+      if (images != null && images.isNotEmpty) {
+        // Procesar las imágenes para web
+        if (kIsWeb) {
+          int index = _selectedImages.length;
+          for (var image in images) {
+            // Leer los bytes para mostrar la imagen
+            final bytes = await image.readAsBytes();
+            setState(() {
+              _selectedImages.add(image);
+              _webImageBytes[index] = bytes;
+              index++;
+            });
+          }
+        } else {
+          // Para móvil es más simple
+          setState(() {
+            for (var image in images) {
+              _selectedImages.add(File(image.path));
+            }
+          });
         }
-      });
+      }
+    } catch (e) {
+      print('Error al seleccionar imágenes: $e');
+      Get.snackbar(
+        'Error',
+        'No se pudieron cargar las imágenes',
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
     }
   }
 
   Future<void> _takePhoto() async {
-    final XFile? photo = await _picker.pickImage(source: ImageSource.camera);
+    try {
+      final XFile? photo = await _picker.pickImage(source: ImageSource.camera);
 
-    if (photo != null) {
-      setState(() {
-        _selectedImages.add(File(photo.path));
-      });
+      if (photo != null) {
+        if (kIsWeb) {
+          // Para web, necesitamos leer los bytes
+          final bytes = await photo.readAsBytes();
+          setState(() {
+            int index = _selectedImages.length;
+            _selectedImages.add(photo);
+            _webImageBytes[index] = bytes;
+          });
+        } else {
+          // Para móvil es más simple
+          setState(() {
+            _selectedImages.add(File(photo.path));
+          });
+        }
+      }
+    } catch (e) {
+      print('Error al tomar foto: $e');
+      Get.snackbar(
+        'Error',
+        'No se pudo tomar la foto',
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
     }
   }
 
@@ -118,13 +168,83 @@ class _CreateObservationScreenState extends State<CreateObservationScreen> {
     });
   }
 
-  Future<List<String>> _uploadImages() async {
-    // Aquí iría la lógica para subir las imágenes a Supabase o al servidor
-    // Por ahora, simularemos URLs de imágenes
-    List<String> urls = [];
-    for (var i = 0; i < _selectedImages.length; i++) {
-      urls.add('https://example.com/image_$i.jpg');
+  ImageProvider _getImageProvider(int index) {
+    final imageFile = _selectedImages[index];
+    
+    if (kIsWeb) {
+      // En web, usamos MemoryImage con los bytes almacenados
+      if (_webImageBytes.containsKey(index)) {
+        return MemoryImage(_webImageBytes[index]!);
+      }
+    } else {
+      // Para móvil
+      if (imageFile is XFile) {
+        return FileImage(File(imageFile.path));
+      } else if (imageFile is File) {
+        return FileImage(imageFile);
+      }
     }
+    
+    // Fallback por si acaso
+    return const AssetImage('assets/images/placeholder.png');
+  }
+  
+  // Mapa para almacenar los bytes de las imágenes web
+  final Map<int, Uint8List> _webImageBytes = {};
+
+  Future<List<String>> _uploadImages() async {
+    final fileUploadService = FileUploadService();
+    final List<String> urls = [];
+    // Usar un ID de usuario fijo para simplificar
+    final String userId = 'user_id_here';
+
+    try {
+      for (var imageFile in _selectedImages) {
+        String? imageUrl;
+
+        if (kIsWeb) {
+          // Para web, convertir XFile a Map con bytes
+          if (imageFile is XFile) {
+            final bytes = await imageFile.readAsBytes();
+            final fileData = {
+              'bytes': bytes,
+              'name': imageFile.name,
+            };
+            imageUrl = await fileUploadService.uploadImage(fileData, userId);
+          } else {
+            print(
+                'Tipo de archivo no soportado en web: ${imageFile.runtimeType}');
+            continue;
+          }
+        } else {
+          // Para móvil, asegurar que sea un File
+          if (imageFile is File) {
+            imageUrl = await fileUploadService.uploadImage(imageFile, userId);
+          } else if (imageFile is XFile) {
+            // Si por alguna razón tenemos XFile en móvil
+            final file = File(imageFile.path);
+            imageUrl = await fileUploadService.uploadImage(file, userId);
+          } else {
+            print(
+                'Tipo de archivo no soportado en móvil: ${imageFile.runtimeType}');
+            continue;
+          }
+        }
+
+        if (imageUrl != null) {
+          urls.add(imageUrl);
+        }
+      }
+    } catch (e) {
+      print('Error al subir imágenes: $e');
+      Get.snackbar(
+        'Error',
+        'No se pudieron subir las imágenes',
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+    }
+
     return urls;
   }
 
@@ -142,6 +262,18 @@ class _CreateObservationScreenState extends State<CreateObservationScreen> {
         return;
       }
 
+      // Verificar que se hayan seleccionado imágenes
+      if (_selectedImages.isEmpty) {
+        Get.snackbar(
+          'error'.tr,
+          'Debes añadir al menos una imagen',
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+          snackPosition: SnackPosition.BOTTOM,
+        );
+        return;
+      }
+
       // Mostrar diálogo de carga
       Get.dialog(
         const Center(
@@ -151,12 +283,18 @@ class _CreateObservationScreenState extends State<CreateObservationScreen> {
       );
 
       try {
-        // Subir imágenes primero
-        final List<String> photoUrls = await _uploadImages();
+        // Subir las imágenes primero
+        final List<String> imageUrls = await _uploadImages();
 
-        // Crear la observación
-        final success = await _controller.createObservation(
+        if (imageUrls.isEmpty) {
+          throw Exception('No se pudieron subir las imágenes');
+        }
+
+        // Crear la observación con las URLs de las imágenes
+        await _controller.createObservation(
+          scientificName: _controller.scientificName.value,
           commonName: _commonNameController.text,
+          inaturalistId: _controller.inaturalistId.value,
           observationDate: _controller.selectedDate.value,
           latitude: _controller.latitude.value,
           longitude: _controller.longitude.value,
@@ -164,35 +302,17 @@ class _CreateObservationScreenState extends State<CreateObservationScreen> {
           stateId: _controller.stateId.value,
           stageId: _controller.stageId.value,
           sexId: _controller.sexId.value,
-          description: _descriptionController.text,
-          photoUrls: photoUrls,
+          description: _descriptionController.text.isEmpty
+              ? null
+              : _descriptionController.text,
+          imageUrls: imageUrls, // Usar URLs en lugar de archivos
         );
 
         // Cerrar diálogo de carga
         Get.back();
 
-        if (success) {
-          // Mostrar mensaje de éxito
-          Get.snackbar(
-            'exito'.tr,
-            'observacion_creada'.tr,
-            backgroundColor: Colors.green,
-            colorText: Colors.white,
-            snackPosition: SnackPosition.BOTTOM,
-          );
-
-          // Navegar de vuelta a la pantalla anterior
-          Get.back();
-        } else {
-          // Mostrar mensaje de error
-          Get.snackbar(
-            'error'.tr,
-            'error_crear_observacion'.tr,
-            backgroundColor: Colors.red,
-            colorText: Colors.white,
-            snackPosition: SnackPosition.BOTTOM,
-          );
-        }
+        // Navegar a la pantalla de éxito
+        Get.offAllNamed(AppRoutes.observationSuccess);
       } catch (e) {
         // Cerrar diálogo de carga
         Get.back();
@@ -536,7 +656,7 @@ class _CreateObservationScreenState extends State<CreateObservationScreen> {
                                 border: Border.all(color: Colors.grey),
                                 borderRadius: BorderRadius.circular(8),
                                 image: DecorationImage(
-                                  image: FileImage(_selectedImages[index]),
+                                  image: _getImageProvider(index),
                                   fit: BoxFit.cover,
                                 ),
                               ),

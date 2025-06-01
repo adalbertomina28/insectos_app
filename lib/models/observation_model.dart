@@ -1,4 +1,5 @@
 import 'package:intl/intl.dart';
+import 'package:insectos_app/utils/image_utils.dart';
 
 class ObservationPhoto {
   final String id;
@@ -39,6 +40,11 @@ class ObservationPhoto {
       'order': order,
       'created_at': createdAt.toIso8601String(),
     };
+  }
+  
+  /// Devuelve la URL de la imagen a través del proxy
+  String get proxiedPhotoUrl {
+    return ImageUtils.getProxiedImageUrl(photoUrl);
   }
 }
 
@@ -130,6 +136,14 @@ class Observation {
 
   // Método para obtener la primera foto o una URL por defecto
   String get mainPhotoUrl {
+    if (photos.isNotEmpty) {
+      return photos.first.proxiedPhotoUrl;
+    }
+    return 'images/vectors/no_image_attached.png'; // Imagen por defecto
+  }
+  
+  // Método para obtener la primera foto sin proxy (URL original)
+  String get originalMainPhotoUrl {
     if (photos.isNotEmpty) {
       return photos.first.photoUrl;
     }

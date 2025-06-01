@@ -1,6 +1,8 @@
+import 'dart:io';
+
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:insectos_app/models/observation_model.dart';
-import 'package:insectos_app/routes/app_routes.dart';
 import 'package:insectos_app/services/observation_service.dart';
 
 class ObservationController extends GetxController {
@@ -203,8 +205,10 @@ class ObservationController extends GetxController {
   }
   
   // Crear una nueva observación
-  Future<bool> createObservation({
-    required String commonName,
+  Future<void> createObservation({
+    required String scientificName,
+    required String? commonName,
+    required int inaturalistId,
     required DateTime observationDate,
     required double latitude,
     required double longitude,
@@ -213,24 +217,22 @@ class ObservationController extends GetxController {
     required int stageId,
     required int sexId,
     String? description,
-    required List<String> photoUrls,
+    List<File>? imageFiles,
+    List<String>? imageUrls,
   }) async {
     try {
       isLoading.value = true;
-      hasError.value = false;
-      errorMessage.value = '';
       
-      if (!hasSelectedInsect.value) {
-        hasError.value = true;
-        errorMessage.value = 'Debes seleccionar un insecto de la lista de resultados';
-        isLoading.value = false;
-        return false;
+      // Verificar que tengamos imágenes (archivos o URLs)
+      if ((imageFiles == null || imageFiles.isEmpty) && (imageUrls == null || imageUrls.isEmpty)) {
+        throw Exception('Se requieren imágenes para crear una observación');
       }
       
+      // Crear la observación con los archivos o URLs de imagen
       final observation = await _observationService.createObservation(
-        scientificName: scientificName.value,
+        scientificName: scientificName,
         commonName: commonName,
-        inaturalistId: inaturalistId.value,
+        inaturalistId: inaturalistId,
         observationDate: observationDate,
         latitude: latitude,
         longitude: longitude,
@@ -239,29 +241,41 @@ class ObservationController extends GetxController {
         stageId: stageId,
         sexId: sexId,
         description: description,
-        photoUrls: photoUrls,
+        imageFiles: imageFiles ?? [],
+        imageUrls: imageUrls,
       );
       
-      isLoading.value = false;
-      
       if (observation != null) {
-        // Añadir la nueva observación a la lista local
-        observations.add(observation);
-        
-        // Navegar a la pantalla de éxito
-        Get.offAllNamed(AppRoutes.observationSuccess);
-        return true;
-      } else {
-        hasError.value = true;
-        errorMessage.value = 'Error al crear la observación';
-        return false;
+        // Añadir la nueva observación a la lista
+        observations.insert(0, observation);
       }
+      
+      Get.back(); // Cerrar el diálogo de carga
+      
+      // Mostrar mensaje de éxito
+      Get.snackbar(
+        '¡Éxito!',
+        'La observación se ha creado correctamente',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.green,
+        colorText: Colors.white,
+      );
+      
+      // No es necesario navegar a otra pantalla ya que la pantalla actual
+      // ya tiene botones para ver las observaciones o crear una nueva.
     } catch (e) {
+      Get.back(); // Cerrar el diálogo de carga
+      
+      // Mostrar mensaje de error
+      Get.snackbar(
+        'Error',
+        'No se pudo crear la observación: ${e.toString()}',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+    } finally {
       isLoading.value = false;
-      hasError.value = true;
-      errorMessage.value = 'Error al crear la observación: $e';
-      print('Error en createObservation: $e');
-      return false;
     }
   }
   
