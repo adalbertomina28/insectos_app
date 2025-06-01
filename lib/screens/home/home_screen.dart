@@ -367,46 +367,45 @@ class _HomeScreenState extends State<HomeScreen> {
         onTap: onTap,
         borderRadius: BorderRadius.circular(24),
         child: Padding(
-          padding: const EdgeInsets.all(16.0), // Reducido el padding
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0), // Reducido el padding vertical
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize
-                .min, // Asegurar que la columna use el mínimo espacio necesario
+            mainAxisSize: MainAxisSize.min,
             children: [
               // Icono con fondo circular y color primario
               Container(
-                padding: const EdgeInsets.all(12),
+                padding: const EdgeInsets.all(10), // Reducido de 12 a 10
                 decoration: BoxDecoration(
                   color: AppTheme.primaryColor.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(50),
                 ),
                 child: Icon(
                   icon,
-                  size: 28,
+                  size: 24, // Reducido de 28 a 24
                   color: AppTheme.primaryColor,
                 ),
               ),
-              const SizedBox(height: 12), // Reducido de 20 a 12
+              const SizedBox(height: 8), // Reducido de 12 a 8
               // Título con estilo moderno
               Text(
                 title,
                 style: const TextStyle(
-                  fontSize: 16, // Reducido de 18 a 16
+                  fontSize: 15, // Reducido de 16 a 15
                   fontWeight: FontWeight.bold,
                   letterSpacing: -0.5,
                   color: Colors.black87,
                 ),
               ),
-              const SizedBox(height: 8), // Reducido de 12 a 8
+              const SizedBox(height: 4), // Reducido de 8 a 4
               // Descripción con estilo mejorado
               Text(
                 description,
                 style: TextStyle(
-                  fontSize: 13, // Reducido de 14 a 13
+                  fontSize: 12, // Reducido de 13 a 12
                   color: Colors.black54,
-                  height: 1.4, // Reducido de 1.5 a 1.4
+                  height: 1.3, // Reducido de 1.4 a 1.3
                 ),
-                maxLines: 2, // Reducido de 3 a 2 líneas
+                maxLines: 2,
                 overflow: TextOverflow.ellipsis,
               ),
             ],
