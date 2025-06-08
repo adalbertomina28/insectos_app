@@ -376,9 +376,19 @@ class ObservationService extends GetxService {
         },
       );
 
-      if (response.statusCode == 200) {
-        final Map<String, dynamic> data = json.decode(response.body);
-        return data['success'] == true;
+      // Código 204 No Content significa que la operación fue exitosa
+      // pero no hay contenido que devolver
+      if (response.statusCode == 204) {
+        return true;
+      } else if (response.statusCode == 200 && response.body.isNotEmpty) {
+        // Mantener compatibilidad con versiones anteriores del API
+        try {
+          final Map<String, dynamic> data = json.decode(response.body);
+          return data['success'] == true;
+        } catch (e) {
+          print('Error al decodificar respuesta: $e');
+          return false;
+        }
       } else {
         throw Exception(
             'Error al eliminar la observación: ${response.statusCode}');

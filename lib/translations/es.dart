@@ -306,7 +306,7 @@ const Map<String, String> es = {
   'expandir_panel': 'Expandir panel',
   'minimizar_panel': 'Minimizar panel',
   'desliza_ver_mas': 'Desliza para ver más',
-  
+
   // Asistente Virtual Entomólogo
   'asistente_virtual': 'Asistente Virtual',
   'entomologia_chat': 'Consulta Entomológica',
@@ -330,7 +330,8 @@ const Map<String, String> es = {
   'confirm_password': 'Confirmar contraseña',
   'already_account': '¿Ya tienes cuenta?',
   'reset_password': 'Recuperar contraseña',
-  'reset_password_instructions': 'Ingresa tu correo electrónico y te enviaremos instrucciones para restablecer tu contraseña',
+  'reset_password_instructions':
+      'Ingresa tu correo electrónico y te enviaremos instrucciones para restablecer tu contraseña',
   'send': 'Enviar',
   'back_to_login': 'Volver a iniciar sesión',
   'complete_fields': 'Por favor, completa todos los campos',
@@ -342,7 +343,7 @@ const Map<String, String> es = {
   'logout_confirmation': 'Confirmar cierre de sesión',
   'logout_message': '¿Estás seguro de que deseas cerrar sesión?',
   'cancel': 'Cancelar',
-  
+
   // Configuración de cuenta
   'account_settings': 'Configuración de cuenta',
   'manage_account': 'Gestionar perfil y seguridad',
@@ -357,7 +358,7 @@ const Map<String, String> es = {
   'error': 'Error',
   'not_logged_in': 'No has iniciado sesión',
   'email_cannot_be_changed': 'El correo electrónico no se puede modificar',
-  
+
   // Cambio de contraseña
   'current_password': 'Contraseña actual',
   'new_password': 'Nueva contraseña',
@@ -368,17 +369,24 @@ const Map<String, String> es = {
   'change_password_too_short': 'La contraseña debe tener al menos 6 caracteres',
   'passwords_do_not_match': 'Las contraseñas no coinciden',
   'password_changed': 'Contraseña actualizada correctamente',
-  'password_change_instructions': 'Introduce tu contraseña actual y la nueva contraseña para actualizar tus credenciales.',
-  
+  'password_change_instructions':
+      'Introduce tu contraseña actual y la nueva contraseña para actualizar tus credenciales.',
+
   // Observaciones de insectos
+  'loading_observations': 'Cargando observaciones',
   'mis_observaciones': 'Mis Observaciones',
+  'my_observations': 'Mis Observaciones',
   'gestionar_observaciones': 'Gestionar registros de insectos',
   'no_observations': 'No tienes observaciones registradas',
-  'create_observation_prompt': 'Registra tus avistamientos de insectos para contribuir a la ciencia ciudadana',
+  'create_observation_prompt':
+      'Registra tus avistamientos de insectos para contribuir a la ciencia ciudadana',
+  'create_first_observation': 'Crear primera observación',
+  'new_observation': 'Nueva observación',
   'view_details': 'Ver detalles',
   'delete': 'Eliminar',
   'confirm_delete': 'Confirmar eliminación',
-  'delete_observation_confirmation': '¿Estás seguro de que deseas eliminar esta observación? Esta acción no se puede deshacer.',
+  'delete_observation_confirmation':
+      '¿Estás seguro de que deseas eliminar esta observación? Esta acción no se puede deshacer.',
   'observation_deleted': 'Observación eliminada correctamente',
   'delete_error': 'Error al eliminar la observación',
   'retry': 'Reintentar',
@@ -386,7 +394,8 @@ const Map<String, String> es = {
   'close': 'Cerrar',
   'photos': 'Fotos',
   'observation_date': 'Fecha de observación',
-  
+  'filter': 'Filtrar',
+
   // Creación de observaciones
   'crear_observacion': 'Crear Observación',
   'guardar_observacion': 'Guardar Observación',
@@ -410,18 +419,19 @@ const Map<String, String> es = {
   'campo_requerido': 'Este campo es requerido',
   'observation_created': 'Observación creada correctamente',
   'error_creating_observation': 'Error al crear la observación',
-  
+
   // Nuevas traducciones para búsqueda de insectos
   'escriba_para_buscar': 'Escribe para buscar insectos...',
   'seleccionar_insecto': 'Selecciona un insecto de la lista',
   'exito': 'Éxito',
   'observacion_creada': 'Observación creada correctamente',
   'error_crear_observacion': 'Error al crear la observación',
-  
+
   // Pantalla de éxito de observación
   'observation_success_title': 'Observación Creada',
   'observation_success_message': '¡Observación creada con éxito!',
-  'observation_success_description': 'Tu observación ha sido guardada correctamente en nuestra base de datos.',
+  'observation_success_description':
+      'Tu observación ha sido guardada correctamente en nuestra base de datos.',
   'create_another_observation': 'Crear otra observación',
   'view_my_observations': 'Ver mis observaciones'
 };

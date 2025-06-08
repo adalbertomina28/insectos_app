@@ -308,7 +308,8 @@ const Map<String, String> en = {
   // Observation success screen
   'observation_success_title': 'Observation Created',
   'observation_success_message': 'Observation created successfully!',
-  'observation_success_description': 'Your observation has been successfully saved in our database.',
+  'observation_success_description':
+      'Your observation has been successfully saved in our database.',
   'create_another_observation': 'Create another observation',
   'view_my_observations': 'View my observations',
 
@@ -323,7 +324,7 @@ const Map<String, String> en = {
   'expandir_panel': 'Expand panel',
   'minimizar_panel': 'Minimize panel',
   'desliza_ver_mas': 'Swipe to see more',
-  
+
   // Virtual Entomologist Assistant
   'asistente_virtual': 'Virtual Assistant',
   'entomologia_chat': 'Entomology Chat',
@@ -347,7 +348,8 @@ const Map<String, String> en = {
   'confirm_password': 'Confirm password',
   'already_account': 'Already have an account?',
   'reset_password': 'Reset password',
-  'reset_password_instructions': 'Enter your email and we\'ll send you instructions to reset your password',
+  'reset_password_instructions':
+      'Enter your email and we\'ll send you instructions to reset your password',
   'send': 'Send',
   'back_to_login': 'Back to login',
   'complete_fields': 'Please complete all fields',
@@ -359,7 +361,7 @@ const Map<String, String> en = {
   'logout_confirmation': 'Confirm Logout',
   'logout_message': 'Are you sure you want to logout?',
   'cancel': 'Cancel',
-  
+
   // Account Settings
   'account_settings': 'Account Settings',
   'manage_account': 'Manage profile and security',
@@ -374,7 +376,7 @@ const Map<String, String> en = {
   'error': 'Error',
   'not_logged_in': 'You are not logged in',
   'email_cannot_be_changed': 'Email address cannot be modified',
-  
+
   // Password Change
   'current_password': 'Current Password',
   'new_password': 'New Password',
@@ -385,17 +387,24 @@ const Map<String, String> en = {
   'change_password_too_short': 'Password must be at least 6 characters long',
   'passwords_do_not_match': 'Passwords do not match',
   'password_changed': 'Password updated successfully',
-  'password_change_instructions': 'Enter your current password and new password to update your credentials.',
-  
+  'password_change_instructions':
+      'Enter your current password and new password to update your credentials.',
+
   // Insect Observations
+  'loading_observations': 'Loading observations',
   'mis_observaciones': 'My Observations',
+  'my_observations': 'My Observations',
   'gestionar_observaciones': 'Manage insect records',
   'no_observations': 'You have no recorded observations',
-  'create_observation_prompt': 'Record your insect sightings to contribute to citizen science',
+  'create_observation_prompt':
+      'Record your insect sightings to contribute to citizen science',
+  'create_first_observation': 'Create first observation',
+  'new_observation': 'New observation',
   'view_details': 'View details',
   'delete': 'Delete',
   'confirm_delete': 'Confirm deletion',
-  'delete_observation_confirmation': 'Are you sure you want to delete this observation? This action cannot be undone.',
+  'delete_observation_confirmation':
+      'Are you sure you want to delete this observation? This action cannot be undone.',
   'observation_deleted': 'Observation successfully deleted',
   'delete_error': 'Error deleting observation',
   'retry': 'Retry',
@@ -403,7 +412,8 @@ const Map<String, String> en = {
   'close': 'Close',
   'photos': 'Photos',
   'observation_date': 'Observation date',
-  
+  'filter': 'Filter',
+
   // Create Observation
   'crear_observacion': 'Create Observation',
   'guardar_observacion': 'Save Observation',
@@ -427,7 +437,7 @@ const Map<String, String> en = {
   'campo_requerido': 'This field is required',
   'observation_created': 'Observation created successfully',
   'error_creating_observation': 'Error creating observation',
-  
+
   // New translations for insect search
   'escriba_para_buscar': 'Type to search insects...',
   'seleccionar_insecto': 'Select an insect from the list',

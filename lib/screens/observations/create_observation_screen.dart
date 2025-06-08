@@ -628,11 +628,26 @@ class _CreateObservationScreenState extends State<CreateObservationScreen> {
                       onPressed: _pickImages,
                       icon: const Icon(Icons.photo_library),
                       label: Text('galeria'.tr),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.transparent,
+                        foregroundColor: Colors.green[800],
+                        elevation: 0,
+                        side: BorderSide(color: Colors.green[800]!),
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                      ),
                     ),
+                    const SizedBox(width: 16),
                     ElevatedButton.icon(
                       onPressed: _takePhoto,
                       icon: const Icon(Icons.camera_alt),
                       label: Text('camara'.tr),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.transparent,
+                        foregroundColor: Colors.green[800],
+                        elevation: 0,
+                        side: BorderSide(color: Colors.green[800]!),
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                      ),
                     ),
                   ],
                 ),
@@ -653,8 +668,15 @@ class _CreateObservationScreenState extends State<CreateObservationScreen> {
                               width: 120,
                               height: 120,
                               decoration: BoxDecoration(
-                                border: Border.all(color: Colors.grey),
-                                borderRadius: BorderRadius.circular(8),
+                                border: Border.all(color: Colors.green[200]!),
+                                borderRadius: BorderRadius.circular(12),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.1),
+                                    blurRadius: 4,
+                                    offset: const Offset(0, 2),
+                                  ),
+                                ],
                                 image: DecorationImage(
                                   image: _getImageProvider(index),
                                   fit: BoxFit.cover,
@@ -667,15 +689,23 @@ class _CreateObservationScreenState extends State<CreateObservationScreen> {
                               child: GestureDetector(
                                 onTap: () => _removeImage(index),
                                 child: Container(
-                                  padding: const EdgeInsets.all(2),
-                                  decoration: const BoxDecoration(
-                                    color: Colors.red,
+                                  padding: const EdgeInsets.all(4),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white.withOpacity(0.9),
                                     shape: BoxShape.circle,
+                                    border: Border.all(color: Colors.red[400]!, width: 1.5),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(0.1),
+                                        blurRadius: 2,
+                                        offset: const Offset(0, 1),
+                                      ),
+                                    ],
                                   ),
-                                  child: const Icon(
+                                  child: Icon(
                                     Icons.close,
-                                    color: Colors.white,
-                                    size: 16,
+                                    color: Colors.red[700],
+                                    size: 14,
                                   ),
                                 ),
                               ),
@@ -691,12 +721,19 @@ class _CreateObservationScreenState extends State<CreateObservationScreen> {
                 // Botón de guardar
                 SizedBox(
                   width: double.infinity,
-                  child: ElevatedButton(
+                  child: ElevatedButton.icon(
                     onPressed: _submitForm,
+                    icon: const Icon(Icons.save),
+                    label: Text('guardar_observacion'.tr, style: const TextStyle(fontSize: 16)),
                     style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green[800],
+                      foregroundColor: Colors.white,
+                      elevation: 1,
                       padding: const EdgeInsets.symmetric(vertical: 16),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
                     ),
-                    child: Text('guardar_observacion'.tr),
                   ),
                 ),
               ],

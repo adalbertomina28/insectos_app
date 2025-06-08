@@ -25,11 +25,6 @@ class MyObservationsScreen extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.filter_list),
-            onPressed: () => _showFilterOptions(context),
-            tooltip: 'filter'.tr,
-          ),
-          IconButton(
             icon: const Icon(Icons.refresh),
             onPressed: () => controller.refreshObservations(),
             tooltip: 'refresh'.tr,
@@ -180,110 +175,8 @@ class MyObservationsScreen extends StatelessWidget {
     );
   }
 
-  void _showFilterOptions(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-      ),
-      builder: (context) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'filter_observations'.tr,
-                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 20),
-              _buildFilterOption(
-                icon: Icons.calendar_today,
-                title: 'date'.tr,
-                subtitle: 'filter_by_date'.tr,
-                onTap: () {
-                  Navigator.pop(context);
-                  // Implementar filtro por fecha
-                },
-              ),
-              const Divider(),
-              _buildFilterOption(
-                icon: Icons.science_outlined,
-                title: 'species'.tr,
-                subtitle: 'filter_by_species'.tr,
-                onTap: () {
-                  Navigator.pop(context);
-                  // Implementar filtro por especie
-                },
-              ),
-              const Divider(),
-              _buildFilterOption(
-                icon: Icons.location_on_outlined,
-                title: 'location'.tr,
-                subtitle: 'filter_by_location'.tr,
-                onTap: () {
-                  Navigator.pop(context);
-                  // Implementar filtro por ubicación
-                },
-              ),
-              const SizedBox(height: 16),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                    controller.refreshObservations();
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red[50],
-                    foregroundColor: Colors.red,
-                  ),
-                  child: Text('clear_filters'.tr),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-  Widget _buildFilterOption({
-    required IconData icon,
-    required String title,
-    required String subtitle,
-    required VoidCallback onTap,
-  }) {
-    return InkWell(
-      onTap: onTap,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 12),
-        child: Row(
-          children: [
-            Icon(icon, size: 24, color: Colors.blue[700]),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-                  ),
-                  Text(
-                    subtitle,
-                    style: TextStyle(fontSize: 14, color: Colors.grey[600]),
-                  ),
-                ],
-              ),
-            ),
-            Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey[400]),
-          ],
-        ),
-      ),
-    );
-  }
+  // El método _buildFilterOption ha sido eliminado temporalmente
+  // La funcionalidad de filtrado se implementará en una versión futura
 
   Widget _buildObservationCard(BuildContext context, Observation observation) {
     return Card(
@@ -670,40 +563,22 @@ class MyObservationsScreen extends StatelessWidget {
                         
                         const SizedBox(height: 32),
                         
-                        // Botones de acción
-                        Row(
-                          children: [
-                            Expanded(
-                              child: OutlinedButton.icon(
-                                icon: const Icon(Icons.edit),
-                                label: Text('edit'.tr),
-                                style: OutlinedButton.styleFrom(
-                                  padding: const EdgeInsets.symmetric(vertical: 12),
-                                ),
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                  // Implementar edición
-                                  Get.toNamed('/edit-observation/${observation.id}');
-                                },
-                              ),
+                        // Botón de eliminar
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton.icon(
+                            icon: const Icon(Icons.delete),
+                            label: Text('delete'.tr),
+                            style: ElevatedButton.styleFrom(
+                              foregroundColor: Colors.white,
+                              backgroundColor: Colors.red,
+                              padding: const EdgeInsets.symmetric(vertical: 12),
                             ),
-                            const SizedBox(width: 12),
-                            Expanded(
-                              child: ElevatedButton.icon(
-                                icon: const Icon(Icons.delete),
-                                label: Text('delete'.tr),
-                                style: ElevatedButton.styleFrom(
-                                  foregroundColor: Colors.white,
-                                  backgroundColor: Colors.red,
-                                  padding: const EdgeInsets.symmetric(vertical: 12),
-                                ),
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                  _confirmDelete(context, observation);
-                                },
-                              ),
-                            ),
-                          ],
+                            onPressed: () {
+                              Navigator.pop(context);
+                              _confirmDelete(context, observation);
+                            },
+                          ),
                         ),
                       ],
                     ),
@@ -1020,15 +895,27 @@ class MyObservationsScreen extends StatelessWidget {
   void _confirmDelete(BuildContext context, Observation observation) {
     showDialog(
       context: context,
+      barrierColor: Colors.black.withOpacity(0.5),
       builder: (context) {
         return AlertDialog(
-          title: Text('confirm_delete'.tr),
-          content: Text('delete_observation_confirmation'.tr),
+          backgroundColor: Colors.white,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          title: Text(
+            'confirm_delete'.tr,
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+          content: Text(
+            'delete_observation_confirmation'.tr,
+            style: TextStyle(color: Colors.grey[700]),
+          ),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
               },
+              style: TextButton.styleFrom(
+                foregroundColor: Colors.grey[800],
+              ),
               child: Text('cancel'.tr),
             ),
             TextButton(
@@ -1054,7 +941,10 @@ class MyObservationsScreen extends StatelessWidget {
                   );
                 }
               },
-              child: Text('delete'.tr, style: const TextStyle(color: Colors.red)),
+              style: TextButton.styleFrom(
+                foregroundColor: Colors.red,
+              ),
+              child: Text('delete'.tr),
             ),
           ],
         );
