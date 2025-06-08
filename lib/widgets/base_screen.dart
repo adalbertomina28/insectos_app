@@ -11,11 +11,13 @@ class BaseScreen extends StatelessWidget {
   final Widget? floatingActionButton;
   final Color? backgroundColor;
   final bool extendBody;
-  final bool showLanguageSelector; // Nueva propiedad para controlar la visibilidad del selector de idioma
+  final bool
+      showLanguageSelector; // Nueva propiedad para controlar la visibilidad del selector de idioma
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  
+
   // Método estático para mostrar el diálogo de confirmación de cierre de sesión
-  static void _showLogoutDialog(BuildContext context, AuthController authController) {
+  static void _showLogoutDialog(
+      BuildContext context, AuthController authController) {
     Get.dialog(
       Dialog(
         shape: RoundedRectangleBorder(
@@ -28,7 +30,8 @@ class BaseScreen extends StatelessWidget {
             maxWidth: 400, // Limitar el ancho máximo
           ),
           child: Container(
-            width: MediaQuery.of(context).size.width * 0.9, // 90% del ancho en móvil
+            width: MediaQuery.of(context).size.width *
+                0.9, // 90% del ancho en móvil
             padding: const EdgeInsets.all(24),
             decoration: BoxDecoration(
               color: Colors.white,
@@ -148,7 +151,8 @@ class BaseScreen extends StatelessWidget {
     this.floatingActionButton,
     this.backgroundColor,
     this.extendBody = false,
-    this.showLanguageSelector = true, // Por defecto, mostrar el selector de idioma
+    this.showLanguageSelector =
+        true, // Por defecto, mostrar el selector de idioma
   });
 
   @override
@@ -180,7 +184,7 @@ class BaseScreen extends StatelessWidget {
   static Widget buildDrawer(BuildContext context) {
     // Obtener el controlador de autenticación
     final AuthController authController = Get.find<AuthController>();
-    
+
     return Drawer(
       child: Container(
         color: Theme.of(context).scaffoldBackgroundColor,
@@ -244,7 +248,7 @@ class BaseScreen extends StatelessWidget {
               ),
             ),
             ListTile(
-              leading: const Icon(Icons.home),
+              leading: Icon(Icons.home, color: Colors.green[700]),
               title: Text('home'.tr),
               subtitle: Text('main_page'.tr),
               onTap: () {
@@ -253,7 +257,7 @@ class BaseScreen extends StatelessWidget {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.search),
+              leading: Icon(Icons.search, color: Colors.green[700]),
               title: Text('insect_search'.tr),
               subtitle: Text('database'.tr),
               onTap: () {
@@ -262,7 +266,7 @@ class BaseScreen extends StatelessWidget {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.science),
+              leading: Icon(Icons.science, color: Colors.green[700]),
               title: Text('rna'.tr),
               subtitle: Text('biological_control'.tr),
               onTap: () {
@@ -271,7 +275,7 @@ class BaseScreen extends StatelessWidget {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.pest_control),
+              leading: Icon(Icons.pest_control, color: Colors.green[700]),
               title: Text('key_insects'.tr),
               subtitle: Text('important_species'.tr),
               onTap: () {
@@ -280,7 +284,7 @@ class BaseScreen extends StatelessWidget {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.map),
+              leading: Icon(Icons.map, color: Colors.green[700]),
               title: Text('mapa_insectos'.tr),
               subtitle: Text('buscar_insectos'.tr),
               onTap: () {
@@ -289,7 +293,8 @@ class BaseScreen extends StatelessWidget {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.collections_bookmark),
+              leading:
+                  Icon(Icons.collections_bookmark, color: Colors.green[700]),
               title: Text('mis_observaciones'.tr),
               subtitle: Text('gestionar_observaciones'.tr),
               onTap: () {
@@ -298,7 +303,7 @@ class BaseScreen extends StatelessWidget {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.chat),
+              leading: Icon(Icons.chat, color: Colors.green[700]),
               title: Text('asistente_virtual'.tr),
               subtitle: Text('entomologia_chat'.tr),
               onTap: () {
@@ -307,7 +312,7 @@ class BaseScreen extends StatelessWidget {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.info),
+              leading: Icon(Icons.info, color: Colors.green[700]),
               title: Text('about'.tr),
               subtitle: Text('about_app'.tr),
               onTap: () {
@@ -316,7 +321,7 @@ class BaseScreen extends StatelessWidget {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.settings),
+              leading: Icon(Icons.settings, color: Colors.green[700]),
               title: Text('account_settings'.tr),
               subtitle: Text('manage_account'.tr),
               onTap: () {
@@ -326,36 +331,38 @@ class BaseScreen extends StatelessWidget {
             ),
             // Divisor antes del botón de cerrar sesión
             const Divider(),
-            
+
             // Botón de cerrar sesión
             ListTile(
               leading: const Icon(Icons.logout, color: Colors.red),
-              title: Text('logout'.tr, style: const TextStyle(color: Colors.red)),
+              title:
+                  Text('logout'.tr, style: const TextStyle(color: Colors.red)),
               onTap: () {
                 Get.back(); // Cerrar el drawer
-                _showLogoutDialog(context, authController); // Mostrar diálogo de confirmación
+                _showLogoutDialog(
+                    context, authController); // Mostrar diálogo de confirmación
               },
             ),
-            
+
             // Comentado para el próximo release
-          // ListTile(
-          //   leading: const Icon(Icons.games),
-          //   title: Text('educational_games'.tr),
-          //   subtitle: Text('learn_by_playing'.tr),
-          //   onTap: () {
-          //     Get.back();
-          //     Get.toNamed('/games');
-          //   },
-          // ),
-          // ListTile(
-          //   leading: const Icon(Icons.camera_alt),
-          //   title: Text('prediction'.tr),
-          //   subtitle: Text('identify_insects'.tr),
-          //   onTap: () {
-          //     Get.back();
-          //     Get.toNamed('/identification');
-          //   },
-          // ),
+            // ListTile(
+            //   leading: const Icon(Icons.games),
+            //   title: Text('educational_games'.tr),
+            //   subtitle: Text('learn_by_playing'.tr),
+            //   onTap: () {
+            //     Get.back();
+            //     Get.toNamed('/games');
+            //   },
+            // ),
+            // ListTile(
+            //   leading: const Icon(Icons.camera_alt),
+            //   title: Text('prediction'.tr),
+            //   subtitle: Text('identify_insects'.tr),
+            //   onTap: () {
+            //     Get.back();
+            //     Get.toNamed('/identification');
+            //   },
+            // ),
           ],
         ),
       ),

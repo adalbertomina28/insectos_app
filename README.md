@@ -86,4 +86,4 @@ Este proyecto está licenciado bajo la Licencia MIT - ver el archivo LICENSE par
 
 ## Contacto
 
-Para más información, contacta con el equipo de desarrollo en bugsappproject@gmail.com
+Para más información, contacta con el equipo de desarrollo en insectlabapp@gmail.com

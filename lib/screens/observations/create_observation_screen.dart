@@ -88,6 +88,20 @@ class _CreateObservationScreenState extends State<CreateObservationScreen> {
       initialDate: _controller.selectedDate.value,
       firstDate: DateTime(2000),
       lastDate: DateTime.now(),
+      builder: (context, child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            colorScheme: const ColorScheme.light(
+              primary: Colors.blue, // Color del encabezado y fechas seleccionadas
+              onPrimary: Colors.white, // Color del texto en el encabezado
+              surface: Colors.white, // Color de fondo del calendario
+              onSurface: Colors.black, // Color del texto de las fechas
+            ),
+            dialogBackgroundColor: Colors.white,
+          ),
+          child: child!,
+        );
+      },
     );
 
     if (picked != null && picked != _controller.selectedDate.value) {

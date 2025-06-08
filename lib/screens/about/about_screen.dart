@@ -6,7 +6,7 @@ import '../../widgets/language_selector.dart';
 
 class AboutScreen extends StatelessWidget {
   AboutScreen({super.key});
-  
+
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -126,7 +126,7 @@ class AboutScreen extends StatelessWidget {
                     _buildContactItem(
                       Icons.email,
                       'email'.tr,
-                      'bugsappproject@gmail.com',
+                      'insectlabapp@gmail.com',
                     ),
                     _buildContactItem(
                       Icons.phone,
