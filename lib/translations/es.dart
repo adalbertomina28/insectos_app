@@ -164,6 +164,14 @@ const Map<String, String> es = {
   'main_text': 'Descubre el fascinante mundo de los insectos',
   'explore': 'Explorar',
 
+  // Ubicación
+  'error_ubicacion': 'Error',
+  'exito_ubicacion': 'Éxito',
+  'permisos_ubicacion_denegados': 'Permisos de ubicación denegados',
+  'permisos_ubicacion_permanentemente_denegados': 'Permisos de ubicación permanentemente denegados. Por favor, habilítalos en la configuración de tu dispositivo.',
+  'error_obtener_ubicacion': 'Error al obtener la ubicación',
+  'ubicacion_actualizada': 'Ubicación actualizada correctamente',
+
   // RNA Screen
   'rna_title': 'Control Biológico',
   'rna_intro_title': 'Tecnología Revolucionaria',
@@ -355,7 +363,7 @@ const Map<String, String> es = {
   'save_changes': 'Guardar cambios',
   'success': 'Éxito',
   'profile_updated': 'Perfil actualizado correctamente',
-  'error': 'Error',
+  'auth_error': 'Error',
   'not_logged_in': 'No has iniciado sesión',
   'email_cannot_be_changed': 'El correo electrónico no se puede modificar',
 

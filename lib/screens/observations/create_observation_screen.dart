@@ -9,8 +9,10 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:insectos_app/controllers/observation_controller.dart';
+import 'package:insectos_app/controllers/auth_controller.dart';
 import 'package:insectos_app/services/file_upload_service.dart';
 import 'package:insectos_app/routes/app_routes.dart';
+import 'package:geolocator/geolocator.dart';
 
 class CreateObservationScreen extends StatefulWidget {
   const CreateObservationScreen({super.key});
@@ -94,6 +96,90 @@ class _CreateObservationScreenState extends State<CreateObservationScreen> {
     }
   }
 
+  // Método para obtener la ubicación actual del usuario
+  Future<void> _getCurrentLocation() async {
+    try {
+      // Mostrar indicador de carga
+      Get.dialog(
+        const Center(
+          child: CircularProgressIndicator(),
+        ),
+        barrierDismissible: false,
+      );
+
+      // Verificar permisos de ubicación
+      LocationPermission permission = await Geolocator.checkPermission();
+      
+      if (permission == LocationPermission.denied) {
+        permission = await Geolocator.requestPermission();
+        if (permission == LocationPermission.denied) {
+          Get.back(); // Cerrar diálogo de carga
+          Get.snackbar(
+            'error_ubicacion'.tr,
+            'permisos_ubicacion_denegados'.tr,
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: Colors.red[100],
+            colorText: Colors.red[900],
+          );
+          return;
+        }
+      }
+      
+      if (permission == LocationPermission.deniedForever) {
+        Get.back(); // Cerrar diálogo de carga
+        Get.snackbar(
+          'error_ubicacion'.tr,
+          'permisos_ubicacion_permanentemente_denegados'.tr,
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red[100],
+          colorText: Colors.red[900],
+        );
+        return;
+      }
+
+      // Obtener la ubicación actual
+      Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+      );
+
+      // Actualizar los valores en el controlador
+      _controller.latitude.value = position.latitude;
+      _controller.longitude.value = position.longitude;
+
+      // Actualizar la posición del mapa
+      _mapController.move(
+        LatLng(position.latitude, position.longitude),
+        15.0, // Zoom más cercano para ver mejor la ubicación
+      );
+
+      // Cerrar diálogo de carga
+      Get.back();
+
+      // Mostrar mensaje de éxito
+      Get.snackbar(
+        'exito_ubicacion'.tr,
+        'ubicacion_actualizada'.tr,
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.green[100],
+        colorText: Colors.green[900],
+        duration: const Duration(seconds: 2),
+      );
+    } catch (e) {
+      // Cerrar diálogo de carga
+      Get.back();
+      
+      // Mostrar error
+      Get.snackbar(
+        'error_ubicacion'.tr,
+        'error_obtener_ubicacion'.tr + ': $e',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red[100],
+        colorText: Colors.red[900],
+      );
+      print('Error al obtener la ubicación: $e');
+    }
+  }
+
   Future<void> _pickImages() async {
     try {
       final List<XFile>? images = await _picker.pickMultiImage();
@@ -170,7 +256,7 @@ class _CreateObservationScreenState extends State<CreateObservationScreen> {
 
   ImageProvider _getImageProvider(int index) {
     final imageFile = _selectedImages[index];
-    
+
     if (kIsWeb) {
       // En web, usamos MemoryImage con los bytes almacenados
       if (_webImageBytes.containsKey(index)) {
@@ -184,19 +270,21 @@ class _CreateObservationScreenState extends State<CreateObservationScreen> {
         return FileImage(imageFile);
       }
     }
-    
+
     // Fallback por si acaso
     return const AssetImage('assets/images/placeholder.png');
   }
-  
+
   // Mapa para almacenar los bytes de las imágenes web
   final Map<int, Uint8List> _webImageBytes = {};
 
   Future<List<String>> _uploadImages() async {
     final fileUploadService = FileUploadService();
     final List<String> urls = [];
-    // Usar un ID de usuario fijo para simplificar
-    final String userId = 'user_id_here';
+    // Obtener el ID del usuario actual desde el controlador de autenticación
+    final authController = Get.find<AuthController>();
+    final String userId =
+        authController.currentUser.value?.id ?? 'user_id_here';
 
     try {
       for (var imageFile in _selectedImages) {
@@ -338,7 +426,7 @@ class _CreateObservationScreenState extends State<CreateObservationScreen> {
         title: Text('crear_observacion'.tr),
         actions: [
           IconButton(
-            icon: const Icon(Icons.save),
+            icon: Icon(Icons.save, color: Colors.blue[700]),
             onPressed: _submitForm,
             tooltip: 'guardar'.tr,
           ),
@@ -364,11 +452,33 @@ class _CreateObservationScreenState extends State<CreateObservationScreen> {
                   controller: _commonNameController,
                   decoration: InputDecoration(
                     labelText: 'nombre_comun'.tr,
-                    border: const OutlineInputBorder(),
+                    labelStyle: TextStyle(color: Colors.blue[700]),
                     hintText: 'escriba_para_buscar'.tr,
+                    hintStyle: TextStyle(color: Colors.grey[400], fontSize: 14),
+                    filled: true,
+                    fillColor: Colors.transparent,
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey[400]!),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide:
+                          BorderSide(color: Colors.blue[700]!, width: 1.5),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 12),
                     suffixIcon: Obx(() => _controller.isSearching.value
-                        ? const CircularProgressIndicator(strokeWidth: 2)
-                        : const Icon(Icons.search)),
+                        ? SizedBox(
+                            height: 20,
+                            width: 20,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                  Colors.blue[700]!),
+                            ),
+                          )
+                        : Icon(Icons.search, color: Colors.blue[700])),
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -425,15 +535,13 @@ class _CreateObservationScreenState extends State<CreateObservationScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('nombre_cientifico'.tr + ':',
+                        Text('${'nombre_cientifico'.tr}:',
                             style:
                                 const TextStyle(fontWeight: FontWeight.bold)),
                         Text(_controller.scientificName.value,
                             style:
                                 const TextStyle(fontStyle: FontStyle.italic)),
-                        const SizedBox(height: 4),
-                        Text(
-                            'ID iNaturalist: ${_controller.inaturalistId.value}'),
+                        const SizedBox(height: 4)
                       ],
                     ),
                   );
@@ -444,13 +552,27 @@ class _CreateObservationScreenState extends State<CreateObservationScreen> {
                   controller: _dateController,
                   decoration: InputDecoration(
                     labelText: 'fecha_observacion'.tr,
-                    border: const OutlineInputBorder(),
+                    labelStyle: TextStyle(color: Colors.blue[700]),
+                    filled: true,
+                    fillColor: Colors.transparent,
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey[400]!),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide:
+                          BorderSide(color: Colors.blue[700]!, width: 1.5),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 12),
                     suffixIcon: IconButton(
-                      icon: const Icon(Icons.calendar_today),
+                      icon: Icon(Icons.calendar_today, color: Colors.blue[700]),
                       onPressed: () => _selectDate(context),
                     ),
                   ),
                   readOnly: true,
+                  style: TextStyle(color: Colors.grey[800], fontSize: 16),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'campo_requerido'.tr;
@@ -467,8 +589,15 @@ class _CreateObservationScreenState extends State<CreateObservationScreen> {
                 Container(
                   height: 200,
                   decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey),
+                    border: Border.all(color: Colors.grey[400]!),
                     borderRadius: BorderRadius.circular(8),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.05),
+                        blurRadius: 4,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
                   ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(8),
@@ -517,11 +646,19 @@ class _CreateObservationScreenState extends State<CreateObservationScreen> {
                             style: const TextStyle(fontSize: 12),
                           )),
                     ),
-                    TextButton(
-                      onPressed: () {
-                        // Aquí se podría implementar la obtención de la ubicación actual
-                      },
-                      child: Text('mi_ubicacion'.tr),
+                    TextButton.icon(
+                      onPressed: _getCurrentLocation,
+                      icon: Icon(Icons.my_location,
+                          size: 18, color: Colors.blue[700]),
+                      label: Text('mi_ubicacion'.tr,
+                          style: TextStyle(color: Colors.blue[700])),
+                      style: TextButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 8),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -610,9 +747,23 @@ class _CreateObservationScreenState extends State<CreateObservationScreen> {
                   controller: _descriptionController,
                   decoration: InputDecoration(
                     labelText: 'descripcion_opcional'.tr,
-                    border: const OutlineInputBorder(),
+                    labelStyle: TextStyle(color: Colors.blue[700]),
+                    filled: true,
+                    fillColor: Colors.transparent,
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey[400]!),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide:
+                          BorderSide(color: Colors.blue[700]!, width: 1.5),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 12),
                     alignLabelWithHint: true,
                   ),
+                  style: TextStyle(color: Colors.grey[800], fontSize: 16),
                   maxLines: 4,
                 ),
                 const SizedBox(height: 24),
@@ -630,10 +781,14 @@ class _CreateObservationScreenState extends State<CreateObservationScreen> {
                       label: Text('galeria'.tr),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.transparent,
-                        foregroundColor: Colors.green[800],
+                        foregroundColor: Colors.blue[700],
                         elevation: 0,
-                        side: BorderSide(color: Colors.green[800]!),
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                        side: BorderSide(color: Colors.blue[700]!),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 10),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
                       ),
                     ),
                     const SizedBox(width: 16),
@@ -643,10 +798,14 @@ class _CreateObservationScreenState extends State<CreateObservationScreen> {
                       label: Text('camara'.tr),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.transparent,
-                        foregroundColor: Colors.green[800],
+                        foregroundColor: Colors.blue[700],
                         elevation: 0,
-                        side: BorderSide(color: Colors.green[800]!),
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                        side: BorderSide(color: Colors.blue[700]!),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 10),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
                       ),
                     ),
                   ],
@@ -693,7 +852,8 @@ class _CreateObservationScreenState extends State<CreateObservationScreen> {
                                   decoration: BoxDecoration(
                                     color: Colors.white.withOpacity(0.9),
                                     shape: BoxShape.circle,
-                                    border: Border.all(color: Colors.red[400]!, width: 1.5),
+                                    border: Border.all(
+                                        color: Colors.red[400]!, width: 1.5),
                                     boxShadow: [
                                       BoxShadow(
                                         color: Colors.black.withOpacity(0.1),
@@ -724,9 +884,10 @@ class _CreateObservationScreenState extends State<CreateObservationScreen> {
                   child: ElevatedButton.icon(
                     onPressed: _submitForm,
                     icon: const Icon(Icons.save),
-                    label: Text('guardar_observacion'.tr, style: const TextStyle(fontSize: 16)),
+                    label: Text('guardar_observacion'.tr,
+                        style: const TextStyle(fontSize: 16)),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green[800],
+                      backgroundColor: Colors.blue[700],
                       foregroundColor: Colors.white,
                       elevation: 1,
                       padding: const EdgeInsets.symmetric(vertical: 16),
@@ -766,11 +927,25 @@ class _CreateObservationScreenState extends State<CreateObservationScreen> {
     return DropdownButtonFormField<int>(
       decoration: InputDecoration(
         labelText: label,
-        border: const OutlineInputBorder(),
+        labelStyle: TextStyle(color: Colors.blue[700]),
+        filled: true,
+        fillColor: Colors.transparent,
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.grey[400]!),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.blue[700]!, width: 1.5),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       ),
       value: value,
       items: items,
       onChanged: onChanged,
+      icon: Icon(Icons.arrow_drop_down, color: Colors.blue[700]),
+      dropdownColor: Colors.white,
+      style: TextStyle(color: Colors.grey[800], fontSize: 16),
       validator: (value) {
         if (value == null) {
           return 'campo_requerido'.tr;
